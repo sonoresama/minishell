@@ -207,10 +207,12 @@ tgetstr =>> tgetent necessaire avant d'utiliser tgetstr, permet de recuperer la 
 	prototype => char *tgetstr(const char *name, char **area);
 	return => un pointeur vers la capacite de chaine specifiee, NULL si la capacite n'est pas defini
 
-tgoto
-	prototype =>
-	return =>
+tgoto =>> permet de positionner le curseur a un endroit donner, prend la colonne et la ligne de la position du
+	  curseur en parametre, cm est la valeur de retour de tgetstr
+	prototype => char *tgoto(const char *cm, int col, int row);
+	return => une string qui peut etre envoyer a la sortie standard pour positionner le curseur ou a la fonction
+		  tputs pour envoyer le motif de controle de curseur a la sortie standard 
 
-tputs
-	prototype =>
-	return =>
+tputs =>> envoie une chaine de caractere a la sortie standard pour envoyer les donnes qui sortent des fonction precedente 
+	prototype => int tputs(const char *str, int affcnt, int (*putfunc)(int));
+	return => 0, un nbr negatif s'il echoue
