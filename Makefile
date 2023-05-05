@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/05/05 17:44:21 by eorer            ###   ########.fr        #
+#    Updated: 2023/05/05 18:11:47 by eorer            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ INC = /usr/local/include
 
 HEADER = include/minishell.h 
 
-SRC = $(wildcard ./src/test.c)
+SRC = $(wildcard ./src/*.c) 
 
-OBJ = $(patsubst ./src/test.c, ./obj/test.o, $(SRC))
+OBJ = $(patsubst ./src/%.c, ./obj/%.o, $(SRC))
 
 NAME = minishell
 

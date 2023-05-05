@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/04 18:10:13 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/05 18:58:40 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,9 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+void	ft_putchar(char c);
+void	ft_pwd(void);
+void	ft_exit(void);
 
 #endif

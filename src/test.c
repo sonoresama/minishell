@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/05 17:46:20 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/05 18:59:14 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 int	main(void)
 {
 	char	*str;
-	char	*pwd;
 
-	getcwd(pwd, 150);
 	while (1)
 	{
-		str = readline("Minishell >> ");
+		str = readline("minishell$ ");
 		if (!strcmp(str, "exit"))
-			exit(0);
+			ft_exit();
+		if (!strcmp(str, "pwd"))
+			ft_pwd();
+		free(str);
 	}
-	free(str);
 	return (0);
 }

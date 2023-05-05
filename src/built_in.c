@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 18:08:50 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/04 18:12:37 by eorer            ###   ########.fr       */
+/*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
+/*   Updated: 2023/05/05 18:58:59 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	get_exec(char **env)
+void	ft_pwd(void)
 {
-	char	*path;
-	char	**split;
-	int		i;
+	char	*pwd;
 
-	i = 0;
-	while (env[i] && ft_strncmp("PATH", env[i], 4))
-		i++;
-	if (env[i])
-		path = ft_strdup(env[i]);
-	else
-		return (NULL);
-	split = ft_split(path, ":");
-	if (!split)
-		return (NULL);
-	split[0] = split[0] + ft_strlen("PATH=");
-	free(path);
-	return (split);
+	pwd = malloc(10000);
+	if (!pwd)
+		return ;
+	getcwd(pwd, 1000);
+	printf("%s\n", pwd);
+	free(pwd);
+	return ;
+}
+
+void	ft_exit(void)
+{
+	printf("exit\n");
+	exit(0);
 }
