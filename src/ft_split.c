@@ -6,20 +6,11 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 12:00:37 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/06 17:44:09 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:04:58 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	free_tab(char **tableau)
-{
-	while (*tableau)
-	{
-		free(*tableau);
-		tableau++;
-	}
-}
 
 static int	size_tab(char *str, char c)
 {
