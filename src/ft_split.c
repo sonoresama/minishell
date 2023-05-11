@@ -6,11 +6,11 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:57:52 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/10 17:42:22 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:12:59 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 static int	ft_nbr_word(char *str, char c)
 {
