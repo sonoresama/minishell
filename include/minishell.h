@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/11 17:50:33 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/12 19:30:48 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "../include/minishell.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-
-typedef struct	s_cmd
-{
-	char	*str;
-}		t_cmd;
 
 //structure de travail
 
@@ -30,6 +26,7 @@ typedef struct	s_parsing
 {
 	char	*str;
 	char	**str_piped;
+	char	**cmd_line;
 	char	**quote;
 	char	**dquote;
 	int	utils;
@@ -41,7 +38,7 @@ typedef struct	s_parsing
 typedef struct	s_mini
 {
 	char	*cmd;
-	struct t_cmd	*exec;
+	char	**args;
 	char	*redirection;
 	char	*infile;
 	char	*outfile;
