@@ -6,39 +6,39 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/10 16:18:47 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/12 17:46:22 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*ft_pwd(char *cwd)
+int	ft_pwd(t_mini *mini)
 {
 	char	*pwd;
 
-	if (cwd)
-		free(cwd);
+	(void)mini;
 	pwd = malloc(PATH_MAX);
 	if (!pwd)
-		return (NULL);
+		return (-1);
 	getcwd(pwd, PATH_MAX);
 	printf("%s\n", pwd);
-	return (pwd);
+	free(pwd);
+	return (0);
 }
 
-void	ft_exit(t_mini *mini)
+int	ft_exit(t_mini *mini)
 {
 	int	sortie;
 
 	sortie = 0;
-	if (mini->args && mini->args[0]){
-		sortie = ft_atoi(mini->args[0]);
-		printf("GOOD\n");}
-	free(mini->cmd);
-	free_tab(mini->args - 1);
+	if (mini->exec.args && mini->exec.args[1])
+		sortie = ft_atoi(mini->exec.args[1]);
+	free(mini->exec.cmd_path);
+	free_tab(mini->exec.args);
 	rl_clear_history();
 	printf("exit\n");
 	exit(sortie);
+	return (0);
 }
 
 void	ft_env(char **env)
@@ -53,9 +53,9 @@ void	ft_env(char **env)
 	}
 }
 
-int	ft_cd(const char *path)
+int	ft_cd(t_mini *mini)
 {
-	if (chdir(path) != 0)
+	if (chdir(mini->exec.args[1]) != 0)
 	{
 		perror(NULL);
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:04:33 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/10 16:16:52 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/12 17:35:53 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,26 @@ void	free_tab(char **tableau)
 		i++;
 	}
 	free(tableau);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	char	*src;
+	size_t	i;
+
+	i = 0;
+	src = s;
+	while (i < n)
+	{
+		src[i] = c;
+		i++;
+	}
+	return (s);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
 }
 
 int	ft_strlen(char *str)
@@ -53,7 +73,7 @@ char	*ft_strdup(char *str)
 	return (dup);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, unsigned int n)
+int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
 	unsigned int	i;
 
@@ -71,3 +91,27 @@ int	ft_strncmp(const char *s1, const char *s2, unsigned int n)
 	return (*s1 - *s2);
 }
 
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*str;
+	int		i;	
+	int		j;
+
+	i = 0;
+	j = 0;
+	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+	return (str);
+}

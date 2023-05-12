@@ -6,34 +6,35 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/10 15:46:03 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/12 17:46:42 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_echo(t_mini *mini)
+int	ft_echo(t_mini *mini)
 {
 	int	i;
 	int	option;
 
-	i = 0;
-	if (!mini->args || !mini->args[0])
-		return ;
-	if (!ft_strncmp(mini->args[0], "-n", 2))
+	i = 1;
+	if (!mini->exec.args || !mini->exec.args[1])
+		return (0);
+	if (!ft_strncmp(mini->exec.args[0], "-n", 2))
 	{
 		option = 1;
 		i++;
 	}
 	else
 		option = 0;
-	while(mini->args[i])
+	while(mini->exec.args[i])
 	{
-		printf("%s", mini->args[i]);
+		printf("%s", mini->exec.args[i]);
 		i++;
-		if (mini->args[i])
+		if (mini->exec.args[i])
 			printf(" ");
 	}
 	if (!option)
 		printf("\n");
+	return (0);
 }
