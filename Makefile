@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/05/11 15:23:21 by bastien          ###   ########.fr        #
+#    Updated: 2023/05/16 16:36:08 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,10 @@ HEADER = include/minishell.h
 
 SRC = 	./src/ft_split.c	\
 	./src/test.c		\
+	./src/utils.c		\
+	./src/utils2.c		\
+	./src/check_path.c	\
+	./src/parsing.c		\
 
 
 OBJ = $(SRC:.c=.o)
