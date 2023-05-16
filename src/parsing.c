@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 22:48:36 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/12 17:39:59 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/16 17:04:17 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,20 @@ char	**parsing_path(char **env)
 	return (split);
 }
 
-char	**check(char **env, t_mini *mini)
+char	**check(char **env, t_cmd *cmd)
 {
 	char	**path;
 
 	path = parsing_path(env);
 	if (!path)
 	{
-		free_tab(mini->exec.args);
+		free_tab(cmd->exec.args);
 		perror("ERREUR ");
 	}
 	return (path);
 }
 
-char	*path_cmd(char *cmd, char **env, t_mini *mini)
+char	*path_cmd(char *cmd, char **env, t_cmd *cmd)
 {
 	int		i;
 	char	**path;
@@ -69,7 +69,7 @@ char	*path_cmd(char *cmd, char **env, t_mini *mini)
 
 	if (!access(cmd, F_OK | X_OK))
 		return (cmd);
-	path = check(env, mini);
+	path = check(env, cmd);
 	if (!path)
 		return (NULL);
 	i = -1;

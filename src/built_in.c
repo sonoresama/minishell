@@ -6,59 +6,60 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/12 17:46:22 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/16 17:38:42 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_pwd(t_mini *mini)
+int	ft_pwd(t_cmd *cmd)
 {
 	char	*pwd;
 
-	(void)mini;
+	(void)cmd;
 	pwd = malloc(PATH_MAX);
 	if (!pwd)
 		return (-1);
 	getcwd(pwd, PATH_MAX);
 	printf("%s\n", pwd);
 	free(pwd);
-	return (0);
+	return (FT_PWD);
 }
 
-int	ft_exit(t_mini *mini)
+int	ft_exit(t_cmd *cmd)
 {
 	int	sortie;
 
 	sortie = 0;
-	if (mini->exec.args && mini->exec.args[1])
-		sortie = ft_atoi(mini->exec.args[1]);
-	free(mini->exec.cmd_path);
-	free_tab(mini->exec.args);
+	if (cmd->exec.args && cmd->exec.args[1])
+		sortie = ft_atoi(cmd->exec.args[1]);
+	free(cmd->exec.cmd_path);
+	free_tab(cmd->exec.args);
 	rl_clear_history();
 	printf("exit\n");
-	exit(sortie);
-	return (0);
+	exit(FT_EXIT);
+	return (FT_EXIT);
 }
 
-void	ft_env(char **env)
+int	ft_env(t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	while (env && env[i])
+	while (cmd->env && cmd->env[i])
 	{
-		printf("%s\n", env[i]);
+		printf("%s\n",cmd->env[i]);
 		i++;
 	}
+	return  (FT_ENV);
 }
 
-int	ft_cd(t_mini *mini)
+int	ft_cd(t_cmd *cmd)
 {
-	if (chdir(mini->exec.args[1]) != 0)
+	if (chdir(cmd->exec.args[1]) != 0)
 	{
-		perror(NULL);
+		perror("cd ");
 		return (-1);
 	}
-	return (0);
+	return (FT_CD);
 }

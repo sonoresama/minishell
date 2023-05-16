@@ -6,11 +6,17 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:04:33 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/12 17:35:53 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/16 17:04:10 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	free_cmd(t_cmd *cmd)
+{
+	free(cmd->exec.cmd_path);
+	free(cmd->exec.args);
+}
 
 void	free_tab(char **tableau)
 {
