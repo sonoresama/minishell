@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/16 16:58:50 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:32:54 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,19 @@ void	ft_cut_quote(char *str, char c, char **quote)
 	}
 }
 
-//int	ft_is_builtin()
-
-
 int	main(int argc, char **argv, char **env)
 {
-	t_mini	*mini;
-	t_mini	*start;
+	t_cmd	*cmd;
+	t_cmd	*start;
 
 	(void)argc;
 	(void)argv;
 	while (1)
 	{
-		ft_init_mini(&mini, &start);
-		ft_parsing(mini, start, env);
+		ft_init_cmd(&cmd, &start, env);
+		ft_parsing(cmd, start);
+//		if (cmd->env && cmd->env->value)
+//			printf("str = %s\nname = %s\nvalue =%s\n", cmd->env->str, cmd->env->name, cmd->env->value); 
 	}
 	return (0);
 }

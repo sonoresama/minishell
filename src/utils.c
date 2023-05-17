@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:08:50 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/16 17:10:22 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:09:54 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_print_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab && tab[i])
 	{
 		printf("%s\n", tab[i]);
 		i++;
@@ -39,50 +39,49 @@ void	ft_free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab && tab[i])
 	{
 		free(tab[i]);
 		tab[i] = NULL;
 		i++;
 	}
-	free(tab);
+	if (tab)
+		free(tab);
 	tab = NULL;
 }
 
-void	ft_init_mini(t_mini **mini, t_mini **start)
+void	ft_free_env(t_env *env)
 {
-	(*mini) = malloc(sizeof(t_mini));
-	if ((*mini) == NULL)
+	t_env	*tmp;
+	while (env)
 	{
-		perror("Allocation error : ");
-		exit(1);
+		if (env->str)
+			free(env->str);
+		if (env->name)
+			free(env->name);
+		if (env->value)
+			free(env->value);
+		tmp = env;
+		env = env->next;
+		free(tmp);
 	}
-	if (start)
-		(*start) = (*mini);
-	(*mini)->args = NULL;
-	(*mini)->redirection = NULL;
-	(*mini)->infile = NULL;
-	(*mini)->outfile = NULL;
-	(*mini)->quote = NULL;
-	(*mini)->dquote = NULL;
-	(*mini)->next = NULL;
-	(*mini)->heredoc = 0 ;
-	(*mini)->append = 0 ;
 }
 
-void	ft_clear_mini(t_mini *mini)
+void	ft_clear_cmd(t_cmd *cmd)
 {
-	t_mini	*tmp;
+	t_cmd	*tmp;
 
-	while (mini)
+	if (cmd && cmd->env)
+		ft_free_env(cmd->env);
+	while (cmd)
 	{
-		if (mini->args)
+		if (cmd->args)
 		{
-			ft_print_tab(mini->args);
-			ft_free_tab(mini->args);
+			ft_print_tab(cmd->args);
+			ft_free_tab(cmd->args);
 		}
-		tmp = mini;
-		mini = mini->next;
+		tmp = cmd;
+		cmd = cmd->next;
 		free(tmp);
 	}
 }

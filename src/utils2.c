@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:02:42 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/16 16:04:07 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:56:00 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,46 @@ char	*ft_strdup(char *str)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+char	*ft_strndup(char *str, unsigned int n)
+{
+	char	*dup;
+	unsigned int	i;
+	unsigned int	len;
+
+	len = ft_strlen(str);
+	if (len > n)
+		len = n;
+	i = 0;
+	dup = malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	while (str && str[i] && i < len)
+	{
+		dup[i] = str[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	char	*src;
+	size_t	i;
+
+	i = 0;
+	src = s;
+	while (i < n)
+	{
+		src[i] = c;
+		i++;
+	}
+	return (s);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
 }

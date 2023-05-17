@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/05/16 16:36:08 by bastien          ###   ########.fr        #
+#    Updated: 2023/05/17 16:30:13 by blerouss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,14 @@ INC = /usr/local/include
 
 HEADER = include/minishell.h 
 
-SRC = 	./src/ft_split.c	\
-	./src/test.c		\
+SRC = 	./src/main.c		\
+	./src/ft_split.c	\
 	./src/utils.c		\
 	./src/utils2.c		\
 	./src/check_path.c	\
 	./src/parsing.c		\
+	./src/init_cmd.c	\
+	./src/parsing_env.c	\
 
 
 OBJ = $(SRC:.c=.o)
