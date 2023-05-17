@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 22:48:36 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/16 17:04:17 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/17 16:16:19 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,21 @@ char	**check(char **env, t_cmd *cmd)
 	return (path);
 }
 
-char	*path_cmd(char *cmd, char **env, t_cmd *cmd)
+char	*path_cmd(char *cmd_name, char **env, t_cmd *cmd)
 {
 	int		i;
 	char	**path;
 	char	*path_cmd;
 
-	if (!access(cmd, F_OK | X_OK))
-		return (cmd);
+	if (!access(cmd_name, F_OK | X_OK))
+		return (cmd_name);
 	path = check(env, cmd);
 	if (!path)
 		return (NULL);
 	i = -1;
 	while (path[++i])
 	{
-		path_cmd = join_three(path[i], "/", cmd);
+		path_cmd = join_three(path[i], "/", cmd_name);
 		if (!path_cmd)
 			perror("ERREUR ");
 		if (!access(path_cmd, F_OK | X_OK))

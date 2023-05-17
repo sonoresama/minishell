@@ -6,28 +6,28 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/16 17:03:57 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/17 16:18:10 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	exec_cmd(t_cmd *cmd)
+void	exec_cmd(t_shell *shell)
 {
 	int	error;
 
 	error = 0;
-	if (cmd->built_in)
-		error = cmd->built_in(cmd);
-	else if(execve(cmd->exec.cmd_path, cmd->exec.args, cmd->env) == -1)
+	if (shell->cmd->built_in)
+		error = shell->cmd->built_in(shell->cmd);
+	else if(execve(shell->cmd->exec.cmd_path, shell->cmd->exec.args, shell->cmd->env) == -1)
 	{
-		free_cmd(cmd);
+		free_cmd(shell->cmd);
 		perror("ERREUR ");
 	}
 	exit(error);
 }
 
-void	ft_cmd(t_cmd *cmd)
+void	ft_cmd(t_shell *shell)
 {
 	pid_t	pid;
 
@@ -35,7 +35,7 @@ void	ft_cmd(t_cmd *cmd)
 	if (pid == (pid_t)-1)
 		perror("ERREUR ");
 	else if (pid != 0)
-		wait(&cmd->last_error);
+		wait(&shell->last_error);
 	else
-		exec_cmd(cmd);
+		exec_cmd(shell);
 }

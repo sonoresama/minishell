@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/16 17:35:40 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/17 16:16:28 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_echo(t_cmd *cmd);
 /* FUNCTIONS */
 
 char	*path_cmd(char *cmd_name, char **env, t_cmd *cmd);
-void	ft_cmd(t_cmd *cmd);
+void	ft_cmd(t_shell *shell);
 
 /* UTILITIES */
 
