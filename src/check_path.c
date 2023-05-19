@@ -6,34 +6,11 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/16 16:13:12 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/19 17:15:14 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static char	**parsing_path(char **env)
-{
-	char	*path;
-	char	**split;
-	int		i;
-
-	i = 0;
-	while (env[i] && ft_strncmp("PATH", env[i], 4))
-		i++;
-	if (env[i])
-		path = ft_strdup(env[i]);
-	else
-		return (NULL);
-	split = ft_split(path, ':');
-	if (!split)
-		return (NULL);
-	split[0] = split[0] + 5;
-	free(path);
-	if (!split)
-		perror("Unreachable PATH");
-	return (split);
-}
 
 static char	*ft_strjoin(char *s1, char *s2)
 {
@@ -67,45 +44,61 @@ static char	*join_three(char *s1, char *s2, char *s3)
 
 	str = ft_strjoin(s1, s2);
 	if (!str)
-	{
-		perror("Allocation error");
 		return (NULL);
-	}
 	join = ft_strjoin(str, s3);
 	if (!join)
-	{
-		perror("Allocation error");
 		return (NULL);
-	}
 	free(str);
 	return (join);
 }
 
-char	*path_cmd(char *cmd, char **env)
+static char	**parsing_path(t_shell *shell)
+{
+	char	*path;
+	char	**split;
+	t_env	*lst;
+
+	lst = shell->env;
+	while (lst && ft_strncmp("PATH", lst->name, 4))
+		lst = lst->next;
+	if (lst)
+		path = ft_strdup(lst->value);
+	else
+		return (NULL);
+	split = ft_split(path, ':');
+	if (!split)
+		return (NULL);
+	split[0] = split[0] + ft_strlen("PATH=");
+	free(path);
+	return (split);
+}
+
+char	*path_cmd(char *cmd_name, t_shell *shell)
 {
 	int		i;
 	char	**path;
 	char	*path_cmd;
 
-	if (!access(cmd, F_OK | X_OK))
-		return (cmd);
-	path = parsing_path(env);
+	if (!access(cmd_name, F_OK | X_OK))
+		return (cmd_name);
+	path = parsing_path(shell);
 	if (!path)
 		return (NULL);
 	i = -1;
 	while (path[++i])
 	{
-		path_cmd = join_three(path[i], "/", cmd);
-		if (path_cmd && !access(path_cmd, F_OK | X_OK))
+		path_cmd = join_three(path[i], "/", cmd_name);
+		if (!path_cmd)
+			perror("ERREUR ");
+		if (!access(path_cmd, F_OK | X_OK))
 		{
-			path[0] = path[0] - 5;
+			path[0] = path[0] - ft_strlen("PATH=");
 			ft_free_tab(path);
 			return (path_cmd);
 		}
-		if (path_cmd)
-			free(path_cmd);
+		free(path_cmd);
 	}
-	path[0] = path[0] - 5;
+	path[0] = path[0] - ft_strlen("PATH=");
 	ft_free_tab(path);
 	return (NULL);
 }

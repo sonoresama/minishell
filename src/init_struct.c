@@ -1,41 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_cmd.c                                         :+:      :+:    :+:   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:21:01 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/17 17:06:05 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:24:46 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_init_cmd(t_cmd **cmd, t_cmd **start, char **env)
+t_shell	*ft_init_shell(void)
 {
-	(*cmd) = malloc(sizeof(t_cmd));
-	if ((*cmd) == NULL)
+	t_shell	*shell;
+
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
 	{
 		perror("Allocation error : ");
 		exit(1);
 	}
-	if (start)
-		(*start) = (*cmd);
-	ft_bzero((*cmd), sizeof(t_cmd));
-	(*cmd)->env = ft_parse_env(env);	
+	ft_bzero(shell, sizeof(t_shell));
+	return (shell);
 }
 
-void	ft_init_cmd_2(t_cmd **cmd, t_cmd **start, t_env *env)
+t_env	*ft_init_env(void)
 {
-	(*cmd) = malloc(sizeof(t_cmd));
-	if ((*cmd) == NULL)
+	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	if (!env)
 	{
 		perror("Allocation error : ");
 		exit(1);
 	}
-	if (start)
-		(*start) = (*cmd);
-	ft_bzero((*cmd), sizeof(t_cmd));
-	(*cmd)->env = env;	
+	ft_bzero(env, sizeof(t_env));
+	return (env);
+}
+
+t_cmd	*ft_init_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (cmd == NULL)
+	{
+		perror("Allocation error : ");
+		exit(1);
+	}
+	ft_bzero(cmd, sizeof(t_cmd));
+	return (cmd);
 }

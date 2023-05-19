@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/17 16:32:54 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:41:01 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,15 @@ void	ft_cut_quote(char *str, char c, char **quote)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_cmd	*cmd;
-	t_cmd	*start;
-
+	t_shell	*shell;
 	(void)argc;
 	(void)argv;
 	while (1)
 	{
-		ft_init_cmd(&cmd, &start, env);
-		ft_parsing(cmd, start);
+		shell = ft_parsing(env, readline("  \033[36m\033[1mMinishell \033[33m➜ \033[0m"));
 //		if (cmd->env && cmd->env->value)
-//			printf("str = %s\nname = %s\nvalue =%s\n", cmd->env->str, cmd->env->name, cmd->env->value); 
+//			printf("str = %s\nname = %s\nvalue =%s\n", cmd->env->str, cmd->env->name, cmd->env->value);
+		ft_clear_shell(shell); 
 	}
 	return (0);
 }
