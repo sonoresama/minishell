@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/17 16:16:28 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/19 14:39:06 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,19 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-/* EXI MACROS */
+/* EXIT MACROS */
 
 # define FT_EXIT 10
 # define FT_CD 11
 # define FT_ENV 12
 # define FT_PWD 13
+# define FT_EXPORT 14
 
 /* STRUCTURES */
 
-typedef struct s_cmd t_cmd;
+typedef struct s_shell t_shell;
 typedef long long int t_long;
-typedef	int (*My_func)(t_cmd *cmd);
+typedef	int (*My_func)(t_shell *shell);
 
 typedef struct	s_exec
 {
@@ -44,9 +45,8 @@ typedef struct	s_exec
 	char	**args;
 }	t_exec;
 
-struct	s_cmd
+typedef struct	s_cmd
 {
-	char	**env;
 	t_exec	exec;
 	My_func built_in;
 	char	*redirection;
@@ -57,33 +57,42 @@ struct	s_cmd
 	int	heredoc;//(bool)
 	int	append;//(bool)
 	struct	s_cmd	*next;
-};
+}	t_cmd;
+
+typedef struct	s_env
+{
+	char	*str;
+	char	*name;
+	char	*value;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct	s_shell
 {
-	char	**env;
-	int	last_error;
+	t_env	*env;
 	t_cmd	*cmd;
-	
+	int	last_error;
 }	t_shell;
 
 
 /* BUILT_IN */
 
-int	ft_pwd(t_cmd *cmd);
-int	ft_exit(t_cmd *cmd);
-int	ft_env(t_cmd *cmd);
-int	ft_cd(t_cmd *cmd);
-int	ft_echo(t_cmd *cmd);
+int	ft_pwd(t_shell *shell);
+int	ft_exit(t_shell *shell);
+int	ft_env(t_shell *shell);
+int	ft_cd(t_shell *shell);
+int	ft_echo(t_shell *shell);
 
 /* FUNCTIONS */
 
 char	*path_cmd(char *cmd_name, char **env, t_cmd *cmd);
+t_env	*ft_create_env(char **env);
 void	ft_cmd(t_shell *shell);
 
 /* UTILITIES */
 
 void	free_tab(char **tableau);
+char	*ft_strndup(char *str, int n);
 void	free_cmd(t_cmd *cmd);
 char	**ft_split(const char *s, char c);
 char	*ft_strdup(char *str);
