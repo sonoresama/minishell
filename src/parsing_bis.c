@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 22:48:36 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/17 16:16:19 by eorer            ###   ########.fr       */
+/*   Created: 2023/05/19 11:18:24 by eorer             #+#    #+#             */
+/*   Updated: 2023/05/19 14:51:32 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ char	*join_three(char *s1, char *s2, char *s3)
 	return (join);
 }
 
-char	**parsing_path(char **env)
+char	**parsing_path(t_shell *shell)
 {
 	char	*path;
 	char	**split;
-	int		i;
+	t_env	*lst;
 
-	i = 0;
-	while (env[i] && ft_strncmp("PATH", env[i], 4))
-		i++;
-	if (env[i])
-		path = ft_strdup(env[i]);
+	lst = shell->env;
+	while (lst && ft_strncmp("PATH", lst->name, 4))
+		lst = lst->next;
+	if (lst)
+		path = ft_strdup(lst->value);
 	else
 		return (NULL);
 	split = ft_split(path, ':');
@@ -48,11 +48,11 @@ char	**parsing_path(char **env)
 	return (split);
 }
 
-char	**check(char **env, t_cmd *cmd)
+char	**check(t_shell *shell, t_cmd *cmd)
 {
 	char	**path;
 
-	path = parsing_path(env);
+	path = parsing_path(shell);
 	if (!path)
 	{
 		free_tab(cmd->exec.args);
@@ -61,7 +61,7 @@ char	**check(char **env, t_cmd *cmd)
 	return (path);
 }
 
-char	*path_cmd(char *cmd_name, char **env, t_cmd *cmd)
+char	*path_cmd(char *cmd_name, t_shell *shell, t_cmd *cmd)
 {
 	int		i;
 	char	**path;
@@ -69,7 +69,7 @@ char	*path_cmd(char *cmd_name, char **env, t_cmd *cmd)
 
 	if (!access(cmd_name, F_OK | X_OK))
 		return (cmd_name);
-	path = check(env, cmd);
+	path = check(shell, cmd);
 	if (!path)
 		return (NULL);
 	i = -1;

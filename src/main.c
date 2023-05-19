@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/17 16:37:43 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/19 17:25:03 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ My_func	is_built_in(char *str)
 		return (&ft_echo);
 	else if (!ft_strncmp(str, "env", ft_strlen("env")))
 		return (&ft_env);
+	else if (!ft_strncmp(str, "export", ft_strlen("export")))
+		return (&ft_export);
+	else if (!ft_strncmp(str, "unset", ft_strlen("unset")))
+		return (&ft_unset);
 	else
 		return (NULL);
 }
 
-t_cmd	*set_cmd(char *str, char **env, t_cmd *cmd)
+void	set_cmd(char *str, t_shell *shell, t_cmd *cmd)
 {
 	char	**split;
 	int	i;
@@ -36,14 +40,14 @@ t_cmd	*set_cmd(char *str, char **env, t_cmd *cmd)
 	i = 0;
 	split = ft_split(str, ' ');
 	if (!split)
-		return (NULL);
+		return ;
 	cmd->built_in = is_built_in(split[0]);
 	if (cmd->built_in)
 		cmd->exec.cmd_path = ft_strdup(split[0]);
 	else
-		cmd->exec.cmd_path = path_cmd(split[0], env, cmd);
+		cmd->exec.cmd_path = path_cmd(split[0], shell, cmd);
 	cmd->exec.args = split;
-	return (cmd);
+	return ;
 }
 
 void	check_output(t_shell *shell)
@@ -51,7 +55,10 @@ void	check_output(t_shell *shell)
 	if (WEXITSTATUS(shell->last_error) == FT_EXIT)
 		exit(0);
 	else if (WEXITSTATUS(shell->last_error) == FT_CD)
-		ft_cd(shell->cmd);
+		ft_cd(shell);
+	else if (WEXITSTATUS(shell->last_error) == FT_EXPORT)
+		ft_export(shell);
+	return ;
 }
 
 void	free_all(char *str, t_cmd *cmd)
@@ -69,7 +76,14 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	ft_bzero(&shell, sizeof(t_shell));
-	shell.env = env;
+	ft_bzero(&cmd, sizeof(t_cmd));
+	shell.env = ft_create_env(env);
+	shell.maxi_env = env;
+	if (!shell.env)
+	{
+		perror("MALLOC ");
+		return (1);
+	}
 	while (1)
 	{
 		str = readline("minishell$ ");
@@ -79,12 +93,12 @@ int	main(int argc, char **argv, char **env)
 			continue;
 		}
 		add_history(str);
-		set_cmd(str, shell.env, &cmd);
+		set_cmd(str, &shell, &cmd);
 		shell.cmd = &cmd;
+//		printf("CMD : %s\n", shell.cmd->exec.cmd_path);
+//		printf("ARG 1 : %s\n", shell.cmd->exec.args[1]);
 		if (!shell.cmd)
 			continue ;
-		printf("CMD : %s\n", shell.cmd->exec.cmd_path);
-		printf("Arg 1 : %s\n", shell.cmd->exec.args[1]);
 		ft_cmd(&shell);
 		check_output(&shell);
 		free_all(str, shell.cmd);

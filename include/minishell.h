@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 14:39:06 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/19 17:26:29 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define FT_ENV 12
 # define FT_PWD 13
 # define FT_EXPORT 14
+# define FT_UNSET 15
 
 /* STRUCTURES */
 
@@ -71,6 +72,7 @@ typedef struct	s_shell
 {
 	t_env	*env;
 	t_cmd	*cmd;
+	char	**maxi_env;
 	int	last_error;
 }	t_shell;
 
@@ -82,11 +84,14 @@ int	ft_exit(t_shell *shell);
 int	ft_env(t_shell *shell);
 int	ft_cd(t_shell *shell);
 int	ft_echo(t_shell *shell);
+int	ft_export(t_shell *shell);
+int	ft_unset(t_shell *shell);
 
 /* FUNCTIONS */
 
-char	*path_cmd(char *cmd_name, char **env, t_cmd *cmd);
+char	*path_cmd(char *cmd_name, t_shell *shell, t_cmd *cmd);
 t_env	*ft_create_env(char **env);
+t_env	*ft_create_var_env(char *str);
 void	ft_cmd(t_shell *shell);
 
 /* UTILITIES */
@@ -100,6 +105,7 @@ int	ft_strlen(char *str);
 int	ft_strncmp(char *s1, char *s2, unsigned int n);
 t_long	ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
+void	lst_add_end(t_env **lst, t_env *new);
 char	*ft_strjoin(char *s1, char *s2);
 
 #endif

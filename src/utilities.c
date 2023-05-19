@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:04:33 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/16 17:04:10 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/19 13:01:01 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,27 @@ char	*ft_strdup(char *str)
 	if (!dup)
 		return (NULL);
 	while (str && str[i])
+	{
+		dup[i] = str[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
+char	*ft_strndup(char *str, int n)
+{
+	char	*dup;
+	int	i;
+
+	i = 0;
+	if (n < ft_strlen(str))
+		dup = malloc(n + 1);
+	else
+		dup = malloc(ft_strlen(str) + 1);
+	if (!dup)
+		return (NULL);
+	while (str && str[i] && i < n)
 	{
 		dup[i] = str[i];
 		i++;
