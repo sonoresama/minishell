@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/05/19 17:36:50 by blerouss         ###   ########.fr        #
+#    Updated: 2023/05/22 15:51:47 by blerouss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,11 @@ SRC = 	./src/main.c		\
 	./src/init_struct.c	\
 	./src/clear_struct.c	\
 	./src/fill_struct.c	\
+	./src/echo.c		\
+	./src/export.c		\
+	./src/export_utilities.c\
+	./src/built_in.c	\
+	./src/ft_atoi.c		\
 
 OBJ = $(SRC:.c=.o)
 

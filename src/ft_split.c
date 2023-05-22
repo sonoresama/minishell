@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:57:52 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/11 15:12:59 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/22 11:31:00 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_nbr_word(char *str, char c)
 
 	k = 0;
 	i = 0;
-	while (str[i] != '\0')
+	while (str && str[i] != '\0')
 	{
 		while (str[i] != c && str[i] != '\0')
 			i++;
@@ -90,6 +90,8 @@ char	**ft_split(char const *str, char c)
 	int		a;
 	int		i;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	a = ft_nbr_word((char *)str, c);
 	tab = malloc(sizeof(tab) * (a + 1));

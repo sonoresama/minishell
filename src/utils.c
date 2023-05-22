@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:08:50 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 15:49:29 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:47:57 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_strlen(char *str)
 	i = 0;
 	while (str && str[i])
 		i++;
-	return(i);
+	return (i);
 }
 
 void	ft_free_tab(char **tab)

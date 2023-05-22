@@ -33,7 +33,7 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 char	*ft_strdup(char *str)
 {
 	char	*dup;
-	int	i;
+	int		i;
 
 	i = 0;
 	dup = malloc(ft_strlen(str) + 1);
@@ -50,7 +50,7 @@ char	*ft_strdup(char *str)
 
 char	*ft_strndup(char *str, unsigned int n)
 {
-	char	*dup;
+	char			*dup;
 	unsigned int	i;
 	unsigned int	len;
 

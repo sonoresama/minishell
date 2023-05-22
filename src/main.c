@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 15:41:01 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:01:14 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	ft_charnbr(char	*str, char c)
 	return (nbr);
 }
 
-char	*ft_strcut(char *str, int start , int end)
+char	*ft_strcut(char *str, int start, int end)
 {
 	char	*cut;
-	int	i;
+	int		i;
 
 	i = 0;
 	cut = malloc(end - start + 1);
@@ -76,14 +76,18 @@ void	ft_cut_quote(char *str, char c, char **quote)
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*shell;
+
 	(void)argc;
 	(void)argv;
 	while (1)
 	{
-		shell = ft_parsing(env, readline("  \033[36m\033[1mMinishell \033[33m➜ \033[0m"));
-//		if (cmd->env && cmd->env->value)
-//			printf("str = %s\nname = %s\nvalue =%s\n", cmd->env->str, cmd->env->name, cmd->env->value);
-		ft_clear_shell(shell); 
+		shell = ft_parsing(env, \
+			readline("   \033[36m\033[1mMinishell \033[33m➜ \033[0m"));
+		printf("str = %s\nname = %s\nvalue =%s\n", shell->env->str, shell->env->name, shell->env->value);
+		ft_print_tab(shell->cmd->exec.args);
+		printf("%p\n", shell->cmd->built_in);
+		if (shell)
+			ft_clear_shell(shell);
 	}
 	return (0);
 }

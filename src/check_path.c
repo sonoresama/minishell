@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/19 17:15:14 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:23:54 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static char	**parsing_path(t_shell *shell)
 	split = ft_split(path, ':');
 	if (!split)
 		return (NULL);
-	split[0] = split[0] + ft_strlen("PATH=");
 	free(path);
 	return (split);
 }
@@ -92,13 +91,11 @@ char	*path_cmd(char *cmd_name, t_shell *shell)
 			perror("ERREUR ");
 		if (!access(path_cmd, F_OK | X_OK))
 		{
-			path[0] = path[0] - ft_strlen("PATH=");
 			ft_free_tab(path);
 			return (path_cmd);
 		}
 		free(path_cmd);
 	}
-	path[0] = path[0] - ft_strlen("PATH=");
 	ft_free_tab(path);
 	return (NULL);
 }

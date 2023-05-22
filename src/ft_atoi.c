@@ -1,54 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_struct.c                                     :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/22 15:55:34 by blerouss         ###   ########.fr       */
+/*   Created: 2023/05/22 15:50:14 by blerouss          #+#    #+#             */
+/*   Updated: 2023/05/22 15:50:26 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_clear_env(t_env *env)
+static int	ft_isdigit(int c)
 {
-	t_env	*tmp;
-
-	while (env)
-	{
-		free(env->name);
-		tmp = env;
-		env = env->next;
-		free(tmp);
-	}
+	if ('0' <= c && c <= '9')
+		return (1);
+	return (0);
 }
 
-void	ft_clear_shell(t_shell *shell)
+t_long	ft_atoi(const char *nptr)
 {
-	if (shell)
-	{
-		if (shell->env)
-			ft_clear_env(shell->env);
-		if (shell->cmd)
-			ft_clear_cmd(shell->cmd);
-		free(shell);
-	}
-}
+	t_long	neg;
+	t_long	resultat;
 
-void	ft_clear_cmd(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	while (cmd)
+	resultat = 0;
+	neg = 1;
+	while ((*nptr >= 8 && *nptr <= 13) || *nptr == ' ')
+		nptr++;
+	if (*nptr == '-')
 	{
-		if (cmd->exec.args)
-		{
-			ft_free_tab(cmd->exec.args);
-		}
-		tmp = cmd;
-		cmd = cmd->next;
-		free(tmp);
+		neg = -1;
+		nptr++;
 	}
+	else if (*nptr == '+')
+		nptr++;
+	while (ft_isdigit(*nptr) && *nptr)
+	{
+		resultat = resultat * 10 + *nptr - '0';
+		nptr++;
+	}
+	if (*nptr)
+		return (0);
+	return (resultat * neg);
 }

@@ -6,13 +6,13 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/19 17:17:55 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:09:30 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*My_func	is_built_in(char *str)
+t_My_func	is_built_in(char *str)
 {
 	if (!ft_strncmp(str, "exit", 4))
 		return (&ft_exit);
@@ -24,9 +24,13 @@
 		return (&ft_echo);
 	else if (!ft_strncmp(str, "env", 3))
 		return (&ft_env);
+	else if (!ft_strncmp(str, "export", 6))
+		return (&ft_export);
+//	else if (!ft_strncmp(str, "unset", 5))
+//		return (&ft_unset);
 	else
 		return (NULL);
-}*/
+}
 
 t_shell	*ft_parsing(char **env, char *str)
 {
@@ -34,9 +38,10 @@ t_shell	*ft_parsing(char **env, char *str)
 	t_cmd		*tmp;
 	t_shell		*shell;
 
+	if (!str || !str[0])
+		return (NULL);
 	add_history(str);
 	shell = ft_fill_shell(env);
-	//cmd->built_in = is_built_in(parsing.str);
 	if (!strcmp(str, "exit"))
 	{
 		rl_clear_history();
@@ -49,16 +54,15 @@ t_shell	*ft_parsing(char **env, char *str)
 	parsing.str_piped = ft_split(str, '|');
 	free(str);
 	parsing.utils = 0;
-	shell->cmd = ft_fill_cmd(parsing.str_piped[parsing.utils], shell);
+	shell->cmd = ft_fill_cmd(parsing.str_piped[parsing.utils++], shell);
 	tmp = shell->cmd;
 	while (parsing.str_piped[parsing.utils])
 	{
-		parsing.utils++;
 		if (parsing.str_piped[parsing.utils])
-			shell->cmd->next = ft_fill_cmd(parsing.str_piped[parsing.utils], shell);
-		shell->cmd = shell->cmd->next;
+			tmp->next = ft_fill_cmd(parsing.str_piped[parsing.utils], shell);
+		tmp = tmp->next;
+		parsing.utils++;
 	}
-	shell->cmd = tmp;
 	ft_free_tab(parsing.str_piped);
 	return (shell);
 }
