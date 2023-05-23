@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/22 15:09:30 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:27:02 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,40 @@ t_My_func	is_built_in(char *str)
 		return (NULL);
 }
 
+static void	ft_split_pipeline_in_cmd(char **str_piped, t_shell *shell, t_parsing * parsing)
+{
+	int		i;
+	t_cmd		*tmp;
+
+	i = 0;
+	ft_paste_quote_space(str_piped, parsing, shell);
+	shell->cmd = ft_fill_cmd(str_piped[i++], shell);
+	tmp = shell->cmd;
+	while (str_piped[i])
+	{
+		if (str_piped[i])
+			tmp->next = ft_fill_cmd(str_piped[i], shell);
+		tmp = tmp->next;
+		i++;
+	}
+	ft_free_tab(str_piped);
+}
+
 t_shell	*ft_parsing(char **env, char *str)
 {
 	t_parsing	parsing;
-	t_cmd		*tmp;
 	t_shell		*shell;
 
 	if (!str || !str[0])
+	{
+		if (!str[0])
+			free(str);
 		return (NULL);
+	}
 	add_history(str);
 	shell = ft_fill_shell(env);
+	if (!shell)
+		return (NULL);
 	if (!strcmp(str, "exit"))
 	{
 		rl_clear_history();
@@ -50,19 +74,9 @@ t_shell	*ft_parsing(char **env, char *str)
 		exit(0);
 	}
 	//gestion heredoc
-	//gestion quote
-	parsing.str_piped = ft_split(str, '|');
+	parsing.quote = NULL;
+	ft_cut_quote_space(str, &parsing, shell);
+	ft_split_pipeline_in_cmd(ft_split(str, '|'), shell, &parsing);
 	free(str);
-	parsing.utils = 0;
-	shell->cmd = ft_fill_cmd(parsing.str_piped[parsing.utils++], shell);
-	tmp = shell->cmd;
-	while (parsing.str_piped[parsing.utils])
-	{
-		if (parsing.str_piped[parsing.utils])
-			tmp->next = ft_fill_cmd(parsing.str_piped[parsing.utils], shell);
-		tmp = tmp->next;
-		parsing.utils++;
-	}
-	ft_free_tab(parsing.str_piped);
 	return (shell);
 }

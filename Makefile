@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/05/22 15:51:47 by blerouss         ###   ########.fr        #
+#    Updated: 2023/05/23 11:11:38 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC = 	./src/main.c		\
 	./src/export_utilities.c\
 	./src/built_in.c	\
 	./src/ft_atoi.c		\
+	./src/cut_quote.c	\
 
 OBJ = $(SRC:.c=.o)
 

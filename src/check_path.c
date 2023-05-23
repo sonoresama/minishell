@@ -6,51 +6,11 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/22 12:23:54 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:15:33 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*str;
-	int		i;	
-	int		j;
-
-	i = 0;
-	j = 0;
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
-}
-
-static char	*join_three(char *s1, char *s2, char *s3)
-{
-	char	*str;
-	char	*join;
-
-	str = ft_strjoin(s1, s2);
-	if (!str)
-		return (NULL);
-	join = ft_strjoin(str, s3);
-	if (!join)
-		return (NULL);
-	free(str);
-	return (join);
-}
 
 static char	**parsing_path(t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/22 15:51:21 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:28:58 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,19 @@
 # define FT_PWD 13
 # define FT_EXPORT 14
 # define FT_UNSET 15
+# define QUOTE_UNCLOSED 16
+# define MALLOC_ERROR 17
 
 typedef long long int t_long;
 typedef struct s_cmd	t_cmd;
 typedef struct s_shell	t_shell;
 typedef int				(*t_My_func)(t_shell *shell);
+
+typedef struct s_quote
+{
+	char		*str;
+	struct s_quote	*next;
+}		t_quote;
 
 typedef struct s_exec
 {
@@ -48,11 +56,8 @@ typedef struct s_exec
 
 typedef struct s_parsing
 {
-	char	**str_piped;
-	char	**cmd_line;
-	char	**quote;
+	t_quote	*quote;
 	char	**dquote;
-	int		utils;
 }		t_parsing;
 
 typedef struct s_env
@@ -70,8 +75,6 @@ struct	s_cmd
 	char				*redirection;
 	char				*infile;
 	char				*outfile;
-	char				*quote;
-	char				*dquote;
 	int					heredoc;
 	int					append;
 	struct s_cmd		*next;
@@ -89,6 +92,8 @@ char	**ft_split(char const *str, char c);
 char	*path_cmd(char *cmd_name, t_shell *shell);
 char	*ft_strdup(char *str);
 char	*ft_strndup(char *str, unsigned int n);
+char	*ft_strjoin(char *s1, char *s2);
+char	*join_three(char *s1, char *s2, char *s3);
 t_env	*ft_init_env(void);
 t_env	*ft_fill_env(char **env);
 t_env	*ft_create_env(char **env);
@@ -111,10 +116,13 @@ int		ft_cd(t_shell *shell);
 int		ft_echo(t_shell *shell);
 int		ft_export(t_shell *shell);
 void	parse_cmd(t_parsing *parsing, t_cmd *cmd);
+void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
+void	ft_paste_quote_space(char **str_piped, t_parsing *parsing, t_shell *shell);
 void	lst_add_end(t_env **lst, t_env *new);
 void	ft_clear_cmd(t_cmd *cmd);
 void	ft_clear_env(t_env *env);
 void	ft_clear_shell(t_shell *shell);
+void	ft_clear_quote(t_quote *quote);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	ft_print_tab(char **tab);

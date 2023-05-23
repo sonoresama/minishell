@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:10:26 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/22 15:11:26 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 10:24:47 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,11 @@ static void	print_args(t_shell *shell)
 
 int	ft_echo(t_shell *shell)
 {
-	int	i;
 	int	option;
 	t_cmd	*cmd;
 
 	cmd = shell->cmd;
 	option = 0;
-	i = 1;
 	if (!cmd->exec.args || !cmd->exec.args[1])
 		return (0);
 	check_args(cmd->exec.args, &option);

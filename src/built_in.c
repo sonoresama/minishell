@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:40:59 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/22 15:52:27 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 10:26:46 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	ft_pwd(t_shell *shell)
 
 int	ft_exit(t_shell *shell)
 {
-	int	sortie;
+//	int	sortie;
 	t_cmd	*cmd;
 
-	sortie = 0;
+//	sortie = 0;
 	cmd = shell->cmd;
-	if (cmd->exec.args && cmd->exec.args[1])
-		sortie = ft_atoi(cmd->exec.args[1]);
+//	if (cmd->exec.args && cmd->exec.args[1])
+//		sortie = ft_atoi(cmd->exec.args[1]);
 	free(cmd->exec.cmd_path);
 	ft_free_tab(cmd->exec.args);
 	rl_clear_history();

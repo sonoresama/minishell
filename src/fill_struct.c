@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/22 15:40:42 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:51:01 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_shell	*ft_fill_shell(char **env)
 		return (NULL);
 	shell->maxi_env = env;
 	shell->env = ft_fill_env(env);
-	if (!shell->env)
-		return (NULL);
 	return (shell);
 }
 
@@ -73,7 +71,7 @@ t_env	*ft_fill_env(char **env)
 	i = 0;
 	lst_env = ft_init_env();
 	lst_start = lst_env;
-	while (env && env[i])
+	while (lst_start && env && env[i])
 	{
 		j = 0;
 		lst_env->str = env[i];
@@ -82,7 +80,11 @@ t_env	*ft_fill_env(char **env)
 		lst_env->name = ft_strndup(env[i], j);
 		lst_env->value = &env[i][j + 1];
 		if (env[i + 1])
+		{
 			lst_env->next = ft_init_env();
+			if (!lst_env->next)
+				ft_clear_env(lst_start);
+		}
 		lst_env = lst_env->next;
 		i++;
 	}

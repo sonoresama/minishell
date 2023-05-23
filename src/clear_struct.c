@@ -6,11 +6,25 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/22 15:55:34 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:30:52 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	ft_clear_quote(t_quote **quote)
+{
+	t_quote	*tmp;
+
+	while ((*quote))
+	{
+		free((*quote)->str);
+		tmp = (*quote);
+		(*quote) = (*quote)->next;
+		free(tmp);
+	}
+	(*quote) = NULL;
+}
 
 void	ft_clear_env(t_env *env)
 {
@@ -45,6 +59,7 @@ void	ft_clear_cmd(t_cmd *cmd)
 	{
 		if (cmd->exec.args)
 		{
+			ft_print_tab(cmd->exec.args);
 			ft_free_tab(cmd->exec.args);
 		}
 		tmp = cmd;
