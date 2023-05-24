@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/23 17:27:02 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/24 18:04:28 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,31 @@ t_My_func	is_built_in(char *str)
 		return (NULL);
 }
 
-static void	ft_split_pipeline_in_cmd(char **str_piped, t_shell *shell, t_parsing * parsing)
+static void	ft_split_pipeline_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 {
 	int		i;
 	t_cmd		*tmp;
 
 	i = 0;
-	ft_paste_quote_space(str_piped, parsing, shell);
-	shell->cmd = ft_fill_cmd(str_piped[i++], shell);
+	i = 0;
+	if (shell->error)
+		return;
+	shell->cmd = ft_fill_cmd(str_piped[i++], shell, parsing);
 	tmp = shell->cmd;
 	while (str_piped[i])
 	{
 		if (str_piped[i])
-			tmp->next = ft_fill_cmd(str_piped[i], shell);
+			tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
 		tmp = tmp->next;
 		i++;
 	}
 	ft_free_tab(str_piped);
 }
+
+//void	ft_print_error(t_shell *shell)
+//{
+	
+//}
 
 t_shell	*ft_parsing(char **env, char *str)
 {
@@ -57,15 +64,17 @@ t_shell	*ft_parsing(char **env, char *str)
 	t_shell		*shell;
 
 	if (!str || !str[0])
-	{
-		if (!str[0])
-			free(str);
+	{	
+		free(str);
 		return (NULL);
 	}
 	add_history(str);
 	shell = ft_fill_shell(env);
 	if (!shell)
+	{
+		perror("Error :");
 		return (NULL);
+	}
 	if (!strcmp(str, "exit"))
 	{
 		rl_clear_history();
@@ -77,6 +86,11 @@ t_shell	*ft_parsing(char **env, char *str)
 	parsing.quote = NULL;
 	ft_cut_quote_space(str, &parsing, shell);
 	ft_split_pipeline_in_cmd(ft_split(str, '|'), shell, &parsing);
+	if (shell->error)
+	{
+	//	ft_print_error(shell->error);
+		ft_clear_shell(shell);
+	}
 	free(str);
 	return (shell);
 }

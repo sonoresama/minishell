@@ -154,7 +154,7 @@ strerror =>> return une string qui decrit l'erreur en fonction de l'int passe en
 	prototype => char *strerror(int errnum);
 	return => la string qui correspond a l'int passe en parametre ou une chaine vide si errnum = 0;
 
-perror =>> print une information d'erreur sur la sortie standard, soit la string passe en parametre soit la
+perror =>> print une information d'erreur sur la sortie standard, la string passe en parametre suivi de la
 	   descripton de la derniere erreur d'une fonction systeme 
 	prototype => void perror(const char *s);
 	return => //

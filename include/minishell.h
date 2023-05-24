@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/23 17:28:58 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:18:08 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,9 @@ struct	s_cmd
 {
 	t_exec				exec;
 	t_My_func			built_in;
-	char				*redirection;
 	char				*infile;
 	char				*outfile;
 	int					heredoc;
-	int					append;
 	struct s_cmd		*next;
 };
 
@@ -85,6 +83,7 @@ typedef struct s_shell
 	t_env	*env;
 	char	**maxi_env;
 	int		last_error;
+	int		error;
 	t_cmd	*cmd;
 }	t_shell;
 
@@ -94,6 +93,7 @@ char	*ft_strdup(char *str);
 char	*ft_strndup(char *str, unsigned int n);
 char	*ft_strjoin(char *s1, char *s2);
 char	*join_three(char *s1, char *s2, char *s3);
+char	*get_env_value(char *var, t_shell *shell);
 t_env	*ft_init_env(void);
 t_env	*ft_fill_env(char **env);
 t_env	*ft_create_env(char **env);
@@ -104,7 +104,7 @@ t_shell	*ft_init_shell(void);
 t_shell	*ft_fill_shell(char **env);
 t_shell	*ft_parsing(char **env, char *str);
 t_cmd	*ft_init_cmd(void);
-t_cmd	*ft_fill_cmd(char *str, t_shell *shell);
+t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing);
 t_My_func	is_built_in(char *str);
 t_long	ft_atoi(const char *nptr);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
@@ -122,7 +122,7 @@ void	lst_add_end(t_env **lst, t_env *new);
 void	ft_clear_cmd(t_cmd *cmd);
 void	ft_clear_env(t_env *env);
 void	ft_clear_shell(t_shell *shell);
-void	ft_clear_quote(t_quote *quote);
+void	ft_clear_quote(t_quote **quote);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	ft_print_tab(char **tab);

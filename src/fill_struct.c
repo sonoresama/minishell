@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/23 15:51:01 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:33:52 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,25 @@ t_shell	*ft_fill_shell(char **env)
 		return (NULL);
 	shell->maxi_env = env;
 	shell->env = ft_fill_env(env);
+	if (!shell->env)
+	{
+		ft_clear_shell(shell);
+		return (NULL);
+	}
 	return (shell);
 }
 
-void	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, int i)
+void	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *parsing)
 {
 	char	*tmp;
+	int	i;
 
+	i = 0;
 	(*exec).cmd_path = NULL;
 	(*exec).args = ft_split(str, ' ');
 	if (!(*exec).args)
 		return ;
+	ft_paste_quote_space((*exec).args, parsing, shell);
 	if ((*exec).args[0][0] == '<' || (*exec).args[0][0] == '>')
 	{
 		while ((*exec).args[i + 2])
@@ -49,14 +57,15 @@ void	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, int i)
 	(*exec).cmd_path = tmp;
 }
 
-t_cmd	*ft_fill_cmd(char *str, t_shell *shell)
+t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 {
 	t_cmd	*cmd;
 
 	cmd = ft_init_cmd();
 	if (!cmd)
 		return (NULL);
-	ft_fill_exec(str, shell, &cmd->exec, 0);
+	ft_fill_exec(str, shell, &cmd->exec, parsing);
+
 	cmd->built_in = is_built_in(cmd->exec.args[0]);
 	return (cmd);
 }

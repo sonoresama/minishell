@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:10:26 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/23 10:24:47 by bastien          ###   ########.fr       */
+/*   Updated: 2023/05/24 17:18:17 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@ static void	check_args(char **args, int *option)
 	i = 1;
 	if (!ft_strncmp(args[i], "-n", 2))
 		*option = 1;
-}
-
-static char	*get_env_value(char *var, t_shell *shell)
-{
-	t_env	*lst;
-	
-	lst = shell->env;
-	while (lst)
-	{
-		if (!ft_strncmp(var, lst->name, ft_strlen(var)))
-			return (lst->value);
-		lst = lst->next;
-	}
-	return (NULL);
 }
 
 static void	print_env_value(char *var, t_shell *shell)

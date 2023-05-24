@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:21:01 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/19 17:24:46 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:55:42 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ t_shell	*ft_init_shell(void)
 
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-	{
-		perror("Allocation error : ");
-		exit(1);
-	}
+		return (NULL);
 	ft_bzero(shell, sizeof(t_shell));
 	return (shell);
 }
@@ -32,10 +29,7 @@ t_env	*ft_init_env(void)
 
 	env = malloc(sizeof(t_env));
 	if (!env)
-	{
-		perror("Allocation error : ");
-		exit(1);
-	}
+		return (NULL);
 	ft_bzero(env, sizeof(t_env));
 	return (env);
 }
@@ -46,10 +40,7 @@ t_cmd	*ft_init_cmd(void)
 
 	cmd = malloc(sizeof(t_cmd));
 	if (cmd == NULL)
-	{
-		perror("Allocation error : ");
-		exit(1);
-	}
+		return (NULL);
 	ft_bzero(cmd, sizeof(t_cmd));
 	return (cmd);
 }

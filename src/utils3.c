@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 11:49:08 by blerouss         ###   ########.fr       */
+/*   Created: 2023/05/24 17:17:08 by blerouss          #+#    #+#             */
+/*   Updated: 2023/05/24 17:17:57 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+char	*get_env_value(char *var, t_shell *shell)
 {
-	t_shell	*shell;
-
-	(void)argc;
-	(void)argv;
-	while (1)
+	t_env	*lst;
+	
+	lst = shell->env;
+	while (lst)
 	{
-		shell = ft_parsing(env, \
-			readline("   \033[36m\033[1mMinishell \033[33m➜ \033[0m"));
-		if (!shell)
-			continue ;
-		ft_clear_shell(shell);
+		if (!ft_strncmp(var, lst->name, ft_strlen(var)))
+			return (lst->value);
+		lst = lst->next;
 	}
-	return (0);
+	return (NULL);
 }
+
