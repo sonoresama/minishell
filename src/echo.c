@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 15:08:30 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/23 17:05:07 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	print_args(t_shell *shell)
 	while (args[i])
 	{
 		if (args[i][0] == '$' && args[i][1] != ' ')
+		{
+			//printf("TEST\n");
 			print_env_value(args[i] + 1, shell);
+		}
 		else
 			printf("%s", args[i]);
 		i++;

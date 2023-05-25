@@ -6,29 +6,29 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:04:33 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 13:01:01 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/24 15:30:08 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	free_cmd(t_cmd *cmd)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	free(cmd->exec.cmd_path);
-	free(cmd->exec.args);
-}
+	const unsigned char	*s;
+	unsigned char		*dst;
 
-void	free_tab(char **tableau)
-{
-	int	i;
-
-	i = 0;
-	while (tableau && tableau[i])
+	if (!dest && !src)
+		return (dest);
+	dst = dest;
+	s = src;
+	while (n)
 	{
-		free(tableau[i]);
-		i++;
+		*dst = *s;
+		dst++;
+		s++;
+		n--;
 	}
-	free(tableau);
+	return (dest);
 }
 
 void	*ft_memset(void *s, int c, size_t n)

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 17:26:29 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/24 17:05:58 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,11 @@ typedef struct	s_exec
 typedef struct	s_cmd
 {
 	t_exec	exec;
-	My_func built_in;
-	char	*redirection;
+	My_func	built_in;
 	char	*infile;
 	char	*outfile;
-	char	*quote;
-	char	*dquote;
-	int	heredoc;//(bool)
-	int	append;//(bool)
-	struct	s_cmd	*next;
+	int	heredoc;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct	s_env
@@ -72,8 +68,12 @@ typedef struct	s_shell
 {
 	t_env	*env;
 	t_cmd	*cmd;
+	char	*str;
 	char	**maxi_env;
 	int	last_error;
+	int	pipe_nb;
+	int	pipe_a[2];
+	int	pipe_b[2];
 }	t_shell;
 
 
@@ -93,12 +93,14 @@ char	*path_cmd(char *cmd_name, t_shell *shell, t_cmd *cmd);
 t_env	*ft_create_env(char **env);
 t_env	*ft_create_var_env(char *str);
 void	ft_cmd(t_shell *shell);
+int	search_equal(char *str);
+My_func	is_built_in(char *str);
+//int	setEnvironmentVariable(char *str, char **environ);
+int	update_env(t_shell *shell);
 
 /* UTILITIES */
 
-void	free_tab(char **tableau);
 char	*ft_strndup(char *str, int n);
-void	free_cmd(t_cmd *cmd);
 char	**ft_split(const char *s, char c);
 char	*ft_strdup(char *str);
 int	ft_strlen(char *str);
@@ -107,5 +109,9 @@ t_long	ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 void	lst_add_end(t_env **lst, t_env *new);
 char	*ft_strjoin(char *s1, char *s2);
+char	*join_three(char *s1, char *s2, char *s3);
+void	free_all(t_shell *shell);
+void	free_cmd(t_cmd *cmd);
+void	free_tab(char **tableau);
 
 #endif

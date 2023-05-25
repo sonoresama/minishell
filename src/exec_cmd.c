@@ -6,15 +6,16 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 15:43:15 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/24 18:20:37 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	exec_cmd(t_shell *shell)
+/*void	exec_cmd(t_shell *shell)
 {
 	int	error;
+	pid_t	pid;
 	t_cmd	*cmd;
 
 	error = 0;
@@ -27,22 +28,92 @@ void	exec_cmd(t_shell *shell)
 		perror("ERREUR ");
 	}
 	exit(error);
+}*/
+
+void	init_infile(t_shell *shell)
+{
+	if (shell->cmd->infile == -1)
+	{
+		if (nb % 2 == 1)
+		{
+			close(shell->pipe_a[1]);
+			shell->cmd->infile = shell->pipe_a[0];
+		}
+		else
+		{
+			close(shell->pipe_b[1]);
+			shell->cmd->infile = shell->pipe_b[0];
+		}
+	}
+}
+
+void	init_outfile(t_shell *shell)
+{
+	if (shell->cmd->outfile == -1)
+	{
+		if (nb % 2 == 1)
+		{
+			close(shell->pipe_b[0]);
+			shell->cmd->infile = shell->pipe_b[1];
+		}
+		else
+		{
+			close(shell->pipe_a[0]);
+			shell->cmd->infile = shell->pipe_a[1];
+		}
+	}
+}
+
+void	exec_cmd(t_shell *shell, int nb)
+{
+	pid_t	pid;
+	t_cmd	*cmd;
+	My_func built_in;
+
+	cmd = shell->cmd;
+	built_in = is_built_in(cmd->exec.cmd_path);
+	if (built_in)
+		built_in(shell);
+	else 
+	{
+		pid = fork();
+		if (pid == (pid_t)-1)
+			perror("ERREUR ");
+		else if (pid != 0)
+			wait(&shell->last_error);
+		else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
+		{
+			free_all(shell);
+			perror("ERREUR ");
+		}
+	}
+	return ;	
+}
+
+void	pipe_cmd(t_shell *shell, int nb)
+{
+	pid_t	pid;
+	My_func	built_in;
+
+	init_infile(shell);
+	init_outfile(shell);
+	cmd = shell->cmd;
+	dup2(cmd->infile, 0);
+	dup2(cmd->outfile, 1);
+	exec_cmd(shell);
 }
 
 void	ft_cmd(t_shell *shell)
 {
-	pid_t	pid;
+	t_cmd	*start;
+	int	i;
 
-	if (shell->cmd->built_in)
+	start = shell->cmd;
+	while (cmd)
 	{
-		shell->cmd->built_in(shell);
-		return ;
+		pipe_cmd(shell, i);
+		shell->cmd = shell->cmd->next;
+		i++;
 	}
-	pid = fork();
-	if (pid == (pid_t)-1)
-		perror("ERREUR ");
-	else if (pid != 0)
-		wait(&shell->last_error);
-	else
-		exec_cmd(shell);
+	shell->cmd = start;
 }

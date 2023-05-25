@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 17:01:37 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/24 15:19:59 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_env	*check_all(char *str, t_shell *shell)
 	return (new);
 }
 
+
 int	ft_export(t_shell *shell)
 {
 	char	**args;
@@ -94,5 +95,7 @@ int	ft_export(t_shell *shell)
 			lst_add_end(&shell->env, new);
 		i++;
 	}
+	if (update_env(shell))
+		perror("MALLOC");
 	return (FT_EXPORT);
 }
