@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/05/25 11:53:55 by blerouss         ###   ########.fr        #
+#    Updated: 2023/05/23 11:11:38 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRC = 	./src/main.c		\
 	./src/ft_split.c	\
 	./src/utils.c		\
 	./src/utils2.c		\
-	./src/utils3.c		\
 	./src/check_path.c	\
 	./src/parsing.c		\
 	./src/init_struct.c	\
