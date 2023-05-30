@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/24 18:04:28 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:20:53 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_shell	*ft_parsing(char **env, char *str)
 		ft_clear_shell(shell);
 		exit(0);
 	}
-	//gestion heredoc
 	parsing.quote = NULL;
 	ft_cut_quote_space(str, &parsing, shell);
 	ft_split_pipeline_in_cmd(ft_split(str, '|'), shell, &parsing);
