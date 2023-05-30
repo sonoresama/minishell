@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 17:04:55 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/30 14:32:22 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	set_cmd(char *str, t_shell *shell)
 	else
 		cmd->exec.cmd_path = path_cmd(split[0], shell, shell->cmd);
 	cmd->exec.args = split;
+	cmd->infile = 0;
+	cmd->outfile = 1;
 //	cmd->num = 0;
+	cmd->next = NULL;
 	shell->cmd = cmd;
 	return (0);
 }

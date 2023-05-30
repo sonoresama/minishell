@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 17:05:58 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/30 14:36:05 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct	s_cmd
 {
 	t_exec	exec;
 	My_func	built_in;
-	char	*infile;
-	char	*outfile;
+	int	infile;
+	int	outfile;
 	int	heredoc;
 	struct s_cmd	*next;
 }	t_cmd;

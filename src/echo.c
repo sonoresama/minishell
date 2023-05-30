@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/23 17:05:07 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/30 15:02:23 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,18 @@ void	check_args(char **args, int *option)
 {
 	int	i;
 
-	i = 1;
-	if (!ft_strncmp(args[i], "-n", 2))
+	i = 0;
+	if (args[1][i] == '-')
+	{
+		i++;
+		while (args[1][i])
+		{
+			if (args[1][i] != 'n')
+				return ;
+			i++;
+		}
 		*option = 1;
+	}
 }
 
 char	*get_env_value(char *var, t_shell *shell)
@@ -46,13 +55,15 @@ void	print_env_value(char *var, t_shell *shell)
 		printf("%s", value);
 }
 
-void	print_args(t_shell *shell)
+void	print_args(t_shell *shell, int option)
 {
 	int	i;
 	char	**args;
 
 	i = 1;
 	args = shell->cmd->exec.args;
+	if (option)
+		i++;
 	while (args[i])
 	{
 		if (args[i][0] == '$' && args[i][1] != ' ')
@@ -80,7 +91,7 @@ int	ft_echo(t_shell *shell)
 	if (!cmd->exec.args || !cmd->exec.args[1])
 		return (0);
 	check_args(cmd->exec.args, &option);
-	print_args(shell);
+	print_args(shell, option);
 	if (!option)
 		printf("\n");
 	return (0);
