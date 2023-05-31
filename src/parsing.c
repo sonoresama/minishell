@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/30 12:20:53 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:22:04 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,36 +45,23 @@ static void	ft_split_pipeline_in_cmd(char **str_piped, t_shell *shell, t_parsing
 	tmp = shell->cmd;
 	while (str_piped[i])
 	{
-		if (str_piped[i])
-			tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
+		tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
 		tmp = tmp->next;
 		i++;
 	}
 	ft_free_tab(str_piped);
 }
 
-//void	ft_print_error(t_shell *shell)
-//{
-	
-//}
-
-t_shell	*ft_parsing(char **env, char *str)
+void	ft_parsing(t_shell *shell, char *str)
 {
 	t_parsing	parsing;
-	t_shell		*shell;
 
 	if (!str || !str[0])
 	{	
 		free(str);
-		return (NULL);
+		return ;
 	}
 	add_history(str);
-	shell = ft_fill_shell(env);
-	if (!shell)
-	{
-		perror("Error :");
-		return (NULL);
-	}
 	if (!strcmp(str, "exit"))
 	{
 		rl_clear_history();
@@ -85,11 +72,5 @@ t_shell	*ft_parsing(char **env, char *str)
 	parsing.quote = NULL;
 	ft_cut_quote_space(str, &parsing, shell);
 	ft_split_pipeline_in_cmd(ft_split(str, '|'), shell, &parsing);
-	if (shell->error)
-	{
-	//	ft_print_error(shell->error);
-		ft_clear_shell(shell);
-	}
 	free(str);
-	return (shell);
 }

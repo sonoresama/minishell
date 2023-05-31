@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/24 17:33:52 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:55:33 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 	cmd = ft_init_cmd();
 	if (!cmd)
 		return (NULL);
+	//detetct heredoc
+	ft_fill_redir_heredoc(str, cmd);
 	ft_fill_exec(str, shell, &cmd->exec, parsing);
 
 	cmd->built_in = is_built_in(cmd->exec.args[0]);

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 11:49:08 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:22:27 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,18 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	shell = ft_fill_shell(env);
+	if (!shell)
+	{
+		perror("Error :");
+		return (1);
+	}
 	while (1)
 	{
-		shell = ft_parsing(env, \
+		ft_parsing(shell, \
 			readline("   \033[36m\033[1mMinishell \033[33m➜ \033[0m"));
-		if (!shell)
-			continue ;
-		ft_clear_shell(shell);
+		ft_clear_cmd(shell->cmd);
 	}
+	ft_clear_shell(shell);
 	return (0);
 }

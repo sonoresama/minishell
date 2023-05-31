@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/30 16:38:41 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:08:07 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <stdlib.h>
 # include <string.h>
 # include <stdarg.h>
@@ -24,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 
 /* EXIT MACROS */
@@ -72,9 +74,9 @@ struct	s_cmd
 {
 	t_exec				exec;
 	t_My_func			built_in;
-	char				*infile;
-	char				*outfile;
-	int					heredoc;
+	int				infile;
+	int				outfile;
+	char				*heredoc[10];
 	struct s_cmd		*next;
 };
 
@@ -96,9 +98,10 @@ t_env	*ft_init_lst(void);
 t_env	*ft_create_var_env(char *str);
 t_shell	*ft_init_shell(void);
 t_shell	*ft_fill_shell(char **env);
-t_shell	*ft_parsing(char **env, char *str);
+void	ft_parsing(t_shell *shell, char *str);
 t_cmd	*ft_init_cmd(void);
 t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing);
+int	double_chrcmp(char *str, char c, char d);
 void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
 void	ft_paste_quote_space(char **str_piped, t_parsing *parsing, t_shell *shell);
 void	lst_add_end(t_env **lst, t_env *new);
@@ -109,6 +112,7 @@ void	ft_clear_shell(t_shell *shell);
 void	ft_clear_quote(t_quote **quote);
 void	ft_print_tab(char **tab);
 void	ft_free_tab(char **tab);
+void	ft_fill_redir_heredoc(char *str, t_cmd *cmd);
 
 char	**ft_split(char const *str, char c);
 char	*path_cmd(char *cmd_name, t_shell *shell);
