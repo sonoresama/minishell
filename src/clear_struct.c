@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/05/31 16:10:42 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:01:59 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,16 @@ void	ft_clear_cmd(t_cmd *cmd)
 
 	while (cmd)
 	{
+		if (cmd->heredoc)
+			ft_free_tab(cmd->heredoc);
 		if (cmd->exec.args)
-		{
-			ft_print_tab(cmd->exec.args);
-			printf("\n");
 			ft_free_tab(cmd->exec.args);
-		}
+		if (cmd->outfile > 2)
+			close(cmd->outfile);
+		if (cmd->infile > 2)
+			close(cmd->infile);
 		tmp = cmd;
 		cmd = cmd->next;
 		free(tmp);
 	}
-	cmd = NULL;
 }

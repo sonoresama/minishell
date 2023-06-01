@@ -34,7 +34,7 @@ static void	print_env_value(char *var, t_shell *shell)
 
 static void	print_args(t_shell *shell)
 {
-	int	i;
+	int		i;
 	char	**args;
 
 	i = 1;
@@ -53,7 +53,7 @@ static void	print_args(t_shell *shell)
 
 int	ft_echo(t_shell *shell)
 {
-	int	option;
+	int		option;
 	t_cmd	*cmd;
 
 	cmd = shell->cmd;

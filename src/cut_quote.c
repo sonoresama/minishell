@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/24 15:46:55 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:49:23 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,6 @@ static void	quote_add_end(t_quote **lst, char *str)
 	}
 }
 
-static char	*ft_strcut(char *str, int start, int end)
-{
-	char	*cut;
-	int		i;
-
-	i = 0;
-	cut = malloc(end - start + 1);
-	if (!cut)
-		return (NULL);
-	while (start < end)
-	{
-		cut[i] = str[start];
-		str[start] = '0';
-		i++;
-		start++;
-	}
-	cut[i] = '\0';
-	return (cut);
-}
-
 void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 {
 	int	i;
@@ -98,26 +78,27 @@ void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 	}
 }
 
-static char	*join_final_str_piped(int *j, char *str_piped, t_parsing *parsing, t_shell *shell)
+static char	*final_join(int *j, char *str_piped, t_parsing *pars, t_shell *sh)
 {
 	t_quote	*qtmp;
-	int	k;
+	int		k;
 	char	*tmp;
 
 	k = 1;
 	tmp = NULL;
-	while (str_piped && str_piped[(*j) + k] && str_piped[(*j) + k] != str_piped[(*j)])
+	while (str_piped && str_piped[(*j) + k]
+		&& str_piped[(*j) + k] != str_piped[(*j)])
 		k++;
 	if (str_piped[(*j) + k])
 	{
 		str_piped[(*j)] = '\0';
-		tmp = join_three(str_piped, parsing->quote->str, &str_piped[(*j) + k + 1]);
+		tmp = join_three(str_piped, pars->quote->str, &str_piped[(*j) + k + 1]);
 		if (!tmp)
-			shell->error = MALLOC_ERROR;
-		free(parsing->quote->str);
-		qtmp = parsing->quote->next;
-		free(parsing->quote);
-		parsing->quote = qtmp;
+			sh->error = MALLOC_ERROR;
+		free(pars->quote->str);
+		qtmp = pars->quote->next;
+		free(pars->quote);
+		pars->quote = qtmp;
 		free(str_piped);
 		(*j) += k - 2;
 	}
@@ -126,24 +107,24 @@ static char	*join_final_str_piped(int *j, char *str_piped, t_parsing *parsing, t
 	return (tmp);
 }
 
-void	ft_paste_quote_space(char **str_piped, t_parsing *parsing, t_shell *shell)
+void	ft_paste_quote_space(char **str, t_parsing *parsing, t_shell *shell)
 {
 	int	i;
 	int	j;
 
 	(void)shell;
 	i = 0;
-	while (str_piped && str_piped[i])
+	while (str && str[i])
 	{
 		j = 0;
-		while (str_piped[i][j])
+		while (str[i][j])
 		{
-			while (str_piped[i][j] && str_piped[i][j] != '\'' && str_piped[i][j] != '\"')
+			while (str[i][j] && str[i][j] != '\'' && str[i][j] != '\"')
 				j++;
-			if (str_piped[i][j])
+			if (str[i][j])
 			{
-				str_piped[i] = join_final_str_piped(&j, str_piped[i], parsing, shell);
-				if (str_piped[i] == NULL)
+				str[i] = final_join(&j, str[i], parsing, shell);
+				if (str[i] == NULL)
 					return ;
 				j++;
 			}

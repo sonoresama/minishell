@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/05/31 16:22:04 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:45:07 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,28 @@ t_My_func	is_built_in(char *str)
 		return (&ft_env);
 	else if (!ft_strncmp(str, "export", 6))
 		return (&ft_export);
-//	else if (!ft_strncmp(str, "unset", 5))
-//		return (&ft_unset);
 	else
 		return (NULL);
 }
 
-static void	ft_split_pipeline_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
+static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 {
-	int		i;
+	int			i;
 	t_cmd		*tmp;
 
 	i = 0;
 	i = 0;
 	if (shell->error)
-		return;
+		return ;
 	shell->cmd = ft_fill_cmd(str_piped[i++], shell, parsing);
 	tmp = shell->cmd;
+	if (tmp->infile == -2)
+		tmp->infile = 0;
 	while (str_piped[i])
 	{
 		tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
+		if (!str_piped[i + 1] && tmp->outfile == -2)
+			tmp->outfile = 1;
 		tmp = tmp->next;
 		i++;
 	}
@@ -71,6 +73,6 @@ void	ft_parsing(t_shell *shell, char *str)
 	}
 	parsing.quote = NULL;
 	ft_cut_quote_space(str, &parsing, shell);
-	ft_split_pipeline_in_cmd(ft_split(str, '|'), shell, &parsing);
+	split_in_cmd(ft_split(str, '|'), shell, &parsing);
 	free(str);
 }

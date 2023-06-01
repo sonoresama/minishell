@@ -35,7 +35,7 @@ static int	check_export(char *str)
 	}
 	else if (!search_equal(str))
 		return (1);
-	return(0);
+	return (0);
 }
 
 static int	check_doublon(char *str, t_shell *shell)
@@ -65,10 +65,7 @@ static t_env	*check_all(char *str, t_shell *shell)
 		return (NULL);
 	}
 	if (check_doublon(new->name, shell))
-	{
-		//free_maillon();
 		return (NULL);
-	}
 	return (new);
 }
 
@@ -76,7 +73,7 @@ int	ft_export(t_shell *shell)
 {
 	char	**args;
 	t_env	*new;
-	int	i;
+	int		i;
 
 	args = shell->cmd->exec.args;
 	i = 1;

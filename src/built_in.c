@@ -28,13 +28,9 @@ int	ft_pwd(t_shell *shell)
 
 int	ft_exit(t_shell *shell)
 {
-//	int	sortie;
 	t_cmd	*cmd;
 
-//	sortie = 0;
 	cmd = shell->cmd;
-//	if (cmd->exec.args && cmd->exec.args[1])
-//		sortie = ft_atoi(cmd->exec.args[1]);
 	free(cmd->exec.cmd_path);
 	ft_free_tab(cmd->exec.args);
 	rl_clear_history();
@@ -50,7 +46,7 @@ int	ft_env(t_shell *shell)
 	lst = shell->env;
 	while (lst)
 	{
-		printf("%s\n",lst->str);
+		printf("%s\n", lst->str);
 		lst = lst->next;
 	}
 	return (FT_ENV);
