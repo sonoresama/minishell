@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:29:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 15:40:05 by eorer            ###   ########.fr       */
+/*   Updated: 2023/05/30 14:49:25 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	free_tab(char **tableau)
 
 void	free_all(t_shell *shell)
 {
-//	free(shell->cmd->exec.cmd_path);
-//	free_tab(shell->cmd->exec.args);
+	free(shell->cmd->exec.cmd_path);
+	free_tab(shell->cmd->exec.args);
 	free(shell->cmd);
-	free(shell->maxi_env);
+//	free(shell->maxi_env);
 //	free_tab(shell->maxi_env);
 //	free(shell->str);
 }

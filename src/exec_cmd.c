@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 11:50:05 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/05 12:10:34 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 		perror("ERREUR ");
 	}
 	exit(error);
-}*/
+}
 
-/*void	init_infile(t_shell *shell)
+void	init_infile(t_shell *shell, int nb)
 {
 	if (shell->cmd->infile == -1)
 	{
@@ -47,7 +47,7 @@
 	}
 }
 
-void	init_outfile(t_shell *shell)
+void	init_outfile(t_shell *shell, int nb)
 {
 	if (shell->cmd->outfile == -1)
 	{
@@ -64,7 +64,7 @@ void	init_outfile(t_shell *shell)
 	}
 }
 
-void	exec_cmd(t_shell *shell, int nb)
+void	exec_cmd(t_shell *shell)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
@@ -92,14 +92,10 @@ void	exec_cmd(t_shell *shell, int nb)
 
 void	pipe_cmd(t_shell *shell, int nb)
 {
-	pid_t	pid;
-	My_func	built_in;
-
-	init_infile(shell);
-	init_outfile(shell);
-	cmd = shell->cmd;
-	dup2(cmd->infile, 0);
-	dup2(cmd->outfile, 1);
+	init_infile(shell, nb);
+	init_outfile(shell, nb);
+	dup2(shell->cmd->infile, 0);
+	dup2(shell->cmd->outfile, 1);
 	exec_cmd(shell);
 }
 
@@ -108,8 +104,9 @@ void	ft_cmd(t_shell *shell)
 	t_cmd	*start;
 	int	i;
 
+	i = 0;
 	start = shell->cmd;
-	while (cmd)
+	while (shell->cmd)
 	{
 		pipe_cmd(shell, i);
 		shell->cmd = shell->cmd->next;
