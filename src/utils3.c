@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:17:08 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/01 16:24:56 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/05 12:22:07 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,6 @@ int	double_chrcmp(char *str, char c, char d)
 	if (!str[i])
 		return (-1);
 	return (i);
-}
-
-char	*get_env_value(char *var, t_shell *shell)
-{
-	t_env	*lst;
-
-	lst = shell->env;
-	while (lst)
-	{
-		if (!ft_strncmp(var, lst->name, ft_strlen(var)))
-			return (lst->value);
-		lst = lst->next;
-	}
-	return (NULL);
 }
 
 char	*ft_strcut(char *str, int start, int end)

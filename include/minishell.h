@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 12:11:56 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/05 12:24:25 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	update_env(t_shell *shell);
 
 /* UTILITIES */
 
-char	*ft_strndup(char *str, unsigned int n);
+char	*ft_strndup(char *str, int n);
 char	**ft_split(const char *s, char c);
 char	*ft_strdup(char *str);
 int	ft_strlen(char *str);
