@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:22:22 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 15:23:09 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/05 11:55:46 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ void	del_var(char *str, t_shell *shell)
 int	ft_unset(t_shell *shell)
 {
 	char	**args;
-	t_env	*lst;
 	int	i;
 
 	i = 1;
 	args = shell->cmd->exec.args;
-	lst = shell->env;
 	while (args[i])
 	{
 		if (search_equal(args[i]))

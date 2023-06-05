@@ -6,13 +6,13 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 17:04:55 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/05 11:53:33 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	set_cmd(char *str, t_shell *shell)
+/*int	set_cmd(char *str, t_shell *shell)
 {
 	char	**split;
 	int	i;
@@ -33,40 +33,31 @@ int	set_cmd(char *str, t_shell *shell)
 //	cmd->num = 0;
 	shell->cmd = cmd;
 	return (0);
-}
+}*/
 
 int	main(int argc, char **argv, char **env)
 {
-	t_shell	shell;
+	t_shell	*shell;
 
 	(void)argc;
 	(void)argv;
 	ft_bzero(&shell, sizeof(t_shell));
-	shell.env = ft_create_env(env);
-	if (update_env(&shell))
+	shell = ft_fill_shell(env);
+	if (!shell || update_env(shell))
 	{
 		perror("MALLOC");
 		return (1);
 	}
-	if (!shell.env)
-	{
-		perror("MALLOC ");
-		return (1);
-	}
 	while (1)
 	{
-		shell.str = readline("minishell$ ");
-		if (!shell.str || !shell.str[0])
-			continue;
-		add_history(shell.str);
-		if(set_cmd(shell.str, &shell))
+		if (ft_parsing(shell, readline("   \033[36m\033[1mMinishell \033[33m➜ \033[0m")) == -1)
 		{
-			perror("ERROR SET CMD ");
+			perror("PARSING ");
 			exit(1);
 		}
-		ft_cmd(&shell);
-		if (shell.last_error != FT_EXIT)
-			free_all(&shell);
+		ft_cmd(shell);
+		ft_clear_cmd(shell->cmd);
+		shell->cmd = NULL;
 	}
 	return (0);
 }

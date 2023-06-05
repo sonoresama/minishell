@@ -6,13 +6,13 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:41:40 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 15:41:59 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/05 11:45:03 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-My_func	is_built_in(char *str)
+t_My_func	is_built_in(char *str)
 {
 	if (!ft_strncmp(str, "exit", ft_strlen(str)))
 		return (&ft_exit);

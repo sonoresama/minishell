@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 18:20:37 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/05 11:50:05 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 	exit(error);
 }*/
 
-void	init_infile(t_shell *shell)
+/*void	init_infile(t_shell *shell)
 {
 	if (shell->cmd->infile == -1)
 	{
@@ -116,4 +116,4 @@ void	ft_cmd(t_shell *shell)
 		i++;
 	}
 	shell->cmd = start;
-}
+}*/
