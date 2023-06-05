@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 12:11:04 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/05 12:55:33 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ int	main(int argc, char **argv, char **env)
 			perror("PARSING ");
 			exit(1);
 		}
-		ft_cmd(shell);
+		ft_env(shell);
+	//	ft_cmd(shell);
 		ft_clear_cmd(shell->cmd);
 		shell->cmd = NULL;
+		ft_exit(shell);
 	}
 	return (0);
 }

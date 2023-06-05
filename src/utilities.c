@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:04:33 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 12:24:01 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/05 12:47:25 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,4 +141,17 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str[i + j] = '\0';
 	return (str);
+}
+
+char	*join_three(char *s1, char *s2, char *s3)
+{
+	char	*str;
+	char	*join;
+
+	str = ft_strjoin(s1, s2);
+	if (!str)
+		return (NULL);
+	join = ft_strjoin(str, s3);
+	free(str);
+	return (join);
 }
