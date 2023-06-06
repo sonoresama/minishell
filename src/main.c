@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 12:55:33 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/06 10:32:12 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	ft_bzero(&shell, sizeof(t_shell));
 	shell = ft_fill_shell(env);
-	if (!shell || update_env(shell))
+	if (!shell)
 	{
-		perror("MALLOC");
+		perror("INIT SHELL");
 		return (1);
 	}
+	shell->env = ft_create_env(env);
+	update_env(shell);
 	while (1)
 	{
 		if (ft_parsing(shell, readline("   \033[36m\033[1mMinishell \033[33m➜ \033[0m")) == -1)
@@ -58,7 +60,7 @@ int	main(int argc, char **argv, char **env)
 			perror("PARSING ");
 			exit(1);
 		}
-		ft_env(shell);
+		//printf("--> %p\n", shell->env->str);
 	//	ft_cmd(shell);
 		ft_clear_cmd(shell->cmd);
 		shell->cmd = NULL;

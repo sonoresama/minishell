@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/05 11:41:18 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/06 10:27:48 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ t_shell	*ft_fill_shell(char **env)
 	shell = ft_init_shell();
 	if (!shell)
 		return (NULL);
-	shell->env = ft_fill_env(env, 0);
+	/*shell->env = ft_create_env(env);
 	if (!shell->env)
 	{
 		ft_clear_shell(shell);
 		return (NULL);
-	}
+	}*/
+	(void)env;
 	shell->pipein = 0;
 	shell->pipeout = 1;
 	shell->fd_stdin = dup(0);

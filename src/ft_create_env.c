@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:30:10 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/19 15:39:18 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/06 10:31:29 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_env	*ft_create_env(char **env)
 		lst_env = ft_create_var_env(env[i]);
 		if (!lst_env)
 		{
-			perror("MALLOC ");
+			perror("CREATE ENV ");
 			return (NULL);
 		}
 		lst_add_end(&begin, lst_env);

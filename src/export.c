@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 15:19:59 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/06 11:34:45 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_env	*check_all(char *str, t_shell *shell)
 	}
 	return (new);
 }
-
 
 int	ft_export(t_shell *shell)
 {

@@ -6,13 +6,13 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/06/05 12:44:02 by emileorer        ###   ########.fr        #
+#    Updated: 2023/06/06 10:43:30 by emileorer        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -I$(INC) -I./include -Wall -Werror -Wextra
+CFLAGS = -I$(INC) -I./include -Wall -Werror -Wextra -g
 
 LFLAGS = -L/usr/local/lib -lreadline
 
