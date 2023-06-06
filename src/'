@@ -6,35 +6,63 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/06 15:44:17 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/06 15:10:40 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_close(int fd)
+/*void	init_infile(t_shell *shell, int nb)
 {
-	if (fd > 1)
-		close(fd);
+	if (shell->cmd->infile == -1)
+	{
+		if (nb % 2 == 1)
+		{
+			close(shell->pipe_a[1]);
+			shell->cmd->infile = shell->pipe_a[0];
+		}
+		else
+		{
+			close(shell->pipe_b[1]);
+			shell->cmd->infile = shell->pipe_b[0];
+		}
+	}
 }
+
+void	init_outfile(t_shell *shell, int nb)
+{
+	if (shell->cmd->outfile == -1)
+	{
+		if (nb % 2 == 1)
+		{
+			close(shell->pipe_b[0]);
+			shell->cmd->infile = shell->pipe_b[1];
+		}
+		else
+		{
+			close(shell->pipe_a[0]);
+			shell->cmd->infile = shell->pipe_a[1];
+		}
+	}
+}*/
 
 void	exec_cmd(t_shell *shell)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
+	My_func built_in;
 
 	cmd = shell->cmd;
-	dup2(shell->pipein, 0);
-	dup2(shell->pipeout, 1);
-	if (cmd->built_in)
-		cmd->built_in(shell);
+	built_in = is_built_in(cmd->exec.cmd_path);
+	if (built_in)
+		built_in(shell);
 	else 
 	{
 		pid = fork();
 		if (pid == (pid_t)-1)
 			perror("ERREUR ");
 		else if (pid != 0)
-			waitpid(pid, &shell->last_error, 0);
+			wait(&shell->last_error);
 		else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 		{
 			free_all(shell);
@@ -44,32 +72,13 @@ void	exec_cmd(t_shell *shell)
 	return ;	
 }
 
-void	pipe_cmd(t_shell *shell)
+void	pipe_cmd(t_shell *shell, int nb)
 {
-	pid_t	pid;
-	int	fd_pipe[2];
-
-	if (pipe(fd_pipe) == -1)
-	{
-		perror("PIPE");
-		exit(1) ;
-	}
-	pid = fork();
-	if (pid == (pid_t)-1)
-		perror("FORK");
-	else if (pid == 0)
-	{
-		close(fd_pipe[0]);
-		shell->pipeout = fd_pipe[1];
-		exec_cmd(shell);
-		exit(0);
-	}
-	else
-	{
-		close(fd_pipe[1]);
-		shell->pipein = fd_pipe[0];
-		waitpid(pid, &shell->last_error, 0);
-	}
+	init_infile(shell, nb);
+	init_outfile(shell, nb);
+	dup2(shell->cmd->infile, 0);
+	dup2(shell->cmd->outfile, 1);
+	exec_cmd(shell);
 }
 
 void	ft_cmd(t_shell *shell)
@@ -79,14 +88,12 @@ void	ft_cmd(t_shell *shell)
 	start = shell->cmd;
 	while (shell->cmd->next)
 	{
-		pipe_cmd(shell);
+		pipe_cmd(shell, i);
 		shell->cmd = shell->cmd->next;
+		i++;
 	}
 	exec_cmd(shell);
 	dup2(shell->fd_stdin, 0);
 	dup2(shell->fd_stdout, 1);
-	ft_close(shell->pipein);
-	shell->pipein = 0;
-	shell->pipeout = 1;
 	shell->cmd = start;
 }

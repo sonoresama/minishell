@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/06 10:27:48 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/06 14:44:22 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ t_shell	*ft_fill_shell(char **env)
 	shell = ft_init_shell();
 	if (!shell)
 		return (NULL);
-	/*shell->env = ft_create_env(env);
+	shell->env = ft_fill_env(env, 0);
 	if (!shell->env)
 	{
 		ft_clear_shell(shell);
 		return (NULL);
-	}*/
-	(void)env;
+	}
+	update_env(shell);
 	shell->pipein = 0;
 	shell->pipeout = 1;
 	shell->fd_stdin = dup(0);
@@ -98,11 +98,11 @@ t_env	*ft_fill_env(char **env, int i)
 	while (lst_start && env && env[i])
 	{
 		j = 0;
-		lst_env->str = env[i];
+		lst_env->str = ft_strdup(env[i]);
 		while (env[i][j] != '=')
 			j++;
 		lst_env->name = ft_strndup(env[i], j);
-		lst_env->value = &env[i][j + 1];
+		lst_env->value = ft_strdup(&env[i][j + 1]);
 		if (env[i + 1])
 		{
 			lst_env->next = ft_init_env();
