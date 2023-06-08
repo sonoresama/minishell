@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:17:08 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/05 12:22:07 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/08 17:25:55 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ int	ft_count_heredoc(char *str)
 		i++;
 	}
 	return (count);
-}
-
-int	double_chrcmp(char *str, char c, char d)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i] && str[i] != c && str[i] != d)
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
 }
 
 char	*ft_strcut(char *str, int start, int end)
