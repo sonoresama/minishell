@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/06 15:30:22 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/08 16:32:42 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	main(int argc, char **argv, char **env)
 			perror("PARSING ");
 			exit(1);
 		}
+	//	printf("heredoc : %s\n", shell->cmd->heredoc[0]);
 		ft_cmd(shell);
 		ft_clear_cmd(shell->cmd);
 		shell->cmd = NULL;
