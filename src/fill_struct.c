@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/06 14:44:22 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/08 12:03:35 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ t_shell	*ft_fill_shell(char **env)
 	return (shell);
 }
 
-void	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
+int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 {
-	char	*tmp;
 	int		i;
 
 	i = 0;
 	(*exec).cmd_path = NULL;
 	(*exec).args = ft_split(str, ' ');
 	if (!(*exec).args)
-		return ;
+		return (1);
 	ft_paste_quote_space((*exec).args, pars, shell);
 	if ((*exec).args[0][0] == '<' || (*exec).args[0][0] == '>')
 	{
@@ -53,12 +52,11 @@ void	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 		}
 		(*exec).args[i] = NULL;
 	}
-	tmp = path_cmd((*exec).args[0], shell);
-	if (!tmp)
-		return ;
-	free((*exec).args[0]);
-	(*exec).args[0] = tmp;
-	(*exec).cmd_path = tmp;
+	if (is_built_in(exec->args[0]))
+		exec->cmd_path = ft_strdup(exec->args[0]);
+	else
+		exec->cmd_path = path_cmd((*exec).args[0], shell);
+	return (0);
 }
 
 t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
@@ -82,8 +80,9 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		cmd->heredoc[i] = NULL;
 	}
 	ft_fill_redir_heredoc(str, cmd);
-	ft_fill_exec(str, shell, &cmd->exec, parsing);
-	cmd->built_in = is_built_in(cmd->exec.args[0]);
+	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
+		return (NULL);
+	cmd->built_in = is_built_in(cmd->exec.cmd_path);
 	return (cmd);
 }
 
