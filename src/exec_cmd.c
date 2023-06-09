@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/08 17:09:27 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/09 15:27:28 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ void	exec_cmd(t_shell *shell)
 	t_cmd	*cmd;
 
 	cmd = shell->cmd;
+	printf("CMD : %s\n", cmd->exec.cmd_path);
+	printf("ARGS : %s\n", cmd->exec.args[1]);
+	printf("Pipe in : %i\n", shell->pipein);
+	printf("Pipe out : %i\n", shell->pipeout);
+	printf("Infile : %i\n", shell->cmd->infile);
+	printf("Outfile : %i\n", shell->cmd->outfile);
 	dup2(shell->pipein, 0);
 	dup2(shell->pipeout, 1);
 	if (cmd->built_in)
