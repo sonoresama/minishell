@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/08 19:45:44 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/09 16:56:42 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static int	next_word_exist(char *str)
 
 	i = 1;
 	while (str && str[i] && !(str[i] != ' ' && str[i - 1] == ' '))
-	{
-		str[i] = ' ';
 		i++;
-	}
 	if (!str[i])
 		return (0);
 	return (1);
@@ -80,7 +77,7 @@ static void	ft_redir(t_cmd *cmd, char *str, int i)
 			free(dup);
 	}
 	if (cmd->outfile == -1 || cmd->infile == -1)
-		perror("error");
+		perror("test");
 }
 
 static void	ft_heredoc_append(t_cmd *cmd, char *str, int i, int *j)
