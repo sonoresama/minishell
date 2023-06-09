@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/08 12:03:35 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/08 19:07:45 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,14 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		cmd->heredoc = malloc(sizeof(char *) * (i + 1));
 		if (!cmd->heredoc)
 			return (NULL);
-		cmd->heredoc[i] = NULL;
+		while (i > -1)	
+			cmd->heredoc[i--] = NULL;
 	}
-	ft_fill_redir_heredoc(str, cmd);
-	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
+	if (ft_fill_redir_heredoc(str, cmd) || ft_fill_exec(str, shell, &cmd->exec, parsing))
+	{
+		ft_clear_cmd(cmd);
 		return (NULL);
+	}
 	cmd->built_in = is_built_in(cmd->exec.cmd_path);
 	return (cmd);
 }

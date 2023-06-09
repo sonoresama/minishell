@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/01 17:01:59 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/08 19:31:15 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	ft_clear_env(t_env *env)
 	while (env)
 	{
 		free(env->name);
+		free(env->str);
+		free(env->value);
 		tmp = env;
 		env = env->next;
 		free(tmp);
@@ -43,6 +45,8 @@ void	ft_clear_shell(t_shell *shell)
 {
 	if (shell)
 	{
+		if (shell->maxi_env)
+			ft_free_tab(shell->maxi_env);
 		if (shell->env)
 			ft_clear_env(shell->env);
 		if (shell->cmd)
@@ -59,6 +63,8 @@ void	ft_clear_cmd(t_cmd *cmd)
 	{
 		if (cmd->heredoc)
 			ft_free_tab(cmd->heredoc);
+		if (cmd->exec.cmd_path)
+			free(cmd->exec.cmd_path);
 		if (cmd->exec.args)
 			ft_free_tab(cmd->exec.args);
 		if (cmd->outfile > 2)

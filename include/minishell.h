@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 12:24:25 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/08 17:45:19 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void		ft_clear_shell(t_shell *shell);
 void		ft_clear_quote(t_quote **quote);
 
 //heredoc_redir.c
-void		ft_fill_redir_heredoc(char *str, t_cmd *cmd);
+int		ft_fill_redir_heredoc(char *str, t_cmd *cmd);
 
 //utils.c
 void		ft_print_tab(char **tab);
@@ -162,7 +162,6 @@ void		*ft_memset(void *s, int c, size_t n);
 //utils3.c
 char		*ft_strcut(char *str, int start, int end);
 int			ft_count_heredoc(char *str);
-int			double_chrcmp(char *str, char c, char d);
 char		*get_env_value(char *var, t_shell *shell);
 
 //parsing.c
@@ -172,5 +171,8 @@ int		ft_parsing(t_shell *shell, char *str);
 void		ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
 void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
 				t_shell *shell);
+
+//handle_sig.c
+void	sig_handler(int signum);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/09 15:53:16 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/09 16:05:26 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,24 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 	if (shell->error)
 		return ;
 	shell->cmd = ft_fill_cmd(str_piped[i++], shell, parsing);
+	if (!shell->cmd)
+		return ;
 	tmp = shell->cmd;
 	if (tmp->infile == -2)
 		tmp->infile = 0;
 	while (str_piped[i])
 	{
 		tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
-		if (!str_piped[i + 1] && tmp->outfile == -2)
-			tmp->outfile = 1;
+		if (!tmp->next)
+		{
+			ft_clear_cmd(shell->cmd);
+			return ;
+		}
 		tmp = tmp->next;
 		i++;
 	}
+	if (tmp->outfile == -2)
+		tmp->outfile = 1;
 	ft_free_tab(str_piped);
 }
 
@@ -50,5 +57,7 @@ int	ft_parsing(t_shell *shell, char *str)
 	ft_cut_quote_space(str, &parsing, shell);
 	split_in_cmd(ft_split(str, '|'), shell, &parsing);
 	free(str);
+	if (!shell->cmd)
+		return (-1);
 	return (0);
 }
