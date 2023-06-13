@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/09 16:25:11 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/12 13:46:38 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	sig_handler(int signum)
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	*shell;
+	char	*str;
 	struct sigaction sa;
 
 	(void)argc;
@@ -46,7 +47,10 @@ int	main(int argc, char **argv, char **env)
 	{
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
-		if (ft_parsing(shell, readline("   \033[36m\033[1mMinishell \033[33m➜ \033[0m")) == -1)
+		str = readline("minishell> ");
+		if (!str || !str[0])
+			continue;
+		if (ft_parsing(shell, str) == -1)
 		{
 			perror("PARSING ");
 			exit(1);

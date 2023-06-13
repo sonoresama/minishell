@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/08 17:45:19 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/09 16:00:51 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <signal.h>
 # include <dirent.h>
 # include <limits.h>
 # include <readline/readline.h>

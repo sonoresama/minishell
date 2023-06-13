@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/09 15:27:28 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/13 16:54:06 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,39 +18,48 @@ void	ft_close(int fd)
 		close(fd);
 }
 
+static void	print_args(t_shell *shell)
+{
+	t_cmd	*cmd;
+
+	cmd = shell->cmd;
+	printf("CMD : %s\n", cmd->exec.cmd_path); 
+	printf("ARGS : %s\n", cmd->exec.args[1]); 
+	printf("Pipe in : %i\n", shell->pipein); 
+	printf("Pipe out : %i\n", shell->pipeout); 
+	printf("Infile : %i\n", shell->cmd->infile); 
+	printf("Outfile : %i\n", shell->cmd->outfile); 
+}
+
 void	exec_cmd(t_shell *shell)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
+	cmd = shell->cmd; 
 
-	cmd = shell->cmd;
-	printf("CMD : %s\n", cmd->exec.cmd_path);
-	printf("ARGS : %s\n", cmd->exec.args[1]);
-	printf("Pipe in : %i\n", shell->pipein);
-	printf("Pipe out : %i\n", shell->pipeout);
-	printf("Infile : %i\n", shell->cmd->infile);
-	printf("Outfile : %i\n", shell->cmd->outfile);
-	dup2(shell->pipein, 0);
-	dup2(shell->pipeout, 1);
-	if (cmd->built_in)
-		cmd->built_in(shell);
+	print_args(shell);
+	dup2(shell->pipein, 0); 
+	dup2(shell->pipeout, 1); 
+	if (cmd->built_in) 
+		cmd->built_in(shell); 
 	else 
-	{
-		pid = fork();
-		if (pid == (pid_t)-1)
-			perror("ERREUR ");
-		else if (pid != 0)
-			waitpid(pid, &shell->last_error, 0);
+	{ 
+		pid = fork(); 
+		if (pid == (pid_t)-1) 
+			perror("FORK");
+	       	else if (pid != 0)
+		       	waitpid(pid, &shell->last_error, 0); 
 		else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 		{
 			free_all(shell);
-			perror("ERREUR ");
+			perror("EXECVE");
 			exit(-1);
 		}
 	}
 	return ;
 }
 
+// 	MODIFIER LA FONCTON POUR QU'ELLE OUVRE UN FICHIER QUI N'EXISTE PAS
 int	write_heredoc(char *eof)
 {
 	int	fd;
@@ -87,6 +96,7 @@ int	ft_heredoc(char **heredoc)
 				perror("UNLINK");
 				return (-1);
 			}
+			close(fd);
 		}
 		fd = write_heredoc(heredoc[i]);
 		if (fd == -1)
@@ -108,10 +118,10 @@ int	get_input(t_cmd *cmd, int pipe_in)
 {
 	if (cmd->infile == -2)
 		return (pipe_in);
-	//else if (cmd->infile == -3)
-	//	return (ft_heredoc(cmd->heredoc));
-	else if (cmd->heredoc)
+	else if (cmd->infile == -3)
 		return (ft_heredoc(cmd->heredoc));
+	else if (cmd->heredoc)
+		ft_heredoc(cmd->heredoc);
 	return (cmd->infile);
 }
 
@@ -158,16 +168,14 @@ void	ft_cmd(t_shell *shell)
 {
 	while (shell->cmd->next)
 	{
+		printf("\nENTER LOOP\n");
 		pipe_cmd(shell);
 		shell->cmd = shell->cmd->next;
 	}
 	shell->pipein = get_input(shell->cmd, shell->pipein);
 	shell->pipeout = get_output(shell->cmd, shell->pipeout);
-//	printf("input : %i\n", shell->pipein);
-//	printf("output : %i\n", shell->pipeout);
-//	printf("CMd : %s\n", shell->cmd->exec.cmd_path);
-//	printf("Arg : %s\n", shell->cmd->exec.args[0]);
 	exec_cmd(shell);
+	wait(NULL);
 	if (shell->cmd->heredoc)
 	{
 		if (unlink("heredoc") == -1)
