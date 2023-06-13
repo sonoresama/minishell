@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/08 19:07:45 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/09 16:44:52 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,11 @@ t_shell	*ft_fill_shell(char **env)
 
 int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 {
-	int		i;
-
-	i = 0;
 	(*exec).cmd_path = NULL;
 	(*exec).args = ft_split(str, ' ');
 	if (!(*exec).args)
 		return (1);
 	ft_paste_quote_space((*exec).args, pars, shell);
-	if ((*exec).args[0][0] == '<' || (*exec).args[0][0] == '>')
-	{
-		while ((*exec).args[i + 2])
-		{
-			(*exec).args[i] = (*exec).args[i + 2];
-			i++;
-		}
-		(*exec).args[i] = NULL;
-	}
 	if (is_built_in(exec->args[0]))
 		exec->cmd_path = ft_strdup(exec->args[0]);
 	else
