@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/09 16:00:51 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/14 14:29:54 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,11 @@ char	*path_cmd(char *cmd_name, t_shell *shell);
 void	ft_cmd(t_shell *shell);
 int	search_equal(char *str);
 int	update_env(t_shell *shell);
+void	pipe_cmd(t_shell *shell);
+void	exec_cmd(t_shell *shell);
+int	ft_heredoc(char **heredoc);
+int	get_input(t_cmd *cmd, int pipe_in);
+int	get_output(t_cmd *cmd, int pipe_out);
 
 /* UTILITIES */
 
@@ -130,6 +135,7 @@ char	*join_three(char *s1, char *s2, char *s3);
 void	free_all(t_shell *shell);
 void	free_cmd(t_cmd *cmd);
 void	free_tab(char **tableau);
+void	ft_close(int fd);
 
 /* BOSS */
 

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/09 16:42:39 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/14 14:51:10 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int	ft_echo(t_shell *shell)
 	cmd = shell->cmd;
 	option = 0;
 	if (!cmd->exec.args || !cmd->exec.args[1])
+	{
+		printf("\n");
 		return (0);
+	}
 	check_args(cmd->exec.args, &option);
 	print_args(shell, option);
 	if (!option)
