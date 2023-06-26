@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 17:17:08 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/08 17:25:55 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/26 18:27:48 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_count_heredoc(char *str)
 
 	count = 0;
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if ((i == 0 || str[i - 1] == ' ')
 			&& str[i] == '<' && str[i + 1] == str[i]
@@ -28,6 +28,20 @@ int	ft_count_heredoc(char *str)
 		i++;
 	}
 	return (count);
+}
+
+int	ft_thereisprint(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] > 32 && str[i] < 127)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_strcut(char *str, int start, int end)

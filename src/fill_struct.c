@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/14 15:09:54 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/26 13:33:46 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_shell	*ft_fill_shell(char **env)
 int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 {
 	(*exec).cmd_path = NULL;
-	(*exec).args = ft_split(str, ' ');
+	(*exec).args = ft_split_2_separator(str, ' ', '	');
 	if (!(*exec).args)
 		return (1);
 	ft_paste_quote_space((*exec).args, pars, shell);

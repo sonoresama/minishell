@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/14 15:27:14 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/26 14:27:29 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ char	*path_cmd(char *cmd_name, t_shell *shell)
 		free(path_cmd);
 	}
 	ft_free_tab(path);
-	return (NULL);
+	return (ft_strdup(cmd_name));
 }

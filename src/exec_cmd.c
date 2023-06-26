@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/14 15:18:50 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/26 16:15:03 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_cmd(t_shell *shell)
 	t_cmd	*cmd;
 	cmd = shell->cmd; 
 
-	ft_print_args(shell);
+//	ft_print_args(shell);
 	dup2(shell->pipein, 0); 
 	dup2(shell->pipeout, 1); 
 	if (cmd->built_in) 
@@ -56,9 +56,10 @@ void	exec_cmd(t_shell *shell)
 		       	waitpid(pid, &shell->last_error, 0); 
 		else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 		{
-			free_all(shell);
-			perror("EXECVE");
-			exit(-1);
+			ft_clear_shell(shell);
+		//	perror("EXECVE");
+			printf("commande introuvable\n");
+			exit(127);
 		}
 	}
 	return ;

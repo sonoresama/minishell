@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/14 14:48:32 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/26 18:31:15 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 
 	i = 0;
 	i = 0;
-	if (shell->error)
+	if (shell->error || !str_piped[0])
+	{
+		ft_free_tab(str_piped);
 		return ;
+	}
 	shell->cmd = ft_fill_cmd(str_piped[i++], shell, parsing);
 	if (!shell->cmd)
+	{
+		ft_free_tab(str_piped);
 		return ;
+	}
 	tmp = shell->cmd;
 	if (tmp->infile == -2)
 		tmp->infile = 0;
@@ -33,7 +39,7 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 		if (!tmp->next)
 		{
 			ft_clear_cmd(shell->cmd);
-			return ;
+			break ;
 		}
 		tmp = tmp->next;
 		i++;
@@ -47,11 +53,6 @@ int	ft_parsing(t_shell *shell, char *str)
 {
 	t_parsing	parsing;
 
-	if (!str || !str[0])
-	{	
-		free(str);
-		return (-1);
-	}
 	add_history(str);
 	parsing.quote = NULL;
 	ft_cut_quote_space(str, &parsing, shell);
@@ -59,5 +60,7 @@ int	ft_parsing(t_shell *shell, char *str)
 	free(str);
 	if (!shell->cmd)
 		return (-1);
+	if (shell->last_error)
+		shell->last_error = WEXITSTATUS(shell->last_error);
 	return (0);
 }

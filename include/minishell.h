@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/14 14:29:54 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/26 13:34:49 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	get_output(t_cmd *cmd, int pipe_out);
 
 char	*ft_strndup(char *str, int n);
 char	**ft_split(const char *s, char c);
+char	**ft_split_2_separator(const char *s, char c, char d);
 char	*ft_strdup(char *str);
 int	ft_strlen(char *str);
 int	ft_strncmp(char *s1, char *s2, unsigned int n);
@@ -170,6 +171,7 @@ void		*ft_memset(void *s, int c, size_t n);
 char		*ft_strcut(char *str, int start, int end);
 int			ft_count_heredoc(char *str);
 char		*get_env_value(char *var, t_shell *shell);
+int			ft_thereisprint(char *str);
 
 //parsing.c
 int		ft_parsing(t_shell *shell, char *str);
