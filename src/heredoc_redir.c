@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/26 18:28:38 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/27 18:17:20 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,14 @@ static void	ft_heredoc_append(t_cmd *cmd, char *str, int i, int *j)
 			close(cmd->infile);
 		cmd->infile = -3;
 		cmd->heredoc[(*j)++] = ft_dup_next_word(&str[i + 1]);
+		str[i] = ' ';
 	}
 	else if (str[i] == '>')
 	{
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
 		dup = ft_dup_next_word(&str[i + 1]);
+		str[i] = ' ';
 		cmd->outfile = open(dup, O_RDWR | O_APPEND | O_CREAT, 0644);
 		if (dup)
 			free(dup);
