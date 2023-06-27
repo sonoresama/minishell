@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/13 16:57:53 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/26 18:28:38 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*ft_dup_next_word(char *str)
 	len = 0;
 	j = 0;
 	i = 1;
-	while (str && str[i] && !(str[i] != ' ' && str[i - 1] == ' '))
+	while (str && str[i] && (str[i] == ' ' || str[i] == '	'))
 	{
 		str[i] = ' ';
 		i++;
@@ -47,9 +47,11 @@ static int	next_word_exist(char *str)
 	int		i;
 
 	i = 1;
-	while (str && str[i] && !(str[i] != ' ' && str[i - 1] == ' '))
+	if (str[0] == str[1])
 		i++;
-	if (!str[i])
+	while (str && str[i] && (str[i] == ' ' || str[i] == '	'))
+		i++;
+	if (!str[i] || str[i] == '<' || str[i] == '>')
 		return (0);
 	return (1);
 }
@@ -91,13 +93,13 @@ static void	ft_heredoc_append(t_cmd *cmd, char *str, int i, int *j)
 		if (cmd->infile > 2)
 			close(cmd->infile);
 		cmd->infile = -3;
-		cmd->heredoc[(*j)++] = ft_dup_next_word(&str[i]);
+		cmd->heredoc[(*j)++] = ft_dup_next_word(&str[i + 1]);
 	}
 	else if (str[i] == '>')
 	{
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
-		dup = ft_dup_next_word(&str[i]);
+		dup = ft_dup_next_word(&str[i + 1]);
 		cmd->outfile = open(dup, O_RDWR | O_APPEND | O_CREAT, 0644);
 		if (dup)
 			free(dup);
@@ -118,10 +120,7 @@ static int	double_chrcmp(char *str, char c, char d)
 	if (!str[i])
 		return (-1);
 	if (!next_word_exist(&str[i]))
-	{
-		printf("minishell: erreur de syntaxe\n");
 		return (-2);
-	}
 	return (i);
 }
 
@@ -134,7 +133,7 @@ int	ft_fill_redir_heredoc(char *str, t_cmd *cmd)
 	k = 0;
 	j = 0;
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		k = double_chrcmp(&str[i], '<', '>');
 		if (k == -1)
@@ -142,11 +141,10 @@ int	ft_fill_redir_heredoc(char *str, t_cmd *cmd)
 		if (k == -2)
 			return (1);
 		i += k;
-		if ((i == 0 || str[i - 1] == ' ') && str[i + 1] == ' ')
-				ft_redir(cmd, str, i);
-		else if ((i == 0 || str[i - 1] == ' ')
-			&& str[i + 1] == str[i] && str[i + 2 == ' '])
-				ft_heredoc_append(cmd, str, i, &j);
+		if (str[i + 1] == str[i])
+			ft_heredoc_append(cmd, str, i, &j);
+		else
+			ft_redir(cmd, str, i);
 		i++;
 	}
 	return (0);
