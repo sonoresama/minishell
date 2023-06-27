@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:22:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/14 14:23:54 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/26 16:41:46 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ void	pipe_cmd(t_shell *shell)
 		close(fd_pipe[1]);
 		shell->pipein = get_input(shell->cmd->next, fd_pipe[0]);
 		shell->pipeout = get_output(shell->cmd->next, shell->pipeout);
-		waitpid(pid, &shell->last_error, 0);
+//		waitpid(pid, &shell->last_error, 0);
 	}
 }
