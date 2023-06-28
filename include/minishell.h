@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/26 13:34:49 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/28 13:58:27 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@
 
 /* EXIT MACROS */
 
-# define FT_EXIT 10
+/*# define FT_EXIT 10
 # define FT_CD 11
 # define FT_ENV 12
 # define FT_PWD 13
 # define FT_EXPORT 14
-# define FT_UNSET 15
+# define FT_UNSET 15*/
 # define QUOTE_UNCLOSED 16
 # define MALLOC_ERROR 17
 
@@ -43,7 +43,7 @@
 
 typedef struct s_shell t_shell;
 typedef long long int t_long;
-typedef	int (*t_My_func)(t_shell *shell);
+typedef	void (*t_My_func)(t_shell *shell);
 
 typedef struct	s_exec
 {
@@ -97,13 +97,13 @@ typedef struct s_parsing
 
 /* BUILT_IN */
 
-int	ft_pwd(t_shell *shell);
-int	ft_exit(t_shell *shell);
-int	ft_env(t_shell *shell);
-int	ft_cd(t_shell *shell);
-int	ft_echo(t_shell *shell);
-int	ft_export(t_shell *shell);
-int	ft_unset(t_shell *shell);
+void	ft_pwd(t_shell *shell);
+void	ft_exit(t_shell *shell);
+void	ft_env(t_shell *shell);
+void	ft_cd(t_shell *shell);
+void	ft_echo(t_shell *shell);
+void	ft_export(t_shell *shell);
+void	ft_unset(t_shell *shell);
 
 /* FUNCTIONS */
 

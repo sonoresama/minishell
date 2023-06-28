@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.c                                         :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/24 15:28:51 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/28 13:58:56 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_env(t_shell *shell)
+void	ft_env(t_shell *shell)
 {
 	int	i;
 	char 	**env;
@@ -24,5 +24,4 @@ int	ft_env(t_shell *shell)
 		printf("%s\n", env[i]);
 		i++;
 	}
-	return (FT_ENV);
 }

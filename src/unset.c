@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:22:22 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/05 11:55:46 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/28 13:16:08 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	del_var(char *str, t_shell *shell)
 	return ;
 }
 
-int	ft_unset(t_shell *shell)
+void	ft_unset(t_shell *shell)
 {
 	char	**args;
 	int	i;
@@ -57,6 +57,7 @@ int	ft_unset(t_shell *shell)
 		if (search_equal(args[i]))
 		{
 			write(2, "ERROR : Bad argument name", ft_strlen("ERROR : Bad argument name"));
+			shell->last_error = 1;
 			i++;
 			continue ;
 		}
@@ -65,5 +66,4 @@ int	ft_unset(t_shell *shell)
 	}
 	if (update_env(shell))
 		perror("MALLOC");
-	return (FT_UNSET);
 }

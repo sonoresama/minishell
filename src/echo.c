@@ -6,28 +6,35 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/14 14:51:10 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/28 16:53:40 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	check_args(char **args, int *option)
+int	check_args(char **args, int *option)
 {
 	int	i;
+	int	j;
 
+	j = 1;
 	i = 0;
-	if (args[1][i] == '-')
+	while (args[j][i])
 	{
+		if (args[j][i] != '-')
+			return (j);
 		i++;
-		while (args[1][i])
+		while (args[j][i])
 		{
-			if (args[1][i] != 'n')
-				return ;
+			if (args[j][i] != 'n')
+				return (j);
 			i++;
 		}
 		*option = 1;
+		i = 0;
+		j++;
 	}
+	return (j);
 }
 
 char	*get_env_value(char *var, t_shell *shell)
@@ -47,31 +54,59 @@ char	*get_env_value(char *var, t_shell *shell)
 void	print_env_value(char *var, t_shell *shell)
 {
 	char	*value;
+	char	*dup;
+	int	i;
+	int	j;
 
-	value = get_env_value(var, shell);
-	if (!value)
-		return ;
-	else
-		printf("%s", value);
+	i = 0;
+	j = 0;
+	while (var && var[i])
+	{
+		if (var[i] == '$' && var[i + 1])
+		{
+			i++;
+			if (var[i + j] == '$')
+			{
+				j++;
+				dup = ft_strndup("$", 0);
+			}
+			else
+			{
+				while (var[i + j] && var[i + j] != '$')
+					j++;
+				dup = ft_strndup(var + i, j);
+			}
+			if (!dup)
+				perror("MALLOC EXPLODED\n");
+			value = get_env_value(dup, shell);
+			if (value)
+				printf("%s", value);
+			free(dup);
+		}
+		else 
+		{
+			printf("$");
+			return ;
+		}
+		i += j;
+		j = 0;
+	}
 }
 
-void	print_args(t_shell *shell, int option)
+void	print_args(t_shell *shell, int option, int i)
 {
-	int	i;
 	char	**args;
 
-	i = 1;
+	(void)option;
 	args = shell->cmd->exec.args;
-	if (option)
-		i++;
 	while (args[i])
 	{
 		if (args[i][0] == '$')
 		{
 			if (args[i][1] == '?')
 				printf("%i", shell->last_error);
-			else if (args[i][1] != ' ')
-				print_env_value(args[i] + 1, shell);
+			else
+				print_env_value(args[i], shell);
 		}
 		else
 			printf("%s", args[i]);
@@ -81,9 +116,10 @@ void	print_args(t_shell *shell, int option)
 	}
 }
 
-int	ft_echo(t_shell *shell)
+void	ft_echo(t_shell *shell)
 {
 	int	option;
+	int	start;
 	t_cmd	*cmd;
 
 	cmd = shell->cmd;
@@ -91,11 +127,10 @@ int	ft_echo(t_shell *shell)
 	if (!cmd->exec.args || !cmd->exec.args[1])
 	{
 		printf("\n");
-		return (0);
+		return ;
 	}
-	check_args(cmd->exec.args, &option);
-	print_args(shell, option);
+	start = check_args(cmd->exec.args, &option);
+	print_args(shell, option, start);
 	if (!option)
 		printf("\n");
-	return (0);
 }

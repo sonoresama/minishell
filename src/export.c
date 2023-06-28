@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/06 11:34:45 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/28 17:26:56 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,49 @@ int	search_equal(char *str)
 	return (0);
 }
 
-int	check_export(char *str)
+int	is_alpha(char a)
 {
-	if (str[0] == '=')
+	if ((a >= 65 && a <= 90) || (a >= 97 && a <= 122))
+		return (1);
+	return (0);
+}
+
+int	is_digit(char a)
+{
+	if (a >= 48 && a <= 57)
+		return (1);
+	return (0);
+}
+
+int	is_all_alpha_num(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !is_alpha(str[i]))
+		return (0);
+	while (str[i] && (is_alpha(str[i]) || is_digit(str[i])))
+		i++;
+	if (!is_alpha(str[i]) && !is_digit(str[i]) && str[i])
+		return (0);
+	return (1);
+}
+
+int	check_export(char *str, t_shell *shell)
+{
+	if (!is_all_alpha_num(str))
 	{
-		write(2, "ERROR : arg not found\n", 22);
+		shell->last_error = 1;
+		write(2, "ERROR : no valid operator\n", 27);
 		return (1);
 	}
-	else if (!search_equal(str))
+	if (str[0] == '=')
+	{
+		shell->last_error = 1;
+		write(2, "ERROR : arg not found\n", 23);
+		return (1);
+	}
+	if (!search_equal(str))
 		return (1);
 	return(0);
 }
@@ -52,27 +87,23 @@ int	check_doublon(char *str, t_shell *shell)
 	return (0);
 }
 
-t_env	*check_all(char *str, t_shell *shell)
+t_env	*create_new(char *str, t_shell *shell)
 {
 	t_env	*new;
 
-	if (check_export(str))
-		return (NULL);
 	new = ft_create_var_env(str);
 	if (!new)
 	{
-		write(2, "ERROR : malloc exploded", 23);
+		shell->last_error = 1;
+		write(2, "ERROR : malloc exploded\n", 24);
 		return (NULL);
 	}
 	if (check_doublon(new->name, shell))
-	{
-		//free_maillon();
 		return (NULL);
-	}
 	return (new);
 }
 
-int	ft_export(t_shell *shell)
+void	ft_export(t_shell *shell)
 {
 	char	**args;
 	t_env	*new;
@@ -83,18 +114,23 @@ int	ft_export(t_shell *shell)
 	if (!args[i])
 	{
 		ft_env(shell);
-		return (FT_EXPORT);
+		return ;
 	}
 	while (args[i])
 	{
-		new = check_all(args[i], shell);
-		if (!new)
-			return (FT_EXPORT);
-		else
-			lst_add_end(&shell->env, new);
+		if (!check_export(args[i], shell))
+		{
+			new = create_new(args[i], shell);
+			if (!new)
+			{
+				free(new);
+				continue ;
+			}
+			else
+				lst_add_end(&shell->env, new);
+		}
 		i++;
 	}
 	if (update_env(shell))
 		perror("MALLOC");
-	return (FT_EXPORT);
 }

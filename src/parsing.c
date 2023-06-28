@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/27 18:21:48 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/28 13:37:17 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	ft_parsing(t_shell *shell, char *str)
 	free(str);
 	if (!shell->cmd)
 		return (-1);
-	if (shell->last_error)
+	if (shell->last_error > 256)
 		shell->last_error = WEXITSTATUS(shell->last_error);
 	return (0);
 }

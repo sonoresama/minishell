@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/23 18:00:54 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/28 13:28:07 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_home(t_shell *shell)
 	return (NULL);
 }
 
-int	ft_cd(t_shell *shell)
+void	ft_cd(t_shell *shell)
 {
 	char	*arg;
 
@@ -37,7 +37,7 @@ int	ft_cd(t_shell *shell)
 	if (chdir(arg) != 0)
 	{
 		perror("cd ");
-		return (-1);
+		shell->last_error = 1;
+		return ;
 	}
-	return (FT_CD);
 }
