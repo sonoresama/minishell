@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 12:00:37 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/09 16:04:58 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/28 10:37:51 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ char	**ft_split(const char *s, char c)
 	int		size;
 
 	size = size_tab((char *)s, c);
+	if (!size)
+		return (NULL);
 	tableau = malloc(sizeof(tableau) * (size + 1));
 	if (tableau == 0)
 		return (0);

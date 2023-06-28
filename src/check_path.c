@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/26 14:27:29 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/28 16:25:44 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*path_cmd(char *cmd_name, t_shell *shell)
 	if (!cmd_name)
 		return (NULL);
 	if (!access(cmd_name, F_OK | X_OK))
-		return (cmd_name);
+		return (ft_strdup(cmd_name));
 	path = parsing_path(shell);
 	if (!path)
 		return (NULL);
