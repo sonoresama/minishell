@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/27 18:21:48 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/28 16:40:51 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,13 @@ static int	word_exist(char *str)
 }
 static void	first_occur(char **str_piped, t_shell *shell, t_parsing *parsing, int *i)
 {
-	if (shell->error || !str_piped[0])
+	if (shell->error || !str_piped || !str_piped[0])
 	{
 		ft_free_tab(str_piped);
 		return ;
 	}
 	if (word_exist(str_piped[0]))
-	{
 		shell->cmd = ft_fill_cmd(str_piped[(*i)++], shell, parsing);
-		if (!shell->cmd)
-		{
-			ft_free_tab(str_piped);
-			return ;
-		}
-	}
 	else
 		(*i)++;
 }
@@ -115,18 +108,51 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 	ft_free_tab(str_piped);
 }*/
 
+static int	check_pipe(char *str, char **tab)
+{
+	int	i;
+	int	count;
+	int	line_count;
+
+	line_count = 0;
+	i = 0;
+	count = 0;
+	while (str && str[i])
+	{
+		if (str[i] == '|')
+			count++;
+		i++;
+	}
+	i = 0;
+	while (tab && tab[i++])
+		line_count++;
+	if (count < line_count)
+		return (0);
+	else
+		return (1);
+}
+
 int	ft_parsing(t_shell *shell, char *str)
 {
 	t_parsing	parsing;
+	char	**tab;
+	int	i;
 
+	i = 0;
 	add_history(str);
 	parsing.quote = NULL;
 	ft_cut_quote_space(str, &parsing, shell);
-	split_in_cmd(ft_split(str, '|'), shell, &parsing);
+	tab = ft_split(str, '|');
+	if (check_pipe(str, tab))
+	{
+		ft_free_tab(tab);
+		return (-1);
+	}
+	split_in_cmd(tab, shell, &parsing);
 	free(str);
 	if (!shell->cmd)
 		return (-1);
-	if (shell->last_error)
+	if (shell->last_error > 256)
 		shell->last_error = WEXITSTATUS(shell->last_error);
 	return (0);
 }

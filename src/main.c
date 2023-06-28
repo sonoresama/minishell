@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/27 13:31:40 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/28 16:41:45 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ int	main(int argc, char **argv, char **env)
 	{
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
-		str = readline("minishell> ");
+		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m");
 		if (!str || !str[0] || !ft_thereisprint(str))
 			continue;
 		if (ft_parsing(shell, str) == -1)
 		{
-		//	perror("PARSING ");
 			printf("erreur de syntaxe\n");
-		//	exit(1);
+			shell->last_error = 2;
 			continue;
 		}
 		ft_cmd(shell);
