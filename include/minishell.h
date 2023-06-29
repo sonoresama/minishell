@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 17:28:46 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/29 18:44:36 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	exec_cmd(t_shell *shell);
 int	ft_heredoc(char **heredoc);
 int	get_input(t_cmd *cmd, int pipe_in);
 int	get_output(t_cmd *cmd, int pipe_out);
+char	*ft_itoa(int n);
 
 /* UTILITIES */
 

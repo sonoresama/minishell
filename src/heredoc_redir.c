@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/27 18:17:20 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/29 16:02:35 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_dup_next_word(char *str)
 		i++;
 	}
 	str[0] = ' ';
-	while (str[i + len] != ' ' && str[i + len])
+	while (str[i + len] && str[i + len] != ' ' && str[i + len] != '<' && str[i + len] != '>')
 		len++;
 	dup = malloc(len + 1);
 	//protection malloc

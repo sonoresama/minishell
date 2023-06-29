@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/29 18:33:38 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/29 18:45:19 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ int	ft_parsing(t_shell *shell, char *str)
 
 	add_history(str);
 	parsing.quote = NULL;
+	//ft_cut_quote_space(str, &parsing, shell);
+
+	//ft_paste_quote_space((*exec).args, pars, shell);
 	ft_cut_quote_space(str, &parsing, shell);
 	tab = ft_split(str, '|');
 	if (check_pipe(str, tab))
