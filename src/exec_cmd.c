@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/27 16:29:10 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/29 13:03:22 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	exec_bin(t_shell *shell)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
+	struct stat    buf;
 
 	cmd = shell->cmd;
 	pid = fork(); 
@@ -50,10 +51,18 @@ void	exec_bin(t_shell *shell)
 	       	waitpid(pid, &shell->last_error, 0); 
 	else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 	{
-		ft_clear_shell(shell);
-		//write(2, cmd->exec.cmd_path, ft_strlen(cmd->exec.cmd_path));
-		perror("EXECVE");
-		exit(127);
+		if (!stat(cmd->exec.cmd_path, &buf) && S_ISDIR(buf.st_mode))
+	        {
+			printf("%s: Is a directory\n", cmd->exec.args[0]);
+			ft_clear_shell(shell);
+			exit(126);
+		}
+		else
+		{
+			printf("%s: commande introuvable\n", cmd->exec.args[0]);
+			ft_clear_shell(shell);
+			exit(127);
+		}
 	}
 	return;
 }
