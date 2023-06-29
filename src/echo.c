@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/28 16:53:40 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/29 15:28:20 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_args(char **args, int *option)
 
 	j = 1;
 	i = 0;
-	while (args[j][i])
+	while (args[j] && args[j][i])
 	{
 		if (args[j][i] != '-')
 			return (j);

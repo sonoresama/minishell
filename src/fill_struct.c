@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/26 13:33:46 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/29 16:39:24 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_shell	*ft_fill_shell(char **env)
 	if (!shell)
 		return (NULL);
 	shell->env = ft_fill_env(env, 0);
-	if (!shell->env)
+	shell->export = ft_create_export(env);
+	if (!shell->env || !shell->export)
 	{
 		ft_clear_shell(shell);
 		return (NULL);

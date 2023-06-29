@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/28 17:33:55 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/29 17:28:46 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct	s_env
 typedef struct	s_shell
 {
 	t_env	*env;
+	t_env	*export;
 	t_cmd	*cmd;
 	char	*str;
 	char	**maxi_env;
@@ -105,11 +106,15 @@ void	ft_echo(t_shell *shell);
 void	ft_export(t_shell *shell);
 void	ft_unset(t_shell *shell);
 
+void	ft_env_export(t_shell *shell);
+
 /* FUNCTIONS */
 
 t_My_func	is_built_in(char *str);
 t_env	*ft_create_env(char **env);
 t_env	*ft_create_var_env(char *str);
+t_env	*ft_create_export(char **env);
+t_env	*ft_create_var_export(char *str);
 char	*path_cmd(char *cmd_name, t_shell *shell);
 void	ft_cmd(t_shell *shell);
 int	search_equal(char *str);
@@ -130,13 +135,18 @@ int	ft_strlen(char *str);
 int	ft_strncmp(char *s1, char *s2, unsigned int n);
 t_long	ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
-void	lst_add_end(t_env **lst, t_env *new);
 char	*ft_strjoin(char *s1, char *s2);
 char	*join_three(char *s1, char *s2, char *s3);
 void	free_all(t_shell *shell);
 void	free_cmd(t_cmd *cmd);
 void	free_tab(char **tableau);
 void	ft_close(int fd);
+
+// listes
+
+void	lst_add_end(t_env **lst, t_env *new);
+t_env	*lst_last(t_env *lst);
+t_env	*ft_init_lst(void);
 
 /* BOSS */
 

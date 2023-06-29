@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_env_export.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 14:55:33 by emileorer        ###   ########.fr       */
+/*   Created: 2023/06/29 15:55:36 by emileorer         #+#    #+#             */
+/*   Updated: 2023/06/29 17:32:10 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_exit(t_shell *shell)
+void	ft_env_export(t_shell *shell)
 {
-	int	sortie;
-	t_cmd	*cmd;
+	t_env	*env;
 
-	sortie = shell->last_error;
-	cmd = shell->cmd;
-	if (cmd->exec.args && cmd->exec.args[1])
-		sortie = ft_atoi(cmd->exec.args[1]);
-	ft_clear_shell(shell);
-//	rl_clear_history();
-	printf("exit\n");
-	exit(sortie);
+	env = shell->env;
+	while (env)
+	{
+		printf("export ");
+		printf("%s\n", env->str);
+		env = env->next;
+	}
 }

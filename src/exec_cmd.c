@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 13:03:22 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/29 18:34:13 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	exec_cmd(t_shell *shell)
 	t_cmd	*cmd;
 	cmd = shell->cmd; 
 
+	ft_print_args(shell);
 	dup2(shell->pipein, 0); 
 	dup2(shell->pipeout, 1); 
 	if (cmd->built_in) 
@@ -99,7 +100,6 @@ void	ft_cmd(t_shell *shell)
 	int	i;
 
 	i = 0;
-	ft_print_args(shell);
 	while (shell->cmd->next)
 	{
 		pipe_cmd(shell);
