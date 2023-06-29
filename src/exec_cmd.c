@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 13:03:22 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/29 13:32:23 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	exec_bin(t_shell *shell)
 			exit(127);
 		}
 	}
-	return;
 }
 
 void	exec_cmd(t_shell *shell)

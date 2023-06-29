@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/28 16:53:40 by eorer            ###   ########.fr       */
+/*   Updated: 2023/06/29 16:50:13 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_args(char **args, int *option)
 
 	j = 1;
 	i = 0;
-	while (args[j][i])
+	while (args[j] && args[j][i])
 	{
 		if (args[j][i] != '-')
 			return (j);
@@ -93,22 +93,27 @@ void	print_env_value(char *var, t_shell *shell)
 	}
 }
 
-void	print_args(t_shell *shell, int option, int i)
+static void	print_args(t_shell *shell, int i)
 {
 	char	**args;
+	int	j;
+	char	*tmp;
 
-	(void)option;
 	args = shell->cmd->exec.args;
 	while (args[i])
 	{
-		if (args[i][0] == '$')
+		j = 0;
+		while (args[i][j] && args[i][j + 1]
+			&& !(args[i][j] == '$' && args[i][j + 1] == '?'))
+			j++;
+		if (args[i][j] && args[i][j + 1] == '?')
 		{
-			if (args[i][1] == '?')
-				printf("%i", shell->last_error);
-			else
-				print_env_value(args[i], shell);
+			args[i][j] = '\0';
+			tmp = ft_itoa(shell->last_error);
+			printf("%s%s%s", args[i], tmp, &args[i][j + 2]);
+			free(tmp);
 		}
-		else
+		else 
 			printf("%s", args[i]);
 		i++;
 		if (args[i])
@@ -130,7 +135,7 @@ void	ft_echo(t_shell *shell)
 		return ;
 	}
 	start = check_args(cmd->exec.args, &option);
-	print_args(shell, option, start);
+	print_args(shell, start);
 	if (!option)
 		printf("\n");
 }
