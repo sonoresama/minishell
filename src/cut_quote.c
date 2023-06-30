@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/30 14:48:03 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:42:52 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,7 @@ void	ft_paste_quote_space(char **str, t_parsing *parsing, t_shell *shell)
 					str[i] = final_join(&j, str[i], &parsing->dquote, shell);
 				if (str[i] == NULL)
 					return ;
-				if (str[i][j])
-					j++;
+				j++;
 			}
 		}
 		i++;

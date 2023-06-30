@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/30 15:36:36 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:41:25 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static char	*get_env_value(char *var, t_shell *shell)
 {
 	t_env	*lst;
 	
+	if (var[0] == '\0')
+		return (NULL);
 	lst = shell->env;
 	while (lst)
 	{
