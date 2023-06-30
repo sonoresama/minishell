@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/01 17:49:23 by bastien          ###   ########.fr       */
+/*   Updated: 2023/06/30 14:48:03 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 				j++;
 			if (str[i + j])
 			{
-				quote_add_end(&parsing->quote, ft_strcut(str, i + 1, i + j));
-				if (!parsing->quote)
+				if (str[i] == '\'')
+					quote_add_end(&parsing->quote, ft_strcut(str, i + 1, i + j));
+				else if (str[i] == '\"')
+					quote_add_end(&parsing->dquote, ft_strcut(str, i + 1, i + j));
+				if (!parsing->quote && !parsing->dquote)
 				{
 					shell->last_error = MALLOC_ERROR;
 					return ;
@@ -78,7 +81,7 @@ void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 	}
 }
 
-static char	*final_join(int *j, char *str_piped, t_parsing *pars, t_shell *sh)
+static char	*final_join(int *j, char *str_piped, t_quote **quote, t_shell *sh)
 {
 	t_quote	*qtmp;
 	int		k;
@@ -92,13 +95,13 @@ static char	*final_join(int *j, char *str_piped, t_parsing *pars, t_shell *sh)
 	if (str_piped[(*j) + k])
 	{
 		str_piped[(*j)] = '\0';
-		tmp = join_three(str_piped, pars->quote->str, &str_piped[(*j) + k + 1]);
+		tmp = join_three(str_piped, (*quote)->str, &str_piped[(*j) + k + 1]);
 		if (!tmp)
 			sh->error = MALLOC_ERROR;
-		free(pars->quote->str);
-		qtmp = pars->quote->next;
-		free(pars->quote);
-		pars->quote = qtmp;
+		qtmp = (*quote)->next;
+		free((*quote)->str);
+		free((*quote));
+		(*quote) = qtmp;
 		free(str_piped);
 		(*j) += k - 2;
 	}
@@ -117,16 +120,20 @@ void	ft_paste_quote_space(char **str, t_parsing *parsing, t_shell *shell)
 	while (str && str[i])
 	{
 		j = 0;
-		while (str[i][j])
+		while (str && str[i] && str[i][j])
 		{
 			while (str[i][j] && str[i][j] != '\'' && str[i][j] != '\"')
 				j++;
 			if (str[i][j])
 			{
-				str[i] = final_join(&j, str[i], parsing, shell);
+				if (str[i][j] == '\'')
+					str[i] = final_join(&j, str[i], &parsing->quote, shell);
+				else if (str[i][j] == '\"')
+					str[i] = final_join(&j, str[i], &parsing->dquote, shell);
 				if (str[i] == NULL)
 					return ;
-				j++;
+				if (str[i][j])
+					j++;
 			}
 		}
 		i++;

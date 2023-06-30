@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 18:44:36 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/30 11:34:01 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_quote
 typedef struct s_parsing
 {
 	t_quote	*quote;
-	char	**dquote;
+	t_quote	*dquote;
 }		t_parsing;
 
 /* BUILT_IN */
@@ -151,6 +151,10 @@ t_env	*ft_init_lst(void);
 
 /* BOSS */
 
+//replace_env_var.c
+void	replace_var_env_in_str(char **str, t_shell *shell);
+void	replace_var_env_in_lst(t_parsing *parsing, t_shell *shell);
+
 //init_struct.c
 t_env		*ft_init_lst(void);
 t_env		*ft_init_env(void);
@@ -181,7 +185,6 @@ void		*ft_memset(void *s, int c, size_t n);
 //utils3.c
 char		*ft_strcut(char *str, int start, int end);
 int			ft_count_heredoc(char *str);
-char		*get_env_value(char *var, t_shell *shell);
 int			ft_thereisprint(char *str);
 
 //parsing.c

@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/29 18:45:19 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/06/30 12:43:02 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,22 +134,25 @@ static int	check_pipe(char *str, char **tab)
 
 int	ft_parsing(t_shell *shell, char *str)
 {
-	t_parsing	parsing;
+	t_parsing	*parsing;
 	char	**tab;
 
+	parsing = malloc (sizeof(t_parsing));
+	parsing->quote = NULL;
+	parsing->dquote = NULL;
 	add_history(str);
-	parsing.quote = NULL;
-	//ft_cut_quote_space(str, &parsing, shell);
-
-	//ft_paste_quote_space((*exec).args, pars, shell);
-	ft_cut_quote_space(str, &parsing, shell);
+	ft_cut_quote_space(str, parsing, shell);
+	replace_var_env_in_str(&str, shell);
+	replace_var_env_in_lst(parsing, shell);
 	tab = ft_split(str, '|');
 	if (check_pipe(str, tab))
 	{
+		free(parsing);
 		ft_free_tab(tab);
 		return (-1);
 	}
-	split_in_cmd(tab, shell, &parsing);
+	split_in_cmd(tab, shell, parsing);
+	free(parsing);
 	free(str);
 	if (!shell->cmd)
 		return (-1);
