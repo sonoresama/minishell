@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/28 16:22:18 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:49:09 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_clear_shell(t_shell *shell)
 	{
 		if (shell->maxi_env)
 			ft_free_tab(shell->maxi_env);
+		if (shell->export)
+			ft_clear_env(shell->export);
 		if (shell->env)
 			ft_clear_env(shell->env);
 		if (shell->cmd)

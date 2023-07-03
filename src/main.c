@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 14:56:24 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/03 14:00:05 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sig_handler(int signum)
 	{
 		printf("\n");
 		rl_on_new_line();
-//		rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (1)
 	{
+		shell->error = 0;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m");
@@ -57,6 +58,8 @@ int	main(int argc, char **argv, char **env)
 			continue;
 		}
 		ft_cmd(shell);
+		if (shell->last_error > 256)
+			shell->last_error = WEXITSTATUS(shell->last_error);
 		ft_clear_cmd(shell->cmd);
 		shell->cmd = NULL;
 	//	if (g_sig_handle = 1)

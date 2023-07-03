@@ -6,7 +6,7 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:24:59 by emileorer         #+#    #+#             */
-/*   Updated: 2023/06/29 18:32:40 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/03 11:40:00 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ t_env	*ft_create_export(char **env)
 	int	i;
 
 	i = 0;
-//	lst_env = ft_init_lst();
-//	if (!lst_env)
-//		return (NULL);
-//	begin = lst_env;
+	lst_env = ft_init_lst();
+	if (!lst_env)
+		return (NULL);
+	begin = lst_env;
 	while (env && env[i])
 	{
 		lst_env = ft_create_var_export(env[i]);

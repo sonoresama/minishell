@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/30 16:42:52 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:06:23 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,15 @@ void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 					quote_add_end(&parsing->dquote, ft_strcut(str, i + 1, i + j));
 				if (!parsing->quote && !parsing->dquote)
 				{
-					shell->last_error = MALLOC_ERROR;
+					shell->error = MALLOC_ERROR;
 					return ;
 				}
 				i += j;
+			}
+			else
+			{
+				shell->error = SYNTAX_ERROR;
+				return ;
 			}
 		}
 		i++;
@@ -99,14 +104,17 @@ static char	*final_join(int *j, char *str_piped, t_quote **quote, t_shell *sh)
 		if (!tmp)
 			sh->error = MALLOC_ERROR;
 		qtmp = (*quote)->next;
+		(*j) += ft_strlen((*quote)->str);
 		free((*quote)->str);
 		free((*quote));
 		(*quote) = qtmp;
 		free(str_piped);
-		(*j) += k - 2;
 	}
 	else
+	{
+		j++;
 		return (str_piped);
+	}
 	return (tmp);
 }
 
@@ -132,7 +140,6 @@ void	ft_paste_quote_space(char **str, t_parsing *parsing, t_shell *shell)
 					str[i] = final_join(&j, str[i], &parsing->dquote, shell);
 				if (str[i] == NULL)
 					return ;
-				j++;
 			}
 		}
 		i++;
