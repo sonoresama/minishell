@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/03 15:51:29 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/03 16:26:32 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define FT_PWD 13
 # define FT_EXPORT 14
 # define FT_UNSET 15*/
-# define QUOTE_UNCLOSED 16
+# define SYNTAX_ERROR 16
 # define MALLOC_ERROR 17
 
 /* STRUCTURES */
