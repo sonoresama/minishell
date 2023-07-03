@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/30 11:34:01 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:51:29 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_env	*ft_create_var_export(char *str);
 char	*path_cmd(char *cmd_name, t_shell *shell);
 void	ft_cmd(t_shell *shell);
 int	search_equal(char *str);
+int	check_export(char *str, t_shell *shell);
 int	update_env(t_shell *shell);
 void	pipe_cmd(t_shell *shell);
 void	exec_cmd(t_shell *shell);
@@ -138,10 +139,14 @@ t_long	ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 char	*join_three(char *s1, char *s2, char *s3);
+void	ft_close(int fd);
+
+// free
+
 void	free_all(t_shell *shell);
 void	free_cmd(t_cmd *cmd);
 void	free_tab(char **tableau);
-void	ft_close(int fd);
+void	free_env(t_env *env);
 
 // listes
 

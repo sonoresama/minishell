@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:22:22 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/28 13:16:08 by eorer            ###   ########.fr       */
+/*   Updated: 2023/07/03 16:19:46 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,31 @@ void	lst_remove(t_env **lst)
 	free((*lst));
 }
 
-void	del_var(char *str, t_shell *shell)
+void	del_var_export(char *str, t_shell *shell)
+{
+	t_env	*lst;
+	t_env	*tmp;
+
+	tmp = NULL;
+	lst = shell->export;
+	while (lst)
+	{
+		if (!ft_strncmp(str, lst->name, ft_strlen(lst->name) + 1))
+		{
+			if (!tmp)
+				shell->export = lst->next;
+			else
+				tmp->next = lst->next;
+			lst_remove(&lst);
+			return ;
+		}
+		tmp = lst;
+		lst = lst->next;
+	}
+	return ;
+}
+
+void	del_var_env(char *str, t_shell *shell)
 {
 	t_env	*lst;
 	t_env	*tmp;
@@ -61,7 +85,8 @@ void	ft_unset(t_shell *shell)
 			i++;
 			continue ;
 		}
-		del_var(args[i], shell);
+		del_var_env(args[i], shell);
+		del_var_export(args[i], shell);
 		i++;
 	}
 	if (update_env(shell))

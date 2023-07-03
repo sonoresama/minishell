@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/06/30 12:43:02 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:28:04 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	word_exist(char *str)
 		return (0);
 	return (1);
 }
+
 static void	first_occur(char **str_piped, t_shell *shell, t_parsing *parsing, int *i)
 {
 	if (shell->error || !str_piped || !str_piped[0])

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 17:02:39 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/03 16:13:41 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	ft_env(t_shell *shell)
 {
-	int	i;
-	char 	**env;
+	t_env	*lst;
 
-	i = 0;
-	env = shell->maxi_env;
-	while (env && env[i])
+	lst = shell->env;
+	while (lst)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		printf("%s\n", lst->str);
+		lst = lst->next;
 	}
 }

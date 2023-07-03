@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/29 14:56:24 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/03 14:17:49 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (1)
 	{
-		sigaction(SIGINT, &sa, NULL);
-		sigaction(SIGQUIT, &sa, NULL);
+//		sigaction(SIGINT, &sa, NULL);
+//		sigaction(SIGQUIT, &sa, NULL);
 		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m");
 		if (!str || !str[0] || !ft_thereisprint(str))
 			continue;
