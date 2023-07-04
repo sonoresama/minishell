@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/04 14:53:02 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/04 16:34:32 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		ft_clear_cmd(cmd);
 		return (NULL);
 	}
+	if (cmd->infile == -1 || cmd->outfile == -1)
+		shell->last_error = 1;
 	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
 	{
 		shell->error = MALLOC_ERROR;

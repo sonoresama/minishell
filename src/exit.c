@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/03 12:30:28 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/04 17:18:39 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_exit(t_shell *shell)
 
 	sortie = shell->last_error;
 	cmd = shell->cmd;
-	if (cmd->exec.args && cmd->exec.args[1])
+	if (cmd && cmd->exec.args && cmd->exec.args[1])
 		sortie = ft_atoi(cmd->exec.args[1]);
 	ft_clear_shell(shell);
 	rl_clear_history();
