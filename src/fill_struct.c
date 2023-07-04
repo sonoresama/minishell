@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/03 11:47:39 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/04 14:53:02 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 	i = 0;
 	cmd = ft_init_cmd();
 	if (!cmd)
+	{
+		shell->error = MALLOC_ERROR;
 		return (NULL);
+	}
 	cmd->heredoc = NULL;
 	cmd->infile = -2;
 	cmd->outfile = -2;
@@ -66,12 +69,22 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 	{
 		cmd->heredoc = malloc(sizeof(char *) * (i + 1));
 		if (!cmd->heredoc)
+		{
+			shell->error = MALLOC_ERROR;
+			ft_clear_cmd(cmd);
 			return (NULL);
+		}
 		while (i > -1)	
 			cmd->heredoc[i--] = NULL;
 	}
-	if (ft_fill_redir_heredoc(str, cmd) || ft_fill_exec(str, shell, &cmd->exec, parsing))
+	if (ft_fill_redir_heredoc(str, cmd))
 	{
+		ft_clear_cmd(cmd);
+		return (NULL);
+	}
+	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
+	{
+		shell->error = MALLOC_ERROR;
 		ft_clear_cmd(cmd);
 		return (NULL);
 	}

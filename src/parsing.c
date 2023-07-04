@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/07/03 16:27:18 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/04 13:48:03 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,19 @@ int	ft_parsing(t_shell *shell, char *str)
 	{
 		free(parsing);
 		ft_free_tab(tab);
+		free(str);
 		return (-1);
+	}
+	if (!tab || !tab[0])
+	{
+		free(parsing);
+		free(str);
+		return (0);
 	}
 	split_in_cmd(tab, shell, parsing);
 	free(parsing);
 	free(str);
-	if (!shell->cmd)
+	if (!shell->cmd && !shell->error)
 		return (-1);
 	return (0);
 }
