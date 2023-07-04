@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/03 16:27:06 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/04 16:13:16 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sig_handler(int signum)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+//		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

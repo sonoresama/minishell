@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/03 12:17:31 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/04 16:20:14 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_print_args(t_shell *shell)
 {
 	t_cmd	*cmd;
 
-	return ;
+//	return ;
 	cmd = shell->cmd;
 	printf("CMD : %s\n", cmd->exec.cmd_path); 
 	printf("ARGS : %s\n", cmd->exec.args[1]); 
@@ -47,12 +47,12 @@ void	exec_bin(t_shell *shell)
 	pid = fork(); 
 	if (pid == (pid_t)-1) 
 		perror("FORK");
-       	else if (pid != 0)
-	       	waitpid(pid, &shell->last_error, 0); 
+ 	else if (pid != 0)
+   	waitpid(pid, &shell->last_error, 0); 
 	else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 	{
 		if (!stat(cmd->exec.cmd_path, &buf) && S_ISDIR(buf.st_mode))
-	        {
+	  {
 			printf("%s: Is a directory\n", cmd->exec.args[0]);
 			ft_clear_shell(shell);
 			exit(126);
@@ -72,6 +72,8 @@ void	exec_cmd(t_shell *shell)
 	cmd = shell->cmd; 
 
 	ft_print_args(shell);
+	if (shell->pipein == -1 || shell->pipeout == -1)
+		return ;
 	dup2(shell->pipein, 0); 
 	dup2(shell->pipeout, 1); 
 	if (cmd->built_in) 
