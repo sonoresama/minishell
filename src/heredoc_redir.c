@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/29 16:02:35 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/04 13:22:12 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static void	ft_redir(t_cmd *cmd, char *str, int i)
 			close(cmd->infile);
 		dup = ft_dup_next_word(&str[i]);
 		cmd->infile = open(dup, O_RDONLY);
+		if (cmd->infile == -1)
+			perror(dup);
 		if (dup)
 			free(dup);
 	}
@@ -75,13 +77,11 @@ static void	ft_redir(t_cmd *cmd, char *str, int i)
 			close(cmd->outfile);
 		dup = ft_dup_next_word(&str[i]);
 		cmd->outfile = open(dup, O_RDWR | O_TRUNC | O_CREAT, 0644);
+		if (cmd->outfile == -1)
+			perror(dup);
 		if (dup)
 			free(dup);
 	}
-	if (cmd->infile == -1)
-		perror("Redir -> Open Infile");
-	if (cmd->outfile == -1)
-		perror("Redir -> Open Outfile");
 }
 
 static void	ft_heredoc_append(t_cmd *cmd, char *str, int i, int *j)
@@ -103,13 +103,11 @@ static void	ft_heredoc_append(t_cmd *cmd, char *str, int i, int *j)
 		dup = ft_dup_next_word(&str[i + 1]);
 		str[i] = ' ';
 		cmd->outfile = open(dup, O_RDWR | O_APPEND | O_CREAT, 0644);
+		if (cmd->outfile == -1)
+			perror(dup);
 		if (dup)
 			free(dup);
 	}
-	if (cmd->infile == -1)
-		perror("Heredoc -> Open Infile");
-	if (cmd->outfile == -1)
-		perror("Append -> Open Outfile");
 }
 
 static int	double_chrcmp(char *str, char c, char d)

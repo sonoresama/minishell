@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/04 16:20:14 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/04 16:30:49 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	exec_bin(t_shell *shell)
 			exit(127);
 		}
 	}
+	else 
+		shell->last_error = 0;
 }
 
 void	exec_cmd(t_shell *shell)
@@ -77,7 +79,10 @@ void	exec_cmd(t_shell *shell)
 	dup2(shell->pipein, 0); 
 	dup2(shell->pipeout, 1); 
 	if (cmd->built_in) 
+	{
 		cmd->built_in(shell); 
+		shell->last_error = 0;
+	}
 	else 
 		exec_bin(shell);
 	return ;
@@ -99,7 +104,9 @@ void	ft_wait(int num)
 void	ft_cmd(t_shell *shell)
 {
 	int	i;
+	t_cmd	*start;
 
+	start = shell->cmd;
 	i = 0;
 	while (shell->cmd->next)
 	{
@@ -110,6 +117,7 @@ void	ft_cmd(t_shell *shell)
 	shell->pipein = get_input(shell->cmd, shell->pipein);
 	shell->pipeout = get_output(shell->cmd, shell->pipeout);
 	exec_cmd(shell);
+	shell->cmd = start;
 	reset_shell(shell);
 	ft_wait(i);
 	if (shell->cmd->heredoc)
