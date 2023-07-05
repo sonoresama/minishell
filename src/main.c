@@ -6,23 +6,45 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/04 17:19:26 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/05 17:48:30 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_sig_handle;
+int	g_sig_handle = 0;
 
 void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_sig_handle = 1;
+		if (g_sig_handle > 10)
+		{
+			kill(g_sig_handle, SIGQUIT);
+			g_sig_handle = 1;
+		}
+		else
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			g_sig_handle = 1;
+		}
+	}
+	if ((signum == SIGQUIT || signum == SIGTSTP))
+	{
+		if (g_sig_handle > 10 && signum == SIGQUIT)
+		{
+			printf("Quitter (core dumped)\n");
+			kill(g_sig_handle, SIGQUIT);
+			g_sig_handle = 2;
+		}
+		else
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
 }
 
@@ -34,7 +56,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	g_sig_handle = 0;
 	sa.sa_handler = sig_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -47,8 +68,14 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		sigaction(SIGINT, &sa, NULL);
-	//	sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGTSTP, &sa, NULL);
 		shell->error = 0;
+		if (g_sig_handle == 2)
+		{
+			shell->last_error = 131;
+			g_sig_handle = 0;
+		}
 		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m");
 		if (str == NULL)
 			ft_exit(shell);

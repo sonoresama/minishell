@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/04 14:57:09 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/05 16:16:37 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,5 @@ void	ft_clear_cmd(t_cmd *cmd)
 		cmd = NULL;
 		cmd = tmp;
 	}
+	g_sig_handle = 0;
 }

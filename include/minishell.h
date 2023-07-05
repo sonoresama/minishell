@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/03 16:26:32 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/05 16:41:24 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define MALLOC_ERROR 17
 
 /* STRUCTURES */
+
+extern int	g_sig_handle;
 
 typedef struct s_shell t_shell;
 typedef long long int t_long;
@@ -95,6 +97,7 @@ typedef struct s_parsing
 	t_quote	*quote;
 	t_quote	*dquote;
 }		t_parsing;
+
 
 /* BUILT_IN */
 

@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/07/04 13:48:03 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/05 14:05:48 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	check_pipe(char *str, char **tab)
 	i = 0;
 	while (tab && tab[i++])
 		line_count++;
-	if (count < line_count || line_count == 0)
+	if (count == line_count - 1 || count == 0)
 		return (0);
 	else
 		return (1);

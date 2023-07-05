@@ -6,7 +6,7 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:50:34 by emileorer         #+#    #+#             */
-/*   Updated: 2023/07/04 16:00:35 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/05 18:11:19 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	check_export(char *str, t_shell *shell)
 	if (!is_all_alpha_num(str))
 	{
 		shell->last_error = 1;
-		write(2, "ERROR : no valid operator\n", 27);
+		//write(2, "ERROR : no valid operator\n", 27);
+		printf("export: « %s » : identifiant non valable\n", str);
 		return (1);
 	}
 	if (str[0] == '=')
