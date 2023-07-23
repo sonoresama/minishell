@@ -6,7 +6,7 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:50:34 by emileorer         #+#    #+#             */
-/*   Updated: 2023/07/05 18:11:19 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/23 18:32:26 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ int	is_all_alpha_num(char *str)
 	int	i;
 
 	i = 0;
-	if (!str || !is_alpha(str[i]))
+	if (!str || (!is_alpha(str[i]) && str[i] != '_'))
 		return (0);
-	while (str[i] && (is_alpha(str[i]) || is_digit(str[i])) && str[i] != '=')
+	while (str[i] && (is_alpha(str[i]) || is_digit(str[i]) || str[i] == '_'
+			|| (str[i] == '+' && str[i + 1] == '=')) && str[i] != '=')
 		i++;
 	if (!is_alpha(str[i]) && !is_digit(str[i]) && str[i] != '=' && str[i])
 		return (0);
@@ -42,18 +43,11 @@ int	is_all_alpha_num(char *str)
 
 int	check_export(char *str, t_shell *shell)
 {
-	if (!is_all_alpha_num(str))
+	if (!is_all_alpha_num(str) || str[0] == '=')
 	{
 		shell->last_error = 1;
-		//write(2, "ERROR : no valid operator\n", 27);
 		printf("export: « %s » : identifiant non valable\n", str);
 		return (1);
 	}
-	if (str[0] == '=')
-	{
-		shell->last_error = 1;
-		write(2, "ERROR : arg not found\n", 23);
-		return (1);
-	}
-	return(0);
+	return (0);
 }

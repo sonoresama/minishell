@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/05 16:16:37 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/23 14:25:07 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_clear_env(t_env *env)
 		env = env->next;
 		free(tmp);
 	}
+	env = NULL;
 }
 
 void	ft_clear_shell(t_shell *shell)

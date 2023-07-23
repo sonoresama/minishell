@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/05 16:29:12 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/22 13:25:41 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 	if (is_built_in(exec->args[0]))
 		exec->cmd_path = ft_strdup(exec->args[0]);
 	else
-		exec->cmd_path = path_cmd((*exec).args[0], shell);
+		exec->cmd_path = path_cmd((*exec).args[0], shell, -1);
 	return (0);
 }
 

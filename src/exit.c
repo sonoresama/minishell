@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/04 17:18:39 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/23 12:15:17 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exit(t_shell *shell)
 {
-	int	sortie;
+	int		sortie;
 	t_cmd	*cmd;
 
 	sortie = shell->last_error;

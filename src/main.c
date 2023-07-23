@@ -43,6 +43,7 @@ void	sig_handler(int signum)
 		else
 		{
 			rl_on_new_line();
+			rl_replace_line("", 0);
 			rl_redisplay();
 		}
 	}
@@ -76,7 +77,7 @@ int	main(int argc, char **argv, char **env)
 			shell->last_error = 131;
 			g_sig_handle = 0;
 		}
-		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m");
+		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m\033[K");
 		if (str == NULL)
 			ft_exit(shell);
 		if (g_sig_handle == 1)
@@ -101,4 +102,4 @@ int	main(int argc, char **argv, char **env)
 		shell->cmd = NULL;
 	}
 	return (0);
-} 
+}

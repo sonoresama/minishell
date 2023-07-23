@@ -6,13 +6,11 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:24:59 by emileorer         #+#    #+#             */
-/*   Updated: 2023/07/03 16:27:42 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/23 14:17:10 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	search_equal(char *str);
 
 t_env	*ft_create_var_export(char *str)
 {

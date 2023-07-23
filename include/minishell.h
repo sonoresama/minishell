@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/05 16:41:24 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/23 14:18:01 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_echo(t_shell *shell);
 void	ft_export(t_shell *shell);
 void	ft_unset(t_shell *shell);
 
-void	ft_env_export(t_shell *shell);
+void	ft_env_export(t_shell *shell, int i, char *old_tmp);
 
 /* FUNCTIONS */
 
@@ -118,7 +118,7 @@ t_env	*ft_create_env(char **env);
 t_env	*ft_create_var_env(char *str);
 t_env	*ft_create_export(char **env);
 t_env	*ft_create_var_export(char *str);
-char	*path_cmd(char *cmd_name, t_shell *shell);
+char	*path_cmd(char *cmd_name, t_shell *shell, int i);
 void	ft_cmd(t_shell *shell);
 int	search_equal(char *str);
 int	check_export(char *str, t_shell *shell);
@@ -143,6 +143,7 @@ void	ft_bzero(void *s, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 char	*join_three(char *s1, char *s2, char *s3);
 void	ft_close(int fd);
+int	search_equal(char *str);
 
 // free
 
@@ -154,8 +155,9 @@ void	free_env(t_env *env);
 // listes
 
 void	lst_add_end(t_env **lst, t_env *new);
+int		ft_lstlen(t_env *env);
 t_env	*lst_last(t_env *lst);
-t_env	*ft_init_lst(void);
+t_env		*ft_init_lst(void);
 
 /* BOSS */
 
@@ -164,7 +166,6 @@ void	replace_var_env_in_str(char **str, t_shell *shell);
 void	replace_var_env_in_lst(t_parsing *parsing, t_shell *shell);
 
 //init_struct.c
-t_env		*ft_init_lst(void);
 t_env		*ft_init_env(void);
 t_shell		*ft_init_shell(void);
 t_cmd		*ft_init_cmd(void);
@@ -199,7 +200,7 @@ int			ft_thereisprint(char *str);
 int		ft_parsing(t_shell *shell, char *str);
 
 //cut_quote.c
-void		ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
+int		ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
 void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
 				t_shell *shell);
 

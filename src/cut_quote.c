@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/07/03 15:06:23 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/22 14:46:29 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,19 @@ static void	quote_add_end(t_quote **lst, char *str)
 	}
 }
 
-void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
+static int	ft_cut_quote_space_bis(char *str, int *i, int j, t_parsing *parsing)
+{
+	if (str[(*i)] == '\'')
+		quote_add_end(&parsing->quote, ft_strcut(str, (*i) + 1, (*i) + j));
+	else if (str[(*i)] == '\"')
+		quote_add_end(&parsing->dquote, ft_strcut(str, (*i) + 1, (*i) + j));
+	if (!parsing->quote && !parsing->dquote)
+		return (1);
+	(*i) += j;
+	return (0);
+}
+
+int	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 {
 	int	i;
 	int	j;
@@ -65,83 +77,13 @@ void	ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell)
 				j++;
 			if (str[i + j])
 			{
-				if (str[i] == '\'')
-					quote_add_end(&parsing->quote, ft_strcut(str, i + 1, i + j));
-				else if (str[i] == '\"')
-					quote_add_end(&parsing->dquote, ft_strcut(str, i + 1, i + j));
-				if (!parsing->quote && !parsing->dquote)
-				{
-					shell->error = MALLOC_ERROR;
-					return ;
-				}
-				i += j;
+				if (ft_cut_quote_space_bis(str, &i, j, parsing))
+					return (shell->error = MALLOC_ERROR);
 			}
 			else
-			{
-				shell->error = SYNTAX_ERROR;
-				return ;
-			}
+				return (shell->error = SYNTAX_ERROR);
 		}
 		i++;
 	}
-}
-
-static char	*final_join(int *j, char *str_piped, t_quote **quote, t_shell *sh)
-{
-	t_quote	*qtmp;
-	int		k;
-	char	*tmp;
-
-	k = 1;
-	tmp = NULL;
-	while (str_piped && str_piped[(*j) + k]
-		&& str_piped[(*j) + k] != str_piped[(*j)])
-		k++;
-	if (str_piped[(*j) + k])
-	{
-		str_piped[(*j)] = '\0';
-		tmp = join_three(str_piped, (*quote)->str, &str_piped[(*j) + k + 1]);
-		if (!tmp)
-			sh->error = MALLOC_ERROR;
-		qtmp = (*quote)->next;
-		(*j) += ft_strlen((*quote)->str);
-		free((*quote)->str);
-		free((*quote));
-		(*quote) = qtmp;
-		free(str_piped);
-	}
-	else
-	{
-		j++;
-		return (str_piped);
-	}
-	return (tmp);
-}
-
-void	ft_paste_quote_space(char **str, t_parsing *parsing, t_shell *shell)
-{
-	int	i;
-	int	j;
-
-	(void)shell;
-	i = 0;
-	while (str && str[i])
-	{
-		j = 0;
-		while (str && str[i] && str[i][j])
-		{
-			while (str[i][j] && str[i][j] != '\'' && str[i][j] != '\"')
-				j++;
-			if (str[i][j])
-			{
-				if (str[i][j] == '\'')
-					str[i] = final_join(&j, str[i], &parsing->quote, shell);
-				else if (str[i][j] == '\"')
-					str[i] = final_join(&j, str[i], &parsing->dquote, shell);
-				if (str[i] == NULL)
-					return ;
-			}
-		}
-		i++;
-	}
+	return (0);
 }

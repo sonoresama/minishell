@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/03 12:21:16 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/23 19:34:33 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	print_args(t_shell *shell, int i)
 
 void	ft_echo(t_shell *shell)
 {
-	int	option;
-	int	start;
+	int		option;
+	int		start;
 	t_cmd	*cmd;
 
 	cmd = shell->cmd;

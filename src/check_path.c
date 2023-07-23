@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/06/29 12:45:42 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/22 13:26:49 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ static char	**parsing_path(t_shell *shell)
 	return (split);
 }
 
-char	*path_cmd(char *cmd_name, t_shell *shell)
+char	*path_cmd(char *cmd_name, t_shell *shell, int i)
 {
-	int		i;
 	char	**path;
 	char	*path_cmd;
 
@@ -45,7 +44,6 @@ char	*path_cmd(char *cmd_name, t_shell *shell)
 	path = parsing_path(shell);
 	if (!path)
 		return (NULL);
-	i = -1;
 	while (path[++i])
 	{
 		path_cmd = join_three(path[i], "/", cmd_name);
