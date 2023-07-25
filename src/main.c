@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/05 17:48:30 by bastien          ###   ########.fr       */
+/*   Updated: 2023/07/25 11:10:46 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	sig_handler(int signum)
 		if (g_sig_handle > 10 && signum == SIGQUIT)
 		{
 			printf("Quitter (core dumped)\n");
-			kill(g_sig_handle, SIGQUIT);
 			g_sig_handle = 2;
+			kill(g_sig_handle, SIGQUIT);
 		}
 		else
 		{
@@ -72,19 +72,9 @@ int	main(int argc, char **argv, char **env)
 		sigaction(SIGQUIT, &sa, NULL);
 		sigaction(SIGTSTP, &sa, NULL);
 		shell->error = 0;
-		if (g_sig_handle == 2)
-		{
-			shell->last_error = 131;
-			g_sig_handle = 0;
-		}
 		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m\033[K");
 		if (str == NULL)
 			ft_exit(shell);
-		if (g_sig_handle == 1)
-		{
-			shell->last_error = 130;
-			g_sig_handle = 0;
-		}
 		if (!str[0] || !ft_thereisprint(str))
 			continue;
 		if (ft_parsing(shell, str) == -1)
@@ -100,6 +90,14 @@ int	main(int argc, char **argv, char **env)
 			shell->last_error = WEXITSTATUS(shell->last_error);
 		ft_clear_cmd(shell->cmd);
 		shell->cmd = NULL;
+		if (g_sig_handle > 0)
+		{
+			if (g_sig_handle == 1)
+				shell->last_error = 130;
+			if (g_sig_handle == 2)
+				shell->last_error = 131;
+			g_sig_handle = 0;
+		}
 	}
 	return (0);
 }

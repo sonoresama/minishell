@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/23 19:34:33 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:48:52 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_echo(t_shell *shell)
 	int		start;
 	t_cmd	*cmd;
 
+	shell->last_error = 0;
 	cmd = shell->cmd;
 	option = 0;
 	if (!cmd->exec.args || !cmd->exec.args[1])
