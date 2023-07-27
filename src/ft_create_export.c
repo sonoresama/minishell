@@ -15,7 +15,7 @@
 t_env	*ft_create_var_export(char *str)
 {
 	t_env	*lst_env;
-	int	i;
+	int		i;
 
 	i = 0;
 	lst_env = ft_init_lst();
@@ -42,7 +42,7 @@ t_env	*ft_create_export(char **env)
 {
 	t_env	*lst_env;
 	t_env	*begin;
-	int	i;
+	int		i;
 
 	i = 0;
 	lst_env = ft_init_lst();

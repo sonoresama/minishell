@@ -43,7 +43,7 @@ void	ft_env_export(t_shell *shell, int i, char *old_tmp)
 		env = shell->export;
 		while (env)
 		{
-			if ((!tmp && ((!old_tmp || ft_strcmp(env->name, old_tmp) == -1))) 
+			if ((!tmp && ((!old_tmp || ft_strcmp(env->name, old_tmp) == -1)))
 				|| (ft_strcmp(tmp, env->name) < 0 && (!old_tmp
 						|| ft_strcmp(env->name, old_tmp) < 0)))
 				tmp = env->name;
@@ -53,7 +53,7 @@ void	ft_env_export(t_shell *shell, int i, char *old_tmp)
 		env = shell->export;
 		while (env && ft_strcmp(tmp, env->name))
 			env = env->next;
-		if (env->value)	
+		if (env->value)
 			printf("export %s=\"%s\"\n", env->name, env->value);
 		else
 			printf("export %s\n", env->name);

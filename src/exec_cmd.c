@@ -53,17 +53,17 @@ void	exec_bin(t_shell *shell)
 	struct stat	buf;
 
 	cmd = shell->cmd;
-	pid = fork(); 
-	if (pid == (pid_t)-1) 
+	pid = fork();
+	if (pid == (pid_t)-1)
 		perror("FORK");
 	else if (pid != 0)
 	{
 		g_sig_handle = pid;
-		waitpid(pid, &shell->last_error, 0); 
+		waitpid(pid, &shell->last_error, 0);
 	}
 	else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 		print_fail_exit(shell, &buf, cmd);
-	else 
+	else
 		shell->last_error = 0;
 }
 
@@ -71,12 +71,12 @@ void	exec_cmd(t_shell *shell)
 {
 	t_cmd	*cmd;
 
-	cmd = shell->cmd; 
-	dup2(shell->pipein, 0); 
-	dup2(shell->pipeout, 1); 
-	if (cmd->built_in) 
-		cmd->built_in(shell); 
-	else 
+	cmd = shell->cmd;
+	dup2(shell->pipein, 0);
+	dup2(shell->pipeout, 1);
+	if (cmd->built_in)
+		cmd->built_in(shell);
+	else
 		exec_bin(shell);
 	return ;
 }
