@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/23 20:02:10 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/31 13:25:53 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ static void	add_env(char *str, t_shell *shell)
 		lst_add_end(&shell->env, ft_create_var_env(str));
 		if (!check_doublon_env(new, shell->export))
 			lst_add_end(&shell->export, new);
+		else
+			free_env(new);
 	}
 	else if (!check_doublon_env(new, shell->export))
 		lst_add_end(&shell->export, new);

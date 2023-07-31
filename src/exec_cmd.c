@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/23 19:25:01 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:40:40 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ static void	print_fail_exit(t_shell *shell, struct stat *buf, t_cmd *cmd)
 	if (!stat(cmd->exec.cmd_path, buf) && S_ISDIR(buf->st_mode))
 	{
 		printf("%s: Is a directory\n", cmd->exec.args[0]);
+		ft_clear_shell(shell);
+		exit(126);
+	}
+	else if (!stat(cmd->exec.cmd_path, buf) && S_ISREG(buf->st_mode))
+	{
+		printf("%s: Permission non accordée\n", cmd->exec.args[0]);
 		ft_clear_shell(shell);
 		exit(126);
 	}

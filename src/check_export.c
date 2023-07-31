@@ -6,27 +6,27 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:50:34 by emileorer         #+#    #+#             */
-/*   Updated: 2023/07/23 18:32:26 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/07/28 11:44:01 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	is_alpha(char a)
+static int	is_alpha(char a)
 {
 	if ((a >= 65 && a <= 90) || (a >= 97 && a <= 122))
 		return (1);
 	return (0);
 }
 
-int	is_digit(char a)
+static int	is_digit(char a)
 {
 	if (a >= 48 && a <= 57)
 		return (1);
 	return (0);
 }
 
-int	is_all_alpha_num(char *str)
+static int	is_all_alpha_num(char *str)
 {
 	int	i;
 
