@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/31 18:37:14 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/01 13:10:16 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,40 @@ static void	ft_change_env_value(t_shell *shell)
 	ft_change_bis(shell, lst, tmp, pwd);
 }
 
-char	*ft_fill_arg_cd(t_shell *shell)
+static int	ft_fill_arg_cd(t_shell *shell, char **arg, struct stat st)
 {
-	char	*arg;
+	char	*pwd;
+	t_env	*lst;
 
+	lst = shell->env;
 	if (!shell->cmd->exec.args[1])
-		arg = get_home(shell);
+		(*arg) = get_home(shell);
 	else
-		arg = shell->cmd->exec.args[1];
-	return (arg);
+		(*arg) = shell->cmd->exec.args[1];
+	if ((*arg) && !(*arg)[0])
+		return (1);
+	while (lst)
+	{
+		if (!strncmp(lst->name, "PWD", 4))
+			pwd = lst->value;
+		lst = lst->next;
+	}
+	if ((*arg)[0] != '/' && pwd && stat(pwd, &st))
+	{
+		printf("chdir : erreur de détermination du répertoire actuel : ");
+		printf("getcwd : ne peut accéder aux répertoires parents : Aucun");
+		printf(" fichier ou dossier de ce type\n");
+		shell->last_error = 1;
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_cd(t_shell *shell)
 {
-	char	*arg;
-	char	*tmp;
-	struct stat st;
+	char		*arg;
+	char		*tmp;
+	struct stat	st;
 
 	shell->last_error = 0;
 	if (shell->cmd->exec.args[1] && shell->cmd->exec.args[2])
@@ -99,16 +117,8 @@ void	ft_cd(t_shell *shell)
 		shell->last_error = 1;
 		return ;
 	}
-	arg = ft_fill_arg_cd(shell);
-	if (arg && !arg[0])
+	if (ft_fill_arg_cd(shell, &arg, st))
 		return ;
-	if (stat(".", &st))
-	{
-		printf("chdir : erreur de détermination du répertoire actuel : getcwd : ne peut accéder aux répertoires parents : Aucun fichier ou dossier de ce type\n");
-		shell->last_error = 1;
-		return ;
-	}
-	printf("%s\n", arg);
 	if (arg && chdir(arg) != 0)
 	{
 		tmp = ft_strjoin("cd: ", arg);

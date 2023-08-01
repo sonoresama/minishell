@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/25 11:10:46 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:40:06 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **env)
 		if (!shell->cmd)
 			continue ;
 		ft_cmd(shell);
-		if (shell->last_error > 256)
+		if (shell->last_error >= 256)
 			shell->last_error = WEXITSTATUS(shell->last_error);
 		ft_clear_cmd(shell->cmd);
 		shell->cmd = NULL;
