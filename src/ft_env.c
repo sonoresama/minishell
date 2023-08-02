@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/27 17:55:23 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:31:20 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	ft_env(t_shell *shell)
 
 	tmp = NULL;
 	i = 1;
+	ft_bzero(&buf, sizeof(struct stat));
 	while (shell->cmd->exec.args[i])
 	{
 		if (ft_strncmp(shell->cmd->exec.args[i], "env", 4) != 0)

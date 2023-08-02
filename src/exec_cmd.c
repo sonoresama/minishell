@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/28 12:40:40 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/02 17:13:36 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_cmd(t_shell *shell)
 	shell->pipein = get_input(shell->cmd, shell->pipein);
 	shell->pipeout = get_output(shell->cmd, shell->pipeout);
 	exec_cmd(shell);
-	shell->cmd = start;
+//	shell->cmd = start;
 	reset_shell(shell, i);
 	if (shell->cmd->heredoc)
 	{

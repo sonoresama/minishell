@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/01 13:10:16 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:29:11 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	ft_cd(t_shell *shell)
 	struct stat	st;
 
 	shell->last_error = 0;
+	ft_bzero(&st, sizeof(struct stat));
 	if (shell->cmd->exec.args[1] && shell->cmd->exec.args[2])
 	{
 		printf("cd: trop d'arguments\n");
