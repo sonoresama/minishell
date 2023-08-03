@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/02 17:13:36 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/03 19:17:23 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,24 @@ static void	reset_shell(t_shell *shell, int num)
 
 static void	print_fail_exit(t_shell *shell, struct stat *buf, t_cmd *cmd)
 {
-	if (!stat(cmd->exec.cmd_path, buf) && S_ISDIR(buf->st_mode))
+	char	*tmp;
+
+	if (!stat(cmd->exec.cmd_path, buf) && (S_ISDIR(buf->st_mode) || S_ISREG(buf->st_mode)))
 	{
-		printf("%s: Is a directory\n", cmd->exec.args[0]);
-		ft_clear_shell(shell);
-		exit(126);
-	}
-	else if (!stat(cmd->exec.cmd_path, buf) && S_ISREG(buf->st_mode))
-	{
-		printf("%s: Permission non accordée\n", cmd->exec.args[0]);
+		if (S_ISDIR(buf->st_mode))
+			tmp = ft_strjoin(cmd->exec.args[0], ": Is a directory\n");
+		else
+			tmp = ft_strjoin(cmd->exec.args[0], ": Permission non accordée\n");
+		write(2, tmp, ft_strlen(tmp));
+		free(tmp);
 		ft_clear_shell(shell);
 		exit(126);
 	}
 	else
 	{
-		printf("%s: commande introuvable\n", cmd->exec.args[0]);
+		tmp = ft_strjoin(cmd->exec.args[0], ": commande introuvable\n");
+		write(2, tmp, ft_strlen(cmd->exec.args[0]) + 23);
+		free(tmp);
 		ft_clear_shell(shell);
 		exit(127);
 	}
@@ -67,10 +70,13 @@ void	exec_bin(t_shell *shell)
 		g_sig_handle = pid;
 		waitpid(pid, &shell->last_error, 0);
 	}
-	else if (execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
+	else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path, cmd->exec.args, shell->maxi_env) == -1)
 		print_fail_exit(shell, &buf, cmd);
 	else
-		shell->last_error = 0;
+	{
+		ft_clear_shell(shell);
+		exit(0);
+	}
 }
 
 void	exec_cmd(t_shell *shell)
@@ -103,7 +109,7 @@ void	ft_cmd(t_shell *shell)
 	shell->pipein = get_input(shell->cmd, shell->pipein);
 	shell->pipeout = get_output(shell->cmd, shell->pipeout);
 	exec_cmd(shell);
-//	shell->cmd = start;
+	shell->cmd = start;
 	reset_shell(shell, i);
 	if (shell->cmd->heredoc)
 	{

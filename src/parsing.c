@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/07/05 14:05:48 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/03 18:56:46 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,21 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 			if (tmp)
 			{
 				tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
-				tmp = tmp->next;
+				if (tmp->next)
+					tmp = tmp->next;
 			}
 			else
+			{
 				tmp = ft_fill_cmd(str_piped[i], shell, parsing);
-			if (!tmp)
+				if (shell->error == REDIR_ERROR)
+				{
+					shell->error = 1;
+					tmp->infile = open("/tmp/tmp_minishell", O_CREAT, 0644);
+				}
+				if (tmp)
+					shell->cmd = tmp;
+			}
+			if ((!tmp || !tmp->next) && shell->error == MALLOC_ERROR)
 			{
 				ft_clear_cmd(shell->cmd);
 				break ;

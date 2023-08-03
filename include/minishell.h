@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/27 17:35:04 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/03 17:32:04 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define FT_UNSET 15*/
 # define SYNTAX_ERROR 16
 # define MALLOC_ERROR 17
+# define REDIR_ERROR 18
 
 /* STRUCTURES */
 
@@ -181,7 +182,7 @@ void		ft_clear_shell(t_shell *shell);
 void		ft_clear_quote(t_quote **quote);
 
 //heredoc_redir.c
-int			ft_fill_redir_heredoc(char *str, t_cmd *cmd);
+int			ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell);
 
 //utils.c
 void		ft_print_tab(char **tab);

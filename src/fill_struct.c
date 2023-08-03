@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/02 14:31:48 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/03 18:44:51 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		while (i > -1)	
 			cmd->heredoc[i--] = NULL;
 	}
-	if (ft_fill_redir_heredoc(str, cmd))
+	if (ft_fill_redir_heredoc(str, cmd, shell))
 	{
 		ft_clear_cmd(cmd);
 		return (NULL);

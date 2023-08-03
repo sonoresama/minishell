@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/04 13:22:12 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/03 17:45:37 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	next_word_exist(char *str)
 	return (1);
 }
 
-static void	ft_redir(t_cmd *cmd, char *str, int i)
+static void	ft_redir(t_cmd *cmd, char *str, int i, t_shell *shell)
 {
 	char	*dup;
 
@@ -67,7 +67,11 @@ static void	ft_redir(t_cmd *cmd, char *str, int i)
 		dup = ft_dup_next_word(&str[i]);
 		cmd->infile = open(dup, O_RDONLY);
 		if (cmd->infile == -1)
+		{
+			shell->error = REDIR_ERROR;
+			shell->last_error = 1;
 			perror(dup);
+		}
 		if (dup)
 			free(dup);
 	}
@@ -124,7 +128,7 @@ static int	double_chrcmp(char *str, char c, char d)
 	return (i);
 }
 
-int	ft_fill_redir_heredoc(char *str, t_cmd *cmd)
+int	ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell)
 {
 	int	i;
 	int	j;
@@ -144,7 +148,9 @@ int	ft_fill_redir_heredoc(char *str, t_cmd *cmd)
 		if (str[i + 1] == str[i])
 			ft_heredoc_append(cmd, str, i, &j);
 		else
-			ft_redir(cmd, str, i);
+			ft_redir(cmd, str, i, shell);
+		if (shell->error == REDIR_ERROR)
+			return (1);
 		i++;
 	}
 	return (0);
