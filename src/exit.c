@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/01 17:38:18 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/04 11:22:57 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	ft_exit(t_shell *shell)
 	if (cmd && cmd->exec.args && cmd->exec.args[1])
 		sortie = ft_atoi(cmd->exec.args[1]);
 	printf("exit\n");
-	if (cmd->exec.args[1] && ft_check_sortie(cmd->exec.args[1], sortie))
+	if (cmd && cmd->exec.args && cmd->exec.args[1] && ft_check_sortie(cmd->exec.args[1], sortie))
 	{
 		printf("exit: %s : argument numérique nécessaire\n", cmd->exec.args[1]);
 		sortie = 2;
 	}
-	else if (cmd->exec.args[1] && cmd->exec.args[2])
+	else if (cmd && cmd->exec.args && cmd->exec.args[1] && cmd->exec.args[2])
 	{
 		printf("exit: trop d'arguments\n");
 		shell->last_error = 1;
