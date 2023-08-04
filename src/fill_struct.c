@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/04 14:53:02 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/03 18:44:51 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_shell	*ft_fill_shell(char **env)
 	if (!shell)
 		return (NULL);
 	shell->env = ft_fill_env(env, 0);
-//	shell->export = ft_create_export(env);
 	shell->export = ft_fill_env(env, 0);
 	if (!shell->env || !shell->export)
 	{
@@ -45,7 +44,7 @@ int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 	if (is_built_in(exec->args[0]))
 		exec->cmd_path = ft_strdup(exec->args[0]);
 	else
-		exec->cmd_path = path_cmd((*exec).args[0], shell);
+		exec->cmd_path = path_cmd((*exec).args[0], shell, -1);
 	return (0);
 }
 
@@ -77,11 +76,13 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		while (i > -1)	
 			cmd->heredoc[i--] = NULL;
 	}
-	if (ft_fill_redir_heredoc(str, cmd))
+	if (ft_fill_redir_heredoc(str, cmd, shell))
 	{
 		ft_clear_cmd(cmd);
 		return (NULL);
 	}
+	if (cmd->infile == -1 || cmd->outfile == -1)
+		shell->last_error = 1;
 	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
 	{
 		shell->error = MALLOC_ERROR;
@@ -89,6 +90,7 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		return (NULL);
 	}
 	cmd->built_in = is_built_in(cmd->exec.cmd_path);
+	g_sig_handle = 10;
 	return (cmd);
 }
 

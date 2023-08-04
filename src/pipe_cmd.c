@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:22:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/04 16:29:06 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/08/04 15:18:01 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	pipe_cmd(t_shell *shell)
 		shell->pipein = get_input(shell->cmd, shell->pipein);
 		shell->pipeout = get_output(shell->cmd, fd_pipe[1]);
 		exec_cmd(shell);
+//		ft_exit(shell);
 		exit(shell->last_error);
 	}
 	else

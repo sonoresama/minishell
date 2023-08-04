@@ -28,7 +28,7 @@
 
 int	write_heredoc(char *eof)
 {
-	int	fd;
+	int		fd;
 	char	*str;
 
 	fd = open("heredoc", O_CREAT | O_RDWR, 0666);
