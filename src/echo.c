@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:29:18 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/04 16:24:22 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/04 16:31:41 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ static void	print_args(t_shell *shell, int i)
 	args = shell->cmd->exec.args;
 	while (args[i])
 	{
-		if (args[i][0] == '$')
-			printf("%i", shell->last_error);
-		else
-			printf("%s", args[i]);
+		printf("%s", args[i]);
 		i++;
 		if (args[i])
 			printf(" ");

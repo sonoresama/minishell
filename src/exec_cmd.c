@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/04 16:30:49 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/07/13 18:50:55 by emileorer        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_print_args(t_shell *shell)
 {
 	t_cmd	*cmd;
 
-//	return ;
+	return ;
 	cmd = shell->cmd;
 	printf("CMD : %s\n", cmd->exec.cmd_path); 
 	printf("ARGS : %s\n", cmd->exec.args[1]); 
