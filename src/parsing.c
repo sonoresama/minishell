@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/03 18:56:46 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/07 18:33:35 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,24 @@ static int	check_pipe(char *str, char **tab)
 		return (1);
 }
 
+void	print_redir(t_parsing *parsing)
+{
+	int	i;
+
+	i = 0;
+	while (parsing->heredoc[i])
+	{
+		printf("heredoc :%s\n", parsing->heredoc[i]);
+		i++;
+	}
+	i = 0;
+	while (parsing->redir[i])
+	{
+		printf("redir :%s\n", parsing->redir[i]);
+		i++;
+	}
+}
+
 int	ft_parsing(t_shell *shell, char *str)
 {
 	t_parsing	*parsing;
@@ -113,32 +131,36 @@ int	ft_parsing(t_shell *shell, char *str)
 	parsing = malloc (sizeof(t_parsing));
 	parsing->quote = NULL;
 	parsing->dquote = NULL;
+	parsing->heredoc = NULL;
+	parsing->redir = NULL;
 	add_history(str);
 	ft_cut_quote_space(str, parsing, shell);
 	if (shell->error == SYNTAX_ERROR)
 	{	
-		free(parsing);
+		ft_clear_parsing(parsing);
 		free(str);
 		return (-1);
 	}
+	ft_copy_redir(str, parsing, shell);
+	print_redir(parsing);
 	replace_var_env_in_str(&str, shell);
 	replace_var_env_in_lst(parsing, shell);
 	tab = ft_split(str, '|');
 	if (check_pipe(str, tab))
 	{
-		free(parsing);
+		ft_clear_parsing(parsing);
 		ft_free_tab(tab);
 		free(str);
 		return (-1);
 	}
 	if (!tab || !tab[0])
 	{
-		free(parsing);
+		ft_clear_parsing(parsing);
 		free(str);
 		return (0);
 	}
 	split_in_cmd(tab, shell, parsing);
-	free(parsing);
+	ft_clear_parsing(parsing);
 	free(str);
 	if (!shell->cmd && !shell->error)
 		return (-1);

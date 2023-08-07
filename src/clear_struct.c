@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/25 11:09:49 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:35:01 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,26 @@ void	ft_clear_cmd(t_cmd *cmd)
 		cmd = NULL;
 		cmd = tmp;
 	}
+}
+
+void	ft_clear_parsing(t_parsing *parsing)
+{
+	int	i;
+
+	i = 0;
+	while (parsing && parsing->heredoc && parsing->heredoc[i])
+		free(parsing->heredoc[i++]);
+	if (parsing && parsing->heredoc)
+		free(parsing->heredoc);
+	i = 0;
+	while (parsing && parsing->redir && parsing->redir[i])
+		free(parsing->redir[i++]);
+	if (parsing && parsing->redir)
+		free(parsing->redir);
+	if (parsing && parsing->quote)
+		ft_clear_quote(&parsing->quote);
+	if (parsing && parsing->dquote)
+		ft_clear_quote(&parsing->dquote);
+	if (parsing)
+		free(parsing);
 }

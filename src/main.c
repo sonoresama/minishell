@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/04 15:17:11 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/08/07 18:37:33 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,12 @@ int	main(int argc, char **argv, char **env)
 			continue;
 		if (ft_parsing(shell, str) == -1)
 		{
-			printf("erreur de syntaxe\n");
+			write(2, "Erreur de syntaxe.\n", 19);
 			shell->last_error = 2;
 			continue;
 		}
+		if (shell->error == MALLOC_ERROR)
+			write(2, "Espace mémoire insuffisant.\n", 28);
 		if (!shell->cmd)
 			continue ;
 		ft_cmd(shell);

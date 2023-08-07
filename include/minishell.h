@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/03 17:32:04 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/07 18:35:31 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct s_parsing
 {
 	t_quote	*quote;
 	t_quote	*dquote;
+	char	**heredoc;
+	char	**redir;
 }		t_parsing;
 
 /* BUILT_IN */
@@ -180,6 +182,7 @@ void		ft_clear_cmd(t_cmd *cmd);
 void		ft_clear_env(t_env *env);
 void		ft_clear_shell(t_shell *shell);
 void		ft_clear_quote(t_quote **quote);
+void		ft_clear_parsing(t_parsing *parsing);
 
 //heredoc_redir.c
 int			ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell);
@@ -204,6 +207,7 @@ int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
 void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
 				t_shell *shell);
 
+int		ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell);
 //handle_sig.c
 void		sig_handler(int signum);
 
