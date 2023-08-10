@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/07 18:33:35 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/10 16:12:02 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ int	ft_parsing(t_shell *shell, char *str)
 		return (-1);
 	}
 	ft_copy_redir(str, parsing, shell);
-	print_redir(parsing);
 	replace_var_env_in_str(&str, shell);
 	replace_var_env_in_lst(parsing, shell);
 	tab = ft_split(str, '|');

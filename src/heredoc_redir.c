@@ -6,40 +6,34 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/07 18:41:17 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/10 15:17:30 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*ft_dup_next_word(char *str)
+static char	*ft_dup_next_word(char *str, char **tab)
 {
-	char	*dup;
+	char	*tmp;
 	int		i;
 	int		j;
-	int		len;
 
-	len = 0;
 	j = 0;
 	i = 1;
 	while (str && str[i] && (str[i] == ' ' || str[i] == '	'))
-	{
-		str[i] = ' ';
-		i++;
-	}
+		str[i++] = ' ';
 	str[0] = ' ';
-	while (str[i + len] && str[i + len] != ' ' && str[i + len] != '<' && str[i + len] != '>')
-		len++;
-	dup = malloc(len + 1);
-	//protection malloc
-	dup[len] = '\0';
-	while (j < len)
+	while (str[i] && str[i] != ' ' && str[i] != '	' && str[i] != '<'
+		&& str[i] != '>')
+		str[i++] = ' ';
+	tmp = tab[0];
+	while (tab && tab[j] && tab[j + 1])
 	{
-		dup[j] = str[i + j];
-		str[i + j] = ' ';
+		tab[j] = tab[j + 1];
 		j++;
-	}	
-	return (dup);
+	}
+	tab[j] = NULL;
+	return (tmp);
 }
 
 static int	next_word_exist(char *str)
@@ -56,30 +50,33 @@ static int	next_word_exist(char *str)
 	return (1);
 }
 
-static void	ft_redir(t_cmd *cmd, char *str, int i, t_shell *shell)
+static void	ft_set_redir_error(t_shell *shell, char *dup)
+{
+	shell->error = REDIR_ERROR;
+	shell->last_error = 1;
+	perror(dup);
+}
+
+static void	ft_redir(t_cmd *cmd, char *str, t_parsing *parsing, t_shell *shell)
 {
 	char	*dup;
 
-	if (str[i] == '<')
+	if (str[0] == '<')
 	{
 		if (cmd->infile > 2)
 			close(cmd->infile);
-		dup = ft_dup_next_word(&str[i]);
+		dup = ft_dup_next_word(&str[0], parsing->redir);
 		cmd->infile = open(dup, O_RDONLY);
 		if (cmd->infile == -1)
-		{
-			shell->error = REDIR_ERROR;
-			shell->last_error = 1;
-			perror(dup);
-		}
+			ft_set_redir_error(shell, dup);
 		if (dup)
 			free(dup);
 	}
-	else if (str[i] == '>')
+	else if (str[0] == '>')
 	{
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
-		dup = ft_dup_next_word(&str[i]);
+		dup = ft_dup_next_word(&str[0], parsing->redir);
 		cmd->outfile = open(dup, O_RDWR | O_TRUNC | O_CREAT, 0644);
 		if (cmd->outfile == -1)
 			perror(dup);
@@ -88,24 +85,24 @@ static void	ft_redir(t_cmd *cmd, char *str, int i, t_shell *shell)
 	}
 }
 
-static void	ft_heredoc_append(t_cmd *cmd, char *str, int i, int *j)
+static void	ft_heredoc_append(t_cmd *cmd, char *str, t_parsing *parsing, int *j)
 {
 	char	*dup;
 
-	if (str[i] == '<')
+	if (str[0] == '<')
 	{
 		if (cmd->infile > 2)
 			close(cmd->infile);
 		cmd->infile = -3;
-		cmd->heredoc[(*j)++] = ft_dup_next_word(&str[i + 1]);
-		str[i] = ' ';
+		cmd->heredoc[(*j)++] = ft_dup_next_word(&str[1], parsing->heredoc);
+		str[0] = ' ';
 	}
-	else if (str[i] == '>')
+	else if (str[0] == '>')
 	{
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
-		dup = ft_dup_next_word(&str[i + 1]);
-		str[i] = ' ';
+		dup = ft_dup_next_word(&str[1], parsing->redir);
+		str[0] = ' ';
 		cmd->outfile = open(dup, O_RDWR | O_APPEND | O_CREAT, 0644);
 		if (cmd->outfile == -1)
 			perror(dup);
@@ -128,7 +125,7 @@ static int	double_chrcmp(char *str, char c, char d)
 	return (i);
 }
 
-int	ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell)
+int	ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing)
 {
 	int	i;
 	int	j;
@@ -146,9 +143,9 @@ int	ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell)
 			return (1);
 		i += k;
 		if (str[i + 1] == str[i])
-			ft_heredoc_append(cmd, str, i, &j);
+			ft_heredoc_append(cmd, &str[i], parsing, &j);
 		else
-			ft_redir(cmd, str, i, shell);
+			ft_redir(cmd, &str[i], parsing, shell);
 		if (shell->error == REDIR_ERROR)
 			return (1);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/07/05 14:19:42 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/10 16:29:07 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,28 @@ static char	*dup_next_word(char *str)
 	return (strndup(str, i));
 }
 
+static int	prec_word_is_heredoc(char *str, int i)
+{
+	while (i > 0 && str[i] != '>' && str[i] != '<' && str[i] != ' ' && str[i] != '	' && str[i] != '|')
+		i--;
+	while (i > 0 && (str[i] == ' ' || str[i] == '	'))
+		i--;
+	if (str[i] == '<' || str[i] == '>' || (str[i] == '<' && str[i - 1] == '<') || (str[i] == '>' && str[i - 1] == '>'))
+		return (1);
+	return (0);
+}
+
 static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 {
 	char	*tmp;
 	char	*tmp2;
 	char	*tmp3;
-
+	
+	if (prec_word_is_heredoc((*str), (*i)))
+	{
+		(*i)++;
+		return ;
+	}
 	(*str)[(*i)] = '\0';
 	tmp3 = dup_next_word(&(*str)[(*i) + 1]);
 	tmp = get_env_value(tmp3, shell);
@@ -73,13 +89,16 @@ void	replace_var_env_in_str(char **str, t_shell *shell)
 	{
 		while ((*str)[i] && (*str)[i] != '$')
 			i++;
-		if (!(*str)[i] || !(*str)[i + 1]
-			|| !((((*str)[i + 1] >= 'a' && (*str)[i + 1] <= 'z')
+		if ((*str)[i] && (*str)[i + 1]
+			&& !((((*str)[i + 1] >= 'a' && (*str)[i + 1] <= 'z')
 			|| ((*str)[i + 1] >= 'A' && (*str)[i + 1] <= 'Z')
 			|| ((*str)[i + 1] >= '0' && (*str)[i + 1] <= '9')
 			|| (*str)[i + 1] == '_') || (*str)[i + 1] == '\''
 			|| (*str)[i + 1] == '\"' || (*str)[i + 1] == '?'))
-			return;
+		{
+			i++;
+			continue ;
+		}
 		if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == '?')
 		{
 			(*str)[i] = '\0';
