@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/07 18:37:33 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/10 18:20:51 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ int	g_sig_handle = 0;
 
 void	sig_handler(int signum)
 {
+	int	tmp;
+
 	if (signum == SIGINT)
 	{
 		printf("\n");
 		if (g_sig_handle > 10)
 		{
-			kill(g_sig_handle, SIGQUIT);
+			tmp = g_sig_handle;
 			g_sig_handle = 1;
+			kill(tmp, SIGQUIT);
 		}
 		else
 		{
@@ -36,14 +39,14 @@ void	sig_handler(int signum)
 	{
 		if (g_sig_handle > 10 && signum == SIGQUIT)
 		{
-			printf("Quitter (core dumped)\n");
+			write(2, "Quitter (core dumped)\n", 22);
+			tmp = g_sig_handle;
 			g_sig_handle = 2;
-			kill(g_sig_handle, SIGQUIT);
+			kill(tmp, SIGQUIT);
 		}
 		else
 		{
 			rl_on_new_line();
-			rl_replace_line("", 0);
 			rl_redisplay();
 		}
 	}

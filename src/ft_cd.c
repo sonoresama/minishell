@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/02 16:29:11 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/10 17:53:15 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*get_home(t_shell *shell)
 			return (lst->value);
 		lst = lst->next;
 	}
-	printf("cd: HOME n'est pas paramétré\n");
+	write(2, "cd: HOME n'est pas paramétré\n", 31);
 	shell->last_error = 1;
 	return (NULL);
 }
@@ -93,11 +93,11 @@ static int	ft_fill_arg_cd(t_shell *shell, char **arg, struct stat st)
 			pwd = lst->value;
 		lst = lst->next;
 	}
-	if ((*arg)[0] != '/' && pwd && stat(pwd, &st))
+	if ((*arg) && (*arg)[0] && (*arg)[0] != '/' && pwd && stat(pwd, &st))
 	{
-		printf("chdir : erreur de détermination du répertoire actuel : ");
-		printf("getcwd : ne peut accéder aux répertoires parents : Aucun");
-		printf(" fichier ou dossier de ce type\n");
+		write(2, "chdir : erreur de détermination du répertoire actuel : ", 57);
+		write(2, "getcwd : ne peut accéder aux répertoires parents : Aucun", 58);
+		write(2, " fichier ou dossier de ce type\n", 31);
 		shell->last_error = 1;
 		return (1);
 	}
@@ -114,7 +114,7 @@ void	ft_cd(t_shell *shell)
 	ft_bzero(&st, sizeof(struct stat));
 	if (shell->cmd->exec.args[1] && shell->cmd->exec.args[2])
 	{
-		printf("cd: trop d'arguments\n");
+		write(2, "cd: trop d'arguments\n", 21);
 		shell->last_error = 1;
 		return ;
 	}

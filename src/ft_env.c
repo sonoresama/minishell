@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/02 16:31:20 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/10 17:47:27 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,18 @@ static void	ft_change_var(t_shell *shell, int i)
 
 static void	ft_exec_cmd(t_shell *shell, int i, char **tmp, struct stat buf)
 {
+	char	*str;
+
 	if (!shell->cmd->built_in && (access(shell->cmd->exec.cmd_path, F_OK)
 			|| !ft_strchr(shell->cmd->exec.cmd_path, '/')))
 	{
-		printf("env: «%s»: Aucun fichier ou dossier de ce type\n",
-			shell->cmd->exec.args[i]);
+		str = join_three("env: «", shell->cmd->exec.args[i], "»: Aucun fichier ou dossier de ce type\n");
+		if (!str)
+		{
+			shell->error = MALLOC_ERROR;
+			return ;
+		}
+		write(2, str, ft_strlen(str));
 		shell->last_error = 127;
 		return ;
 	}
@@ -77,7 +84,13 @@ static void	ft_exec_cmd(t_shell *shell, int i, char **tmp, struct stat buf)
 			|| (!stat(shell->cmd->exec.cmd_path, &buf)
 				&& S_ISDIR(buf.st_mode))))
 	{
-		printf("env: «%s»: Permission non accordée\n", shell->cmd->exec.args[i]);
+		str = join_three("env: «", shell->cmd->exec.args[i], "»: Permission non accordée\n");
+		if (!str)
+		{
+			shell->error = MALLOC_ERROR;
+			return ;
+		}
+		write(2, str, ft_strlen(str));
 		shell->last_error = 126;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:28:22 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/31 17:35:41 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/10 18:00:48 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	ft_pwd(t_shell *shell)
 	getcwd(pwd, PATH_MAX);
 	if (!pwd[0])
 	{
-		printf("pwd: erreur de détermination du répertoire actuel : ");
-		printf("getcwd : ne peut accéder aux répertoires parents : Au");
-		printf("cun fichier ou dossier de ce type\n");
+		write(2, "pwd: erreur de détermination du répertoire actuel : ", 55);
+		write(2, "getcwd : ne peut accéder aux répertoires parents : Au", 56);
+		write(2, "cun fichier ou dossier de ce type\n", 34);
 		shell->last_error = 1;
 	}
 	else
