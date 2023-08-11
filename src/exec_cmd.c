@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/04 15:16:27 by emileorer        ###   ########.fr       */
+/*   Updated: 2023/08/11 14:45:27 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,22 +96,38 @@ void	exec_cmd(t_shell *shell)
 void	ft_cmd(t_shell *shell)
 {
 	int		i;
-	t_cmd	*start;
+	t_cmd	*tmp;
 
-	start = shell->cmd;
 	i = 0;
-	while (shell->cmd->next)
+	if (shell->cmd->next)
 	{
-		pipe_cmd(shell);
-		shell->cmd = shell->cmd->next;
-		i++;
+		while (shell->cmd)
+		{
+			pipe_cmd(shell);
+			tmp = shell->cmd->next;
+			if (shell->cmd->heredoc)
+				ft_free_tab(shell->cmd->heredoc);
+			if (shell->cmd->exec.cmd_path)
+				free(shell->cmd->exec.cmd_path);
+			if (shell->cmd->exec.args)
+				ft_free_tab(shell->cmd->exec.args);
+			if (shell->cmd->outfile > 2)
+				close(shell->cmd->outfile);
+			if (shell->cmd->infile > 2)
+				close(shell->cmd->infile);
+			free(shell->cmd);
+			shell->cmd = tmp;
+			i++;
+		}
 	}
-	shell->pipein = get_input(shell->cmd, shell->pipein);
-	shell->pipeout = get_output(shell->cmd, shell->pipeout);
-	exec_cmd(shell);
-	shell->cmd = start;
+	else
+	{
+		shell->pipein = get_input(shell->cmd, shell->pipein);
+		shell->pipeout = get_output(shell->cmd, shell->pipeout);
+		exec_cmd(shell);
+	}
 	reset_shell(shell, i);
-	if (shell->cmd->heredoc)
+	if (shell && shell->cmd && shell->cmd->heredoc)
 	{
 		if (unlink("heredoc") == -1)
 			perror("UNLINK");
