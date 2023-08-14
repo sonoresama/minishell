@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/10 16:12:02 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/14 16:03:59 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,6 @@ static int	check_pipe(char *str, char **tab)
 		return (0);
 	else
 		return (1);
-}
-
-void	print_redir(t_parsing *parsing)
-{
-	int	i;
-
-	i = 0;
-	while (parsing->heredoc[i])
-	{
-		printf("heredoc :%s\n", parsing->heredoc[i]);
-		i++;
-	}
-	i = 0;
-	while (parsing->redir[i])
-	{
-		printf("redir :%s\n", parsing->redir[i]);
-		i++;
-	}
 }
 
 int	ft_parsing(t_shell *shell, char *str)

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/10 18:20:51 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:51:12 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	sig_handler(int signum)
 		}
 		else
 		{
+			g_sig_handle = 1;
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
-			g_sig_handle = 1;
 		}
 	}
 	if ((signum == SIGQUIT || signum == SIGTSTP))
@@ -76,6 +76,14 @@ int	main(int argc, char **argv, char **env)
 		sigaction(SIGTSTP, &sa, NULL);
 		shell->error = 0;
 		str = readline(" \033[36m\033[1mMinishell \033[33m➜ \033[0m\033[K");
+		if (g_sig_handle > 0)
+		{
+			if (g_sig_handle == 1)
+				shell->last_error = 130;
+			if (g_sig_handle == 2)
+				shell->last_error = 131;
+			g_sig_handle = 0;
+		}
 		if (str == NULL)
 			ft_exit(shell);
 		if (!str[0] || !ft_thereisprint(str))
