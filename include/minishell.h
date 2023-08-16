@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/11 13:54:27 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/16 17:09:22 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <stddef.h>
 
 /* EXIT MACROS */
 
@@ -134,6 +135,7 @@ char		*ft_itoa(int n);
 
 /* UTILITIES */
 
+char		*ft_strchr(const char *s, int c);
 char		*ft_strndup(char *str, int n);
 char		**ft_split(const char *s, char c);
 char		**ft_split_2_separator(const char *s, char c, char d);
