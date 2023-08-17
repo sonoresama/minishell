@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/11 13:22:10 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/17 14:23:11 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ft_clear_shell(t_shell *shell)
 			ft_clear_env(shell->env);
 		if (shell->cmd)
 			ft_clear_cmd(shell->cmd);
+		ft_close(shell->fd_stdin);
+		ft_close(shell->fd_stdout);
 		free(shell);
 	}
 }

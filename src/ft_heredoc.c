@@ -6,25 +6,11 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:24:53 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/27 16:43:19 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/17 15:24:45 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*char	*init_heredoc_file(t_shell *shell)
-{
-	char	*str;
-
-	str = malloc(sizeof(char) * (ft_strlen("heredoc") + 1));
-	if (!str)
-		return (NULL);
-	while (access(str))
-	{
-		free(str);
-		str = ft_strjoin(str, )
-	}
-}*/
 
 int	write_heredoc(char *eof)
 {

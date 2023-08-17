@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/16 17:09:22 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/17 12:24:22 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,11 +187,14 @@ void		ft_clear_quote(t_quote **quote);
 void		ft_clear_parsing(t_parsing *parsing);
 
 //heredoc_redir.c
-int			ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing);
-void	ft_end_set_heredoc(t_quote *tmpd, t_quote *tmpq, char **heredoc, t_shell *shell);
-void	ft_end_set_redir(t_quote *tmpd, t_quote *tmpq, char **redir, t_shell *shell);
-t_quote	*get_quote(char *str, int n, t_parsing *parsing);
-t_quote	*get_dquote(char *str, int n, t_parsing *parsing);
+int			ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell,
+				t_parsing *parsing);
+void		ft_end_set_heredoc(t_quote *tmpd, t_quote *tmpq,
+				char **heredoc, t_shell *shell);
+void		ft_end_set_redir(t_quote *tmpd, t_quote *tmpq,
+				char **redir, t_shell *shell);
+t_quote		*get_quote(char *str, int n, t_parsing *parsing);
+t_quote		*get_dquote(char *str, int n, t_parsing *parsing);
 
 //utils.c
 void		ft_print_tab(char **tab);
@@ -213,7 +216,7 @@ int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
 void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
 				t_shell *shell);
 
-int		ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell);
+int			ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell);
 //handle_sig.c
 void		sig_handler(int signum);
 
