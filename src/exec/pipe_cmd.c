@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:22:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/17 15:07:35 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/17 16:24:59 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	pipe_cmd(t_shell *shell)
 		perror("FORK");
 	else if (pid == 0)
 		pipe_child(shell, fd_pipe[0], fd_pipe[1]);
-	else if (shell->cmd->next)
+	g_sig_handle = pid;
+	if (shell->cmd->next)
 		pipe_parent(shell, fd_pipe[0], fd_pipe[1]);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/17 15:54:34 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/17 16:25:52 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	ft_exit(t_shell *shell)
 	sortie = shell->last_error;
 	if (shell->cmd && shell->cmd->exec.args && shell->cmd->exec.args[1])
 		sortie = ft_atoi(shell->cmd->exec.args[1]);
-	if (g_sig.handler == 0)
+	if (g_sig_handle == 0)
 		printf("exit\n");
 	if (sortie != shell->last_error && ft_check_sortie(shell->cmd->exec.args[1], sortie))
 	{
-		tmp = join_three("exit: ", cmd->exec.args[1], " : argument numérique nécessaire\n");
+		tmp = join_three("exit: ", shell->cmd->exec.args[1], " : argument numérique nécessaire\n");
 		if (!tmp)
 		{
 			shell->error = MALLOC_ERROR;

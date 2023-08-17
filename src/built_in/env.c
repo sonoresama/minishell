@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/10 17:47:27 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:14:38 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	ft_strchr(char *s, char c)
+static int	bis_ft_strchr(char *s, char c)
 {
 	size_t	i;
 
@@ -68,7 +68,7 @@ static void	ft_exec_cmd(t_shell *shell, int i, char **tmp, struct stat buf)
 	char	*str;
 
 	if (!shell->cmd->built_in && (access(shell->cmd->exec.cmd_path, F_OK)
-			|| !ft_strchr(shell->cmd->exec.cmd_path, '/')))
+			|| !bis_ft_strchr(shell->cmd->exec.cmd_path, '/')))
 	{
 		str = join_three("env: «", shell->cmd->exec.args[i], "»: Aucun fichier ou dossier de ce type\n");
 		if (!str)

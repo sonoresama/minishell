@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/17 16:04:55 by eorer            ###   ########.fr        #
+#    Updated: 2023/08/17 16:20:47 by eorer            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = src/exec/exec_cmd.c \
 	src/utils/utilities_1.c \
 	src/utils/utilities_2.c \
 	src/utils/utilities_3.c \
+	src/utils/utilities_4.c \
 	src/utils/utilities_lst.c \
 	src/built_in/cd.c \
 	src/built_in/check_export.c \

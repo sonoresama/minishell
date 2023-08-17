@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 15:38:28 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/16 17:36:21 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:17:24 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		return (NULL);
 	}
 	cmd->built_in = is_built_in(cmd->exec.cmd_path);
-	g_sig_handle = 10;
 	return (cmd);
 }
 
