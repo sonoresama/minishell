@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 13:54:13 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 14:54:25 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	word_exist(char *str)
 	return (1);
 }
 
-static void	first_occur(char **str_piped, t_shell *shell, t_parsing *parsing, int *i)
+static void	first_occur(char **str_piped,
+		t_shell *shell, t_parsing *parsing, int *i)
 {
 	if (shell->error || !str_piped || !str_piped[0])
 	{
@@ -35,6 +36,27 @@ static void	first_occur(char **str_piped, t_shell *shell, t_parsing *parsing, in
 		shell->cmd = ft_fill_cmd(str_piped[(*i)++], shell, parsing);
 	else
 		(*i)++;
+}
+
+static void	split_in_cmd_bis(t_cmd **tmp, char *str, t_shell *shell, t_parsing *parsing)
+{
+	if ((*tmp))
+	{
+		(*tmp)->next = ft_fill_cmd(str, shell, parsing);
+		if ((*tmp)->next)
+			(*tmp) = (*tmp)->next;
+	}
+	else
+	{
+		(*tmp) = ft_fill_cmd(str, shell, parsing);
+		if (shell->error == REDIR_ERROR)
+		{
+			shell->error = 1;
+			(*tmp)->infile = open("/tmp/tmp_minishell", O_CREAT, 0644);
+		}
+		if ((*tmp))
+			shell->cmd = (*tmp);
+	}
 }
 
 static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
@@ -51,23 +73,7 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 	{
 		if (word_exist(str_piped[i]))
 		{
-			if (tmp)
-			{
-				tmp->next = ft_fill_cmd(str_piped[i], shell, parsing);
-				if (tmp->next)
-					tmp = tmp->next;
-			}
-			else
-			{
-				tmp = ft_fill_cmd(str_piped[i], shell, parsing);
-				if (shell->error == REDIR_ERROR)
-				{
-					shell->error = 1;
-					tmp->infile = open("/tmp/tmp_minishell", O_CREAT, 0644);
-				}
-				if (tmp)
-					shell->cmd = tmp;
-			}
+			split_in_cmd_bis(&tmp, str_piped[i], shell, parsing);
 			if ((!tmp || !tmp->next) && shell->error == MALLOC_ERROR)
 			{
 				ft_clear_cmd(shell->cmd);
@@ -81,47 +87,23 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 	ft_free_tab(str_piped);
 }
 
-static int	check_pipe(char *str, char **tab)
-{
-	int	i;
-	int	count;
-	int	line_count;
-
-	line_count = 0;
-	i = 0;
-	count = 0;
-	while (str && str[i])
-	{
-		if (str[i] == '|')
-			count++;
-		i++;
-	}
-	i = 0;
-	while (tab && tab[i++])
-		line_count++;
-	if (count == line_count - 1 || count == 0)
-		return (0);
-	else
-		return (1);
-}
-
-int	ft_parsing(t_shell *shell, char *str, t_parsing **parsing)
+int	ft_parsing(t_shell *shell, char **str, t_parsing **parsing)
 {
 	char	**tab;
 
-	(*parsing) = ft_fill_parsing(str, NULL, shell);
+	(*parsing) = ft_fill_parsing((*str), NULL, shell);
 	if (shell->error == MALLOC_ERROR)
 		return (0);
-	add_history(str);
-	ft_cut_quote_space(str, (*parsing), shell);
+	add_history((*str));
+	ft_cut_quote_space((*str), (*parsing), shell);
 	if (shell->error == SYNTAX_ERROR)
 		return (-1);
-	if (ft_copy_redir(str, (*parsing), shell))
+	if (ft_copy_redir((*str), (*parsing), shell))
 		return (0);
-	replace_var_env_in_str(&str, shell);
+	replace_var_env_in_str(str, shell);
 	replace_var_env_in_lst((*parsing), shell);
-	tab = ft_split(str, '|');
-	if (check_pipe(str, tab))
+	tab = ft_split((*str), '|');
+	if (check_pipe((*str), tab))
 	{
 		ft_free_tab(tab);
 		return (-1);
