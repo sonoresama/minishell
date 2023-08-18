@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 14:54:25 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 18:26:32 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ static void	first_occur(char **str_piped,
 		(*i)++;
 }
 
-static void	split_in_cmd_bis(t_cmd **tmp, char *str, t_shell *shell, t_parsing *parsing)
+static void	split_cmd_bis(t_cmd **tmp, char *str, t_shell *sh, t_parsing *par)
 {
 	if ((*tmp))
 	{
-		(*tmp)->next = ft_fill_cmd(str, shell, parsing);
+		(*tmp)->next = ft_fill_cmd(str, sh, par);
 		if ((*tmp)->next)
 			(*tmp) = (*tmp)->next;
 	}
 	else
 	{
-		(*tmp) = ft_fill_cmd(str, shell, parsing);
-		if (shell->error == REDIR_ERROR)
+		(*tmp) = ft_fill_cmd(str, sh, par);
+		if (sh->error == REDIR_ERROR)
 		{
-			shell->error = 1;
+			sh->error = 1;
 			(*tmp)->infile = open("/tmp/tmp_minishell", O_CREAT, 0644);
 		}
 		if ((*tmp))
-			shell->cmd = (*tmp);
+			sh->cmd = (*tmp);
 	}
 }
 
@@ -73,7 +73,7 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 	{
 		if (word_exist(str_piped[i]))
 		{
-			split_in_cmd_bis(&tmp, str_piped[i], shell, parsing);
+			split_cmd_bis(&tmp, str_piped[i], shell, parsing);
 			if ((!tmp || !tmp->next) && shell->error == MALLOC_ERROR)
 			{
 				ft_clear_cmd(shell->cmd);

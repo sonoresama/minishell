@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 15:14:56 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 18:19:31 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ char		*ft_strjoin(char *s1, char *s2);
 char		*join_three(char *s1, char *s2, char *s3);
 void		ft_close(int fd);
 int			search_equal(char *str);
+int			double_chrcmp(char *str, char c, char d);
 
 // free
 
@@ -189,12 +190,12 @@ void		ft_clear_quote(t_quote **quote);
 void		ft_clear_parsing(t_parsing *parsing);
 
 //heredoc_redir.c
-int			ft_fill_redir_heredoc(char *str, t_cmd *cmd, t_shell *shell,
+int			ft_fill_red_he(char *str, t_cmd *cmd, t_shell *shell,
 				t_parsing *parsing);
-void		ft_end_set_heredoc(t_quote *tmpd, t_quote *tmpq,
-				char **heredoc, t_shell *shell);
-void		ft_end_set_redir(t_quote *tmpd, t_quote *tmpq,
-				char **redir, t_shell *shell);
+void		ft_end_set_hdoc(t_quote *tmpd, t_quote *tmpq,
+				char **hdoc, t_shell *sh);
+void		ft_end_set_red(t_quote *tmpd, t_quote *tmpq,
+				char **redir, t_shell *sh);
 t_quote		*get_quote(char *str, int n, t_parsing *parsing);
 t_quote		*get_dquote(char *str, int n, t_parsing *parsing);
 
@@ -213,6 +214,7 @@ int			ft_thereisprint(char *str);
 int			ft_parsing(t_shell *shell, char **str, t_parsing **parsing);
 t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
 int			check_pipe(char *str, char **tab);
+void	clear_and_quit(t_shell *shell);
 
 //cut_quote.c
 int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);

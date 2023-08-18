@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 15:46:21 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 18:27:25 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,8 @@ void	ft_env(t_shell *shell)
 {
 	t_env		*lst;
 	int			i;
-	char		**tmp;
 	struct stat	buf;
 
-	tmp = NULL;
 	i = 1;
 	ft_bzero(&buf, sizeof(struct stat));
 	while (shell->cmd->exec.args[i])

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 15:21:21 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 17:44:26 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	reset_shell(t_shell *shell, int num)
 	shell->pipeout = 1;
 	while (++i < num)
 		wait(NULL);
-	if (shell && shell->cmd && shell->cmd->heredoc)
+	if (shell && shell->cmd && shell->cmd->heredoc && shell->cmd->heredoc[0])
 	{
 		if (unlink("heredoc") == -1)
 			perror("UNLINK");
@@ -84,6 +84,8 @@ void	exec_cmd(t_shell *shell)
 		else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path,
 				cmd->exec.args, shell->maxi_env) == -1)
 			print_fail_exit(shell, &buf, cmd);
+		else
+			clear_and_quit(shell);
 	}
 }
 

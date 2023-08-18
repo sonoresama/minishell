@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 17:06:34 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/10 16:23:27 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 17:40:27 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_quote	*get_dquote(char *str, int n, t_parsing *parsing)
 {
-	t_quote *tmpd;
+	t_quote	*tmpd;
 	int		i;
 
 	tmpd = parsing->dquote;
@@ -35,7 +35,7 @@ t_quote	*get_dquote(char *str, int n, t_parsing *parsing)
 
 t_quote	*get_quote(char *str, int n, t_parsing *parsing)
 {
-	t_quote *tmpq;
+	t_quote	*tmpq;
 	int		i;
 
 	tmpq = parsing->quote;

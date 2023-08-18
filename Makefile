@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/18 14:38:08 by eorer            ###   ########.fr        #
+#    Updated: 2023/08/18 18:23:55 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC =	src/built_in/cd.c				\
 	src/utils/ft_atoi.c				\
 	src/utils/ft_bzero.c				\
 	src/utils/ft_close.c				\
+	src/utils/ft_double_chrcmp.c			\
 	src/utils/ft_free_tab.c				\
 	src/utils/ft_itoa.c				\
 	src/utils/ft_join_three.c			\

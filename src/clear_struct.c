@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/17 14:23:11 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 16:52:31 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,5 @@ void	ft_clear_parsing(t_parsing *parsing)
 		ft_clear_quote(&parsing->dquote);
 	if (parsing)
 		free(parsing);
+	parsing = NULL;
 }

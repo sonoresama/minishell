@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 17:16:28 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/10 15:19:46 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 16:26:50 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ static char	*ft_paste_quote(char **redir, t_quote **tmpq, int *i)
 	return (tmp);
 }
 
-void	ft_end_set_redir(t_quote *tmpd, t_quote *tmpq, char **redir, t_shell *shell)
+void	ft_end_set_red(t_quote *tmpd, t_quote *tmpq, char **redir, t_shell *sh)
 {
 	int		i;
 
 	i = 0;
-	replace_var_env_in_str(redir, shell);
-	if (shell->error == MALLOC_ERROR)
+	replace_var_env_in_str(redir, sh);
+	if (sh->error == MALLOC_ERROR)
 		return ;
 	while ((*redir) && (*redir)[i])
 	{
 		if ((*redir)[i] == '"')
 		{
-			replace_var_env_in_str(&tmpd->str, shell);
+			replace_var_env_in_str(&tmpd->str, sh);
 			(*redir) = ft_paste_quote(redir, &tmpd, &i);
 		}
 		else if ((*redir)[i] == '\'')

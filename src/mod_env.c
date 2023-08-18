@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:01:57 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 12:06:14 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 18:28:07 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	nb_var(t_env *env)
 {
 	t_env	*lst;
-	int	i;
+	int		i;
 
 	lst = env;
 	i = 0;
@@ -33,7 +33,7 @@ int	update_env(t_shell *shell)
 {
 	t_env	*lst;
 	char	**mod_env;
-	int	i;
+	int		i;
 
 	lst = shell->env;
 	i = 0;

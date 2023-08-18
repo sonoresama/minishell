@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:05:12 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 13:42:34 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 17:45:46 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_init_redirection(char *str, t_parsing *parsing)
 	parsing->heredoc[heredoc] = NULL;
 }
 
-t_parsing	*ft_fill_parsing(char *str,t_parsing *parsing, t_shell *shell)
+t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell)
 {
 	parsing = malloc (sizeof(t_parsing));
 	if (!parsing)

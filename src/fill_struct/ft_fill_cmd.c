@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:45 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 13:40:48 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 18:10:32 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ft_eof(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing)
 		while (i > -1)
 			cmd->heredoc[i--] = NULL;
 	}
-	if (ft_fill_redir_heredoc(str, cmd, shell, parsing))
+	if (ft_fill_red_he(str, cmd, shell, parsing))
 	{
 		ft_clear_cmd(cmd);
 		return (1);
