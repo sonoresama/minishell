@@ -96,7 +96,7 @@ static int	ft_fill_arg_cd(t_shell *shell, char **arg, struct stat st)
 	if ((*arg) && (*arg)[0] && (*arg)[0] != '/' && pwd && stat(pwd, &st))
 	{
 		write(2, "chdir : erreur de détermination du répertoire actuel : ", 57);
-		write(2, "getcwd : ne peut accéder aux répertoires parents : Aucun", 58);
+		write(2, "getcwd : ne peut accéder aux répertoires parents :Aucun", 58);
 		write(2, " fichier ou dossier de ce type\n", 31);
 		shell->last_error = 1;
 		return (1);

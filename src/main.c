@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 13:53:11 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:17:04 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **env)
 			ft_exit(shell);
 		if (!str[0] || !ft_thereisprint(str))
 			continue;
-		if (ft_parsing(shell, str, &parsing) == -1)
+		if (ft_parsing(shell, &str, &parsing) == -1)
 		{
 			ft_clear_parsing(parsing);
 			free(str);

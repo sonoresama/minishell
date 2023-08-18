@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/18 13:37:23 by bastien          ###   ########.fr        #
+#    Updated: 2023/08/18 14:38:08 by eorer            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,10 @@ SRC =	src/built_in/cd.c				\
 	src/fill_struct/ft_fill_exec.c			\
 	src/fill_struct/ft_fill_parsing.c		\
 	src/fill_struct/ft_fill_shell.c			\
-	src/utils/env_lst_utils/ft_init_lst.c		\
-	src/utils/env_lst_utils/ft_lst_add_end.c	\
-	src/utils/env_lst_utils/ft_lst_last.c		\
-	src/utils/env_lst_utils/ft_lstlen.c		\
+	src/utils/lst_utils/ft_init_lst.c		\
+	src/utils/lst_utils/ft_lst_add_end.c		\
+	src/utils/lst_utils/ft_lst_last.c		\
+	src/utils/lst_utils/ft_lstlen.c			\
 	src/utils/ft_atoi.c				\
 	src/utils/ft_bzero.c				\
 	src/utils/ft_close.c				\
@@ -61,8 +61,6 @@ SRC =	src/built_in/cd.c				\
 SRC += $(wildcard ./src/*.c)
 
 OBJ = $(SRC:.c=.o)
-
-#OBJ = $(patsubst ./src/%.c, ./obj/%.o, $(SRC))
 
 NAME = minishell
 

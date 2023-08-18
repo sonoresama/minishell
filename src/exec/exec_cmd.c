@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/17 16:23:55 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 15:21:21 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,6 @@ void	ft_cmd(t_shell *shell)
 		shell->cmd = tmp;
 		i++;
 	}
-	wait(&shell->last_error);
+	waitpid(g_sig_handle, &shell->last_error, 0);
 	reset_shell(shell, i);
 }

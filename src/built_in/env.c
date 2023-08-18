@@ -6,13 +6,13 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 12:04:19 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:46:21 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	bis_ft_strchr(char *s, char c)
+/*static int	bis_ft_strchr(char *s, char c)
 {
 	size_t	i;
 
@@ -61,48 +61,7 @@ static void	ft_change_var(t_shell *shell, int i)
 	else
 		shell->cmd->exec.cmd_path = path_cmd(shell->cmd->exec.args[i],
 				shell, -1);
-}
-
-static void	ft_exec_cmd(t_shell *shell, int i, char **tmp, struct stat buf)
-{
-	char	*str;
-
-	if (!shell->cmd->built_in && (access(shell->cmd->exec.cmd_path, F_OK)
-			|| !bis_ft_strchr(shell->cmd->exec.cmd_path, '/')))
-	{
-		str = join_three("env: «", shell->cmd->exec.args[i], "»: Aucun fichier ou dossier de ce type\n");
-		if (!str)
-		{
-			shell->error = MALLOC_ERROR;
-			return ;
-		}
-		write(2, str, ft_strlen(str));
-		shell->last_error = 127;
-		return ;
-	}
-	if (!shell->cmd->built_in && (access(shell->cmd->exec.cmd_path, X_OK)
-			|| (!stat(shell->cmd->exec.cmd_path, &buf)
-				&& S_ISDIR(buf.st_mode))))
-	{
-		str = join_three("env: «", shell->cmd->exec.args[i], "»: Permission non accordée\n");
-		if (!str)
-		{
-			shell->error = MALLOC_ERROR;
-			return ;
-		}
-		write(2, str, ft_strlen(str));
-		shell->last_error = 126;
-	}
-	else
-	{
-		tmp = ft_copy_tab(&shell->cmd->exec.args[i], shell);
-		if (!tmp)
-			return ;
-		ft_free_tab(shell->cmd->exec.args);
-		shell->cmd->exec.args = tmp;
-		exec_cmd(shell);
-	}
-}
+}*/
 
 void	ft_env(t_shell *shell)
 {
@@ -118,8 +77,8 @@ void	ft_env(t_shell *shell)
 	{
 		if (ft_strncmp(shell->cmd->exec.args[i], "env", 4) != 0)
 		{
-			ft_change_var(shell, i);
-			ft_exec_cmd(shell, i, tmp, buf);
+			write(2, "env : bad argument\n", 19);
+			shell->last_error = 127;
 			return ;
 		}
 		i++;

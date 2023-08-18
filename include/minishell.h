@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 13:54:22 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:14:56 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,8 @@ t_cmd		*ft_init_cmd(void);
 t_env		*ft_fill_env(char **env, int i);
 t_shell		*ft_fill_shell(char **env);
 t_cmd		*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing);
-int     ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars);
+int			ft_fill_exec(char *str, t_shell *shell, t_exec *exec,
+				t_parsing *pars);
 
 //clear_struct.c
 void		ft_clear_cmd(t_cmd *cmd);
@@ -209,8 +210,9 @@ char		*ft_strcut(char *str, int start, int end);
 int			ft_thereisprint(char *str);
 
 //parsing.c
-int			ft_parsing(t_shell *shell, char *str, t_parsing **parsing);
-t_parsing       *ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
+int			ft_parsing(t_shell *shell, char **str, t_parsing **parsing);
+t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
+int			check_pipe(char *str, char **tab);
 
 //cut_quote.c
 int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);

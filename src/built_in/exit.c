@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/17 16:25:52 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 15:52:29 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,36 @@ static int	ft_check_sortie(char *str, t_long n)
 	return (1);
 }
 
+int	print_error(t_shell *shell)
+{
+	char	*tmp;
+
+	tmp = join_three("exit: ", shell->cmd->exec.args[1],
+			" : argument numérique nécessaire\n");
+	if (!tmp)
+	{
+		shell->error = MALLOC_ERROR;
+		return (1);
+	}
+	write(2, tmp, ft_strlen(tmp));
+	free(tmp);
+	return (0);
+}
+
 void	ft_exit(t_shell *shell)
 {
 	t_long		sortie;
-	char		*tmp;
 
 	sortie = shell->last_error;
 	if (shell->cmd && shell->cmd->exec.args && shell->cmd->exec.args[1])
 		sortie = ft_atoi(shell->cmd->exec.args[1]);
 	if (g_sig_handle == 0)
 		printf("exit\n");
-	if (sortie != shell->last_error && ft_check_sortie(shell->cmd->exec.args[1], sortie))
+	if (sortie != shell->last_error
+		&& ft_check_sortie(shell->cmd->exec.args[1], sortie))
 	{
-		tmp = join_three("exit: ", shell->cmd->exec.args[1], " : argument numérique nécessaire\n");
-		if (!tmp)
-		{
-			shell->error = MALLOC_ERROR;
+		if (print_error(shell))
 			return ;
-		}
-		write(2, tmp, ft_strlen(tmp));
-		free(tmp);
 		sortie = 2;
 	}
 	else if (sortie != shell->last_error && shell->cmd->exec.args[2])
