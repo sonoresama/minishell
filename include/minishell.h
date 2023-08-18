@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/17 12:24:22 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 13:54:22 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ t_cmd		*ft_init_cmd(void);
 t_env		*ft_fill_env(char **env, int i);
 t_shell		*ft_fill_shell(char **env);
 t_cmd		*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing);
+int     ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars);
 
 //clear_struct.c
 void		ft_clear_cmd(t_cmd *cmd);
@@ -205,11 +206,11 @@ void		*ft_memset(void *s, int c, size_t n);
 
 //utils3.c
 char		*ft_strcut(char *str, int start, int end);
-int			ft_count_heredoc(char *str);
 int			ft_thereisprint(char *str);
 
 //parsing.c
-int			ft_parsing(t_shell *shell, char *str);
+int			ft_parsing(t_shell *shell, char *str, t_parsing **parsing);
+t_parsing       *ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
 
 //cut_quote.c
 int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);

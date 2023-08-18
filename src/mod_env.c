@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:01:57 by eorer             #+#    #+#             */
-/*   Updated: 2023/05/30 14:48:17 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 12:06:14 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	update_env(t_shell *shell)
 	}
 	mod_env[i] = NULL;
 	if (shell->maxi_env)
-		free_tab(shell->maxi_env);
+		ft_free_tab(shell->maxi_env);
 	shell->maxi_env = mod_env;
 	return (0);
 }

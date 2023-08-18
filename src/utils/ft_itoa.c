@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:48:14 by blerouss          #+#    #+#             */
-/*   Updated: 2022/11/15 17:05:57 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:18:54 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,3 @@ char	*ft_itoa(int n)
 	res[i] = '\0';
 	return (res);
 }
-/*
-int	main()
-{
-	int	i;
-	char	*str;
-
-	i = 0;
-	str = ft_itoa(i);
-	printf("%s\n", str);
-	free(str);
-}*/

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/14 15:51:12 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 13:53:11 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ int	main(int argc, char **argv, char **env)
 	t_shell	*shell;
 	char	*str;
 	struct sigaction sa;
+	t_parsing	*parsing;
 
 	(void)argc;
 	(void)argv;
+	parsing = NULL;
 	sa.sa_handler = sig_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -88,14 +90,22 @@ int	main(int argc, char **argv, char **env)
 			ft_exit(shell);
 		if (!str[0] || !ft_thereisprint(str))
 			continue;
-		if (ft_parsing(shell, str) == -1)
+		if (ft_parsing(shell, str, &parsing) == -1)
 		{
+			ft_clear_parsing(parsing);
+			free(str);
 			write(2, "Erreur de syntaxe.\n", 19);
 			shell->last_error = 2;
 			continue;
 		}
+		ft_clear_parsing(parsing);
+		free(str);
 		if (shell->error == MALLOC_ERROR)
+		{
 			write(2, "Espace mémoire insuffisant.\n", 28);
+			ft_clear_shell(shell);
+			exit(0);
+		}
 		if (!shell->cmd)
 			continue ;
 		ft_cmd(shell);

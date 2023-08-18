@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 12:00:37 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/26 13:34:52 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/18 12:05:49 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**ft_split_2_separator(const char *s, char c, char d)
 		return (0);
 	if (ft_alloc((char *)s, c, d, tableau) == NULL)
 	{
-		free_tab(tableau);
+		ft_free_tab(tableau);
 		return (NULL);
 	}
 	ft_implementation((char *)s, c, d, tableau);

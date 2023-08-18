@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strchr.c                                           :+:      :+:    :+:   */
+/*   ft_lst_last.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/16 16:57:54 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/16 17:09:44 by bastien          ###   ########.fr       */
+/*   Created: 2023/08/18 11:35:46 by bastien           #+#    #+#             */
+/*   Updated: 2023/08/18 11:35:59 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+t_env	*lst_last(t_env *lst)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (s && s[i] && s[i] != (char)c)
-		i++;
-	if (s[i] == (char)c)
-		return ((char *)&s[i]);
-	else
-		return (NULL);
+	tmp = lst;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/17 16:14:38 by eorer            ###   ########.fr       */
+/*   Updated: 2023/08/18 12:04:19 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	ft_exec_cmd(t_shell *shell, int i, char **tmp, struct stat buf)
 		tmp = ft_copy_tab(&shell->cmd->exec.args[i], shell);
 		if (!tmp)
 			return ;
-		free_tab(shell->cmd->exec.args);
+		ft_free_tab(shell->cmd->exec.args);
 		shell->cmd->exec.args = tmp;
 		exec_cmd(shell);
 	}

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 12:00:37 by eorer             #+#    #+#             */
-/*   Updated: 2023/06/28 10:37:51 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:04:47 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,29 +99,10 @@ char	**ft_split(const char *s, char c)
 		return (0);
 	if (ft_alloc((char *)s, c, tableau) == NULL)
 	{
-		free_tab(tableau);
+		ft_free_tab(tableau);
 		return (NULL);
 	}
 	ft_implementation((char *)s, c, tableau);
 	tableau[size] = NULL;
 	return (tableau);
 }
-
-/*int	main(int argc, char **argv)
-{
-	char **tableau;
-	int	i;
-
-	i = 0;
-	(void)argc;
-	tableau = ft_split((char *)argv[2], argv[1][0]);
-	printf("Size du tableau a rendre : %i\n", size_tab(argv[2], argv[1][0]));
-	while (i < size_tab(argv[2], argv[1][0]))
-	{
-		printf("--> %s\n", tableau[i]);
-		i++;
-	}
-	free_tab(tableau,size_tab(argv[2], argv[1][0]));
-	free(tableau);
-	return (0);
-}*/

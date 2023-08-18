@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/17 16:20:47 by eorer            ###   ########.fr        #
+#    Updated: 2023/08/18 13:37:23 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,26 +20,43 @@ INC = /usr/local/include
 
 HEADER = include/minishell.h 
 
-SRC = src/exec/exec_cmd.c \
-	src/exec/pipe_cmd.c \
-	src/utils/ft_itoa.c \
-	src/utils/ft_atoi.c \
-	src/utils/strchr.c \
-	src/utils/ft_split.c \
-	src/utils/utilities_1.c \
-	src/utils/utilities_2.c \
-	src/utils/utilities_3.c \
-	src/utils/utilities_4.c \
-	src/utils/utilities_lst.c \
-	src/built_in/cd.c \
-	src/built_in/check_export.c \
-	src/built_in/echo.c \
-	src/built_in/env.c \
-	src/built_in/exit.c \
-	src/built_in/export.c \
-	src/built_in/pwd.c \
-	src/built_in/unset.c \
-	src/built_in/ft_built_in.c
+SRC =	src/built_in/cd.c				\
+	src/built_in/check_export.c			\
+	src/built_in/echo.c				\
+	src/built_in/env.c				\
+	src/built_in/exit.c				\
+	src/built_in/export.c				\
+	src/built_in/ft_built_in.c			\
+	src/built_in/pwd.c				\
+	src/built_in/unset.c				\
+	src/exec/exec_cmd.c				\
+	src/exec/pipe_cmd.c				\
+	src/fill_struct/ft_fill_cmd.c			\
+	src/fill_struct/ft_fill_env.c			\
+	src/fill_struct/ft_fill_exec.c			\
+	src/fill_struct/ft_fill_parsing.c		\
+	src/fill_struct/ft_fill_shell.c			\
+	src/utils/env_lst_utils/ft_init_lst.c		\
+	src/utils/env_lst_utils/ft_lst_add_end.c	\
+	src/utils/env_lst_utils/ft_lst_last.c		\
+	src/utils/env_lst_utils/ft_lstlen.c		\
+	src/utils/ft_atoi.c				\
+	src/utils/ft_bzero.c				\
+	src/utils/ft_close.c				\
+	src/utils/ft_free_tab.c				\
+	src/utils/ft_itoa.c				\
+	src/utils/ft_join_three.c			\
+	src/utils/ft_memcpy.c				\
+	src/utils/ft_memset.c				\
+	src/utils/ft_split.c				\
+	src/utils/ft_strchr.c				\
+	src/utils/ft_strcut.c				\
+	src/utils/ft_strdup.c				\
+	src/utils/ft_strjoin.c				\
+	src/utils/ft_strlen.c				\
+	src/utils/ft_strncmp.c				\
+	src/utils/ft_strndup.c				\
+	src/utils/ft_thereisprint.c			\
 
 SRC += $(wildcard ./src/*.c)
 
