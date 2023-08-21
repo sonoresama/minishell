@@ -6,7 +6,7 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:24:59 by emileorer         #+#    #+#             */
-/*   Updated: 2023/07/23 14:17:10 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:30:24 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ t_env	*ft_create_export(char **env)
 	{
 		lst_env = ft_create_var_export(env[i]);
 		if (!lst_env)
-		{
-			perror("CREATE EXPORT ");
 			return (NULL);
-		}
 		lst_add_end(&begin, lst_env);
 		i++;
 	}

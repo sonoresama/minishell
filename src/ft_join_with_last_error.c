@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fill_shell.c                                    :+:      :+:    :+:   */
+/*   ft_join_with_last_error.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/18 11:57:06 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 16:03:01 by bastien          ###   ########.fr       */
+/*   Created: 2023/08/21 12:45:25 by bastien           #+#    #+#             */
+/*   Updated: 2023/08/21 12:45:42 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_shell	*ft_fill_shell(char **env)
+void	ft_join_with_last_error(char **str, int i, t_shell *shell)
 {
-	t_shell	*shell;
+	char	*tmp;
+	char	*tmp2;
 
-	shell = ft_init_shell();
-	if (!shell)
-		return (NULL);
-	shell->env = ft_fill_env(env, 0);
-	shell->export = ft_fill_env(env, 0);
-	if (!shell->env || !shell->export)
-	{
-		ft_clear_shell(shell);
-		return (NULL);
-	}
-	if (update_env(shell))
-		shell->error = MALLOC_ERROR;
-	shell->pipein = 0;
-	shell->pipeout = 1;
-	shell->fd_stdin = dup(0);
-	shell->fd_stdout = dup(1);
-	return (shell);
+	(*str)[i] = '\0';
+	tmp = ft_itoa(shell->last_error);
+	tmp2 = join_three((*str), tmp, &(*str)[i + 2]);
+	free((*str));
+	free(tmp);
+	(*str) = tmp2;
 }

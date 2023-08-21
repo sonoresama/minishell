@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 17:44:26 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/21 13:17:20 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	reset_shell(t_shell *shell, int num)
 		if (unlink("heredoc") == -1)
 			perror("UNLINK");
 	}
+	ft_clear_cmd(shell->cmd);
+	shell->cmd = NULL;
 	return ;
 }
 

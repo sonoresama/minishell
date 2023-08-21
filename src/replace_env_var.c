@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/18 18:30:56 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/21 12:44:58 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 void	replace_var_env_in_str(char **str, t_shell *shell)
 {
 	int		i;
-	char	*tmp;
-	char	*tmp2;
 
 	i = 0;
 	while (str && (*str) && (*str)[i])
@@ -102,15 +100,7 @@ void	replace_var_env_in_str(char **str, t_shell *shell)
 			continue ;
 		}
 		if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == '?')
-		{
-			(*str)[i] = '\0';
-			tmp = ft_itoa(shell->last_error);
-			tmp2 = join_three((*str), tmp, &(*str)[i + 2]);
-			free((*str));
-			free(tmp);
-			(*str) = tmp2;
-			i++;
-		}
+			ft_join_with_last_error(str, i++, shell);
 		else if ((*str)[i] && (*str)[i + 1])
 			replace_var_env_in_str_bis(str, &i, shell);
 	}

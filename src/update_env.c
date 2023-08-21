@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mod_env.c                                          :+:      :+:    :+:   */
+/*   update_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 18:01:57 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 18:28:07 by bastien          ###   ########.fr       */
+/*   Created: 2023/08/21 15:41:55 by bastien           #+#    #+#             */
+/*   Updated: 2023/08/21 16:15:07 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	nb_var(t_env *env)
 	return (i);
 }
 
-/* GERER LES FREE SI FT_STRDUP PLANTE */
-
 int	update_env(t_shell *shell)
 {
 	t_env	*lst;
@@ -39,7 +37,10 @@ int	update_env(t_shell *shell)
 	i = 0;
 	mod_env = (char **)malloc(sizeof(char *) * (nb_var(shell->env) + 1));
 	if (!mod_env)
+	{
+		shell->error = MALLOC_ERROR;
 		return (1);
+	}
 	while (lst)
 	{
 		mod_env[i] = ft_strdup(lst->str);

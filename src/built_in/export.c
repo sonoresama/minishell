@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/31 13:25:53 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/21 16:39:47 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	add_env(char *str, t_shell *shell)
 	if (!new)
 	{
 		shell->last_error = 1;
-		write(2, "ERROR : malloc exploded\n", 24);
+		shell->error = MALLOC_ERROR;
 		return ;
 	}
 	if (!check_doublon_env(new, shell->env) && new->value)
@@ -114,5 +114,5 @@ void	ft_export(t_shell *shell)
 		i++;
 	}
 	if (update_env(shell))
-		perror("MALLOC");
+		shell->error = MALLOC_ERROR;
 }

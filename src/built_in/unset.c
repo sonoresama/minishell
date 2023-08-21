@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:22:22 by eorer             #+#    #+#             */
-/*   Updated: 2023/07/31 17:10:08 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/21 15:58:00 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ void	ft_unset(t_shell *shell)
 		i++;
 	}
 	if (update_env(shell))
-		perror("MALLOC");
+		shell->error = MALLOC_ERROR;
 }

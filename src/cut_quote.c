@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/07/22 14:46:29 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:30:35 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	quote_add_end(t_quote **lst, char *str)
 		last->next = malloc(sizeof(t_quote));
 		if (!last->next)
 		{
+			free(str);
 			ft_clear_quote(lst);
 			return ;
 		}
@@ -44,7 +45,10 @@ static void	quote_add_end(t_quote **lst, char *str)
 	{
 		(*lst) = malloc(sizeof(t_quote));
 		if (!(*lst))
+		{
+			free(str);
 			return ;
+		}
 		(*lst)->str = str;
 		(*lst)->next = NULL;
 	}
@@ -53,11 +57,23 @@ static void	quote_add_end(t_quote **lst, char *str)
 static int	ft_cut_quote_space_bis(char *str, int *i, int j, t_parsing *parsing)
 {
 	if (str[(*i)] == '\'')
+	{
 		quote_add_end(&parsing->quote, ft_strcut(str, (*i) + 1, (*i) + j));
+		if (!parsing->quote)
+		{
+			ft_clear_quote(&parsing->dquote);
+			return (1);
+		}
+	}
 	else if (str[(*i)] == '\"')
+	{
 		quote_add_end(&parsing->dquote, ft_strcut(str, (*i) + 1, (*i) + j));
-	if (!parsing->quote && !parsing->dquote)
-		return (1);
+		if (!parsing->dquote)
+		{
+			ft_clear_quote(&parsing->quote);
+			return (1);
+		}
+	}
 	(*i) += j;
 	return (0);
 }
