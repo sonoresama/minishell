@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/21 15:42:32 by bastien          ###   ########.fr        #
+#    Updated: 2023/08/24 16:31:30 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ SRC =	src/check_path.c				\
 	src/clear_struct.c				\
 	src/cut_quote.c					\
 	src/ft_copy_redir.c				\
-	src/ft_create_env.c				\
-	src/ft_create_export.c				\
+	src/ft_create_var_env.c				\
+	src/ft_create_var_export.c			\
 	src/ft_end_set_heredoc.c			\
 	src/ft_end_set_redir.c				\
 	src/ft_env_export.c				\

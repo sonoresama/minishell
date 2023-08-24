@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:57:06 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 16:03:01 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:53:07 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ t_shell	*ft_fill_shell(char **env)
 	shell = ft_init_shell();
 	if (!shell)
 		return (NULL);
-	shell->env = ft_fill_env(env, 0);
-	shell->export = ft_fill_env(env, 0);
+	shell->env = ft_fill_env(env, -1);
+	shell->export = ft_fill_env(env, -1);
 	if (!shell->env || !shell->export)
 	{
 		ft_clear_shell(shell);
 		return (NULL);
 	}
-	if (update_env(shell))
-		shell->error = MALLOC_ERROR;
+	update_env(shell);
 	shell->pipein = 0;
 	shell->pipeout = 1;
 	shell->fd_stdin = dup(0);

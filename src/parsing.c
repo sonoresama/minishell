@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 15:13:10 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 18:08:15 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,17 @@ int	ft_parsing(t_shell *shell, char **str, t_parsing **parsing)
 		return (0);
 	if (shell->error == SYNTAX_ERROR)
 		return (-1);
-	if (ft_copy_redir((*str), (*parsing), shell))
+	if (ft_copy_redir((*str), (*parsing), shell) || replace_var_env_in_str(str, shell)
+		|| replace_var_env_in_lst((*parsing), shell))
 		return (0);
-	replace_var_env_in_str(str, shell);
-	replace_var_env_in_lst((*parsing), shell);
 	tab = ft_split((*str), '|');
+	if (!tab || !tab[0])
+		return (0);
 	if (check_pipe((*str), tab))
 	{
 		ft_free_tab(tab);
 		return (-1);
 	}
-	if (!tab || !tab[0])
-		return (0);
 	split_in_cmd(tab, shell, (*parsing));
 	if (!shell->cmd && !shell->error)
 		return (-1);

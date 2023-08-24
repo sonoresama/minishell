@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:58:50 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 11:58:52 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:56:58 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@ int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 		return (1);
 	ft_paste_quote_space((*exec).args, pars, shell);
 	if (is_built_in(exec->args[0]))
+	{
 		exec->cmd_path = ft_strdup(exec->args[0]);
+		if (!exec->cmd_path)
+			return (1);
+	}
 	else
 	{
 		exec->cmd_path = path_cmd((*exec).args[0], shell, -1);
+		if (!exec->cmd_path)
+			return (1);
 		if (!ft_strchr(exec->cmd_path, '/'))
 		{
 			while (exec->cmd_path && exec->cmd_path[i])

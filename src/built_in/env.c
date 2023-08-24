@@ -6,62 +6,11 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 18:27:25 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 15:33:37 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*static int	bis_ft_strchr(char *s, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	if (s[i] == c)
-		return (1);
-	else
-		return (0);
-}
-
-static char	**ft_copy_tab(char **tab, t_shell *shell)
-{
-	int		i;
-	char	**new_tab;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	new_tab = malloc(sizeof(char *) * (i + 1));
-	if (!new_tab)
-	{
-		shell->error = MALLOC_ERROR;
-		return (NULL);
-	}
-	i = 0;
-	while (tab[i])
-	{
-		new_tab[i] = ft_strdup(tab[i]);
-		i++;
-	}
-	new_tab[i] = NULL;
-	return (new_tab);
-}
-
-static void	ft_change_var(t_shell *shell, int i)
-{
-	shell->cmd->built_in = NULL;
-	free(shell->cmd->exec.cmd_path);
-	if (is_built_in(shell->cmd->exec.args[i]))
-	{
-		shell->cmd->exec.cmd_path = ft_strdup(shell->cmd->exec.args[i]);
-		shell->cmd->built_in = is_built_in(shell->cmd->exec.cmd_path);
-	}
-	else
-		shell->cmd->exec.cmd_path = path_cmd(shell->cmd->exec.args[i],
-				shell, -1);
-}*/
 
 void	ft_env(t_shell *shell)
 {

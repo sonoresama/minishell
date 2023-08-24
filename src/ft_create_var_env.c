@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_env.c                                    :+:      :+:    :+:   */
+/*   ft_create_var_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 14:30:10 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/21 16:30:08 by bastien          ###   ########.fr       */
+/*   Created: 2023/08/24 15:02:47 by bastien           #+#    #+#             */
+/*   Updated: 2023/08/24 16:32:08 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,10 @@ t_env	*ft_create_var_env(char *str)
 	str = str + i + 1;
 	lst_env->value = ft_strdup(str);
 	lst_env->next = NULL;
-	return (lst_env);
-}
-
-t_env	*ft_create_env(char **env)
-{
-	t_env	*lst_env;
-	t_env	*begin;
-	int		i;
-
-	i = 0;
-	lst_env = ft_init_lst();
-	if (!lst_env)
-		return (NULL);
-	begin = lst_env;
-	while (env && env[i])
+	if (!lst_env->name || !lst_env->value || !lst_env->str)
 	{
-		lst_env = ft_create_var_env(env[i]);
-		if (!lst_env)
-			return (NULL);
-		lst_add_end(&begin, lst_env);
-		i++;
+		ft_clear_env(lst_env);
+		return (NULL);
 	}
-	return (begin->next);
+	return (lst_env);
 }

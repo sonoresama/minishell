@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:45:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 12:45:42 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 17:58:32 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,20 @@ void	ft_join_with_last_error(char **str, int i, t_shell *shell)
 
 	(*str)[i] = '\0';
 	tmp = ft_itoa(shell->last_error);
+	if (!tmp)
+	{
+		free((*str));
+		shell->error = MALLOC_ERROR;
+		return ;
+	}
 	tmp2 = join_three((*str), tmp, &(*str)[i + 2]);
+	if (!tmp2)
+	{
+		free(tmp);
+		free((*str));
+		shell->error = MALLOC_ERROR;
+		return ;
+	}
 	free((*str));
 	free(tmp);
 	(*str) = tmp2;

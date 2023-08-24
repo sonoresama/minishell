@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 12:00:37 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 12:04:47 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 18:00:53 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	**ft_alloc(char *str, char c, char **tableau)
 		if (*str != c)
 		{
 			i = 0;
-			while (*str != c && *str)
+			while ((*str) && (*str) != c)
 			{
 				i++;
 				str++;
@@ -92,11 +92,9 @@ char	**ft_split(const char *s, char c)
 	int		size;
 
 	size = size_tab((char *)s, c);
-	if (!size)
-		return (NULL);
 	tableau = malloc(sizeof(tableau) * (size + 1));
-	if (tableau == 0)
-		return (0);
+	if (!tableau)
+		return (NULL);
 	if (ft_alloc((char *)s, c, tableau) == NULL)
 	{
 		ft_free_tab(tableau);

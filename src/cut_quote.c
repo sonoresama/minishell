@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:52:25 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 15:30:35 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 18:20:16 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ static t_quote	*quote_last(t_quote *lst)
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	return (tmp);
+}
+
+static void	create_new_lst(t_quote **lst, char *str)
+{
+	(*lst) = malloc(sizeof(t_quote));
+	if (!(*lst))
+	{
+		free(str);
+		return ;
+	}
+	(*lst)->str = str;
+	(*lst)->next = NULL;
 }
 
 static void	quote_add_end(t_quote **lst, char *str)
@@ -42,16 +54,7 @@ static void	quote_add_end(t_quote **lst, char *str)
 		last->next->next = NULL;
 	}
 	else
-	{
-		(*lst) = malloc(sizeof(t_quote));
-		if (!(*lst))
-		{
-			free(str);
-			return ;
-		}
-		(*lst)->str = str;
-		(*lst)->next = NULL;
-	}
+		create_new_lst(lst, str);
 }
 
 static int	ft_cut_quote_space_bis(char *str, int *i, int j, t_parsing *parsing)

@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/21 12:44:58 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 18:38:50 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ static char	*get_env_value(char *var, t_shell *shell)
 	return (NULL);
 }
 
-static char	*dup_next_word(char *str)
+static char	*dup_next_word(char *str, t_shell *shell)
 {
 	int	i;
+	char	*tmp;
 
 	i = 0;
 	while (str[i] && ((str[i] >= 'a' && str[i] <= 'z')
@@ -38,7 +39,13 @@ static char	*dup_next_word(char *str)
 			|| (str[i] >= '0' && str[i] <= '9')
 			|| str[i] == '_'))
 		i++;
-	return (strndup(str, i));
+	tmp = strndup(str, i);
+	if (!tmp)
+	{
+		shell->error = MALLOC_ERROR;
+		return (NULL);
+	}
+	return (tmp);
 }
 
 static int	prec_word_is_heredoc(char *str, int i)
@@ -66,15 +73,18 @@ static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 		return ;
 	}
 	(*str)[(*i)] = '\0';
-	tmp3 = dup_next_word(&(*str)[(*i) + 1]);
+	tmp3 = dup_next_word(&(*str)[(*i) + 1], shell);
+	if (!tmp3)
+	{
+		free((*str));
+		return ;
+	}
 	tmp = get_env_value(tmp3, shell);
 	if (tmp)
-	{
-		tmp2 = join_three((*str), tmp, &(*str)[(*i) + ft_strlen(tmp3) + 1]);
 		(*i) += ft_strlen(tmp);
-	}
-	else
-		tmp2 = ft_strjoin((*str), &(*str)[(*i) + ft_strlen(tmp3) + 1]);
+	tmp2 = join_three((*str), tmp, &(*str)[(*i) + ft_strlen(tmp3) + 1]);
+	if (!tmp2)
+		shell->error = MALLOC_ERROR;
 	free((*str));
 	(*str) = tmp2;
 	free(tmp3);
@@ -103,5 +113,8 @@ void	replace_var_env_in_str(char **str, t_shell *shell)
 			ft_join_with_last_error(str, i++, shell);
 		else if ((*str)[i] && (*str)[i + 1])
 			replace_var_env_in_str_bis(str, &i, shell);
+		if (shell->error == MALLOC_ERROR)
+			return (1);
 	}
+	return (0);
 }

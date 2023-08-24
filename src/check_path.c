@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:47:25 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/02 15:08:31 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 18:10:31 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,26 @@ static char	**parsing_path(t_shell *shell)
 	char	**split;
 	t_env	*lst;
 
+	split = NULL;
 	lst = shell->env;
 	while (lst && ft_strncmp("PATH", lst->name, 4))
 		lst = lst->next;
 	if (lst)
+	{
 		path = ft_strdup(lst->value);
-	else
-		return (NULL);
-	split = ft_split(path, ':');
-	if (!split)
-		return (NULL);
-	free(path);
+		if (!path)
+		{
+			shell->error = MALLOC_ERROR;
+			return (NULL);
+		}
+		split = ft_split(path, ':');
+		free(path);
+		if (!split)
+		{
+			shell->error = MALLOC_ERROR;
+			return (NULL);
+		}
+	}
 	return (split);
 }
 
@@ -37,20 +46,21 @@ char	*path_cmd(char *cmd_name, t_shell *shell, int i)
 	char	**path;
 	char	*path_cmd;
 
-	if (!cmd_name || !cmd_name[0])
-		return (ft_strdup(cmd_name));
 	path = parsing_path(shell);
-	if (!path)
+	if (!path && shell->error == MALLOC_ERROR)
+		return (NULL);
+	if (!path || !cmd_name || !cmd_name[0])
 		return (ft_strdup(cmd_name));
 	while (path[++i])
 	{
 		path_cmd = join_three(path[i], "/", cmd_name);
-		if (!path_cmd)
-			perror("ERREUR ");
-		if (!access(path_cmd, F_OK | X_OK))
+		if (!path_cmd || !access(path_cmd, F_OK | X_OK))
 		{
 			ft_free_tab(path);
-			return (path_cmd);
+			if (!path_cmd)
+				return (NULL);
+			else
+				return (path_cmd);
 		}
 		free(path_cmd);
 	}

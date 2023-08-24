@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/21 16:00:05 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:52:29 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	main(int argc, char **argv, char **env)
 	shell = ft_fill_shell(env);
 	if (!shell || shell->error == MALLOC_ERROR)
 	{
-		if (shell->error == MALLOC_ERROR)
-			ft_clear_shell(shell);
+		ft_clear_shell(shell);
 		write(2, "Espace mémoire insuffisant.\n", 30);
 		return (1);
 	}
