@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/24 16:37:17 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:16:58 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	add_env(char *str, t_shell *shell)
 	else if (!check_doublon_env(new, shell->export, shell))
 		lst_add_end(&shell->export, new);
 	else
-		free_env(new);
+		ft_clear_env(&new);
 	if (shell->error == MALLOC_ERROR)
 		return (1);
 	return (0);
@@ -113,12 +113,11 @@ void	ft_export(t_shell *shell)
 	}
 	while (args[i])
 	{
-		if (!check_export(args[i], shell))
-			if (add_env(args[i], shell))
-			{
-				update_env(shell);
-				return ;
-			}
+		if (!check_export(args[i], shell) && add_env(args[i], shell))
+		{
+			update_env(shell);
+			return ;
+		}
 		i++;
 	}
 	update_env(shell);

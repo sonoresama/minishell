@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/24 18:38:50 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 15:57:54 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_env_value(char *var, t_shell *shell)
 
 static char	*dup_next_word(char *str, t_shell *shell)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;
@@ -90,7 +90,7 @@ static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 	free(tmp3);
 }
 
-void	replace_var_env_in_str(char **str, t_shell *shell)
+int	replace_var_env_in_str(char **str, t_shell *shell)
 {
 	int		i;
 

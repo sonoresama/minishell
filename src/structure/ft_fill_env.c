@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:56:27 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/24 16:51:07 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 15:03:17 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_env	*ft_fill_env(char **env, int i)
 
 	lst = ft_init_env();
 	lst_start = lst;
-	while (lst_start && env && env[i])
+	while (lst_start && env && env[++i])
 	{
 		j = 0;
 		lst->str = ft_strdup(env[i]);
@@ -32,8 +32,8 @@ t_env	*ft_fill_env(char **env, int i)
 		{
 			lst->next = ft_init_env();
 			if (!lst->next || !lst->str || !lst->name || !lst->value)
-				ft_clear_env(lst_start);
-			if (!lst->next || !lst->str || !lst->name || !lst->value)
+				ft_clear_env(&lst_start);
+			if (!lst_start)
 				return (NULL);
 		}
 		lst = lst->next;

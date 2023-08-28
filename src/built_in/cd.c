@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/21 16:18:01 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 15:54:33 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	ft_fill_arg_cd(t_shell *shell, char **arg, struct stat st)
 		return (1);
 	while (lst)
 	{
-		if (!strncmp(lst->name, "PWD", 4))
+		if (!ft_strncmp(lst->name, "PWD", 4))
 			pwd = lst->value;
 		lst = lst->next;
 	}
@@ -110,25 +110,25 @@ void	ft_cd(t_shell *shell)
 	char		*tmp;
 	struct stat	st;
 
-	shell->last_error = 0;
 	ft_bzero(&st, sizeof(struct stat));
 	if (shell->cmd->exec.args[1] && shell->cmd->exec.args[2])
 	{
 		write(2, "cd: trop d'arguments\n", 21);
-		shell->last_error = 1;
-		return ;
+		return ((void)(shell->last_error = 1));
 	}
 	if (ft_fill_arg_cd(shell, &arg, st))
-		return ;
+		return ((void)(shell->last_error = 0));
 	if (arg && chdir(arg) != 0)
 	{
 		tmp = ft_strjoin("cd: ", arg);
+		if (!tmp)
+			return ((void)(shell->error = MALLOC_ERROR));
 		perror(tmp);
 		free(tmp);
-		shell->last_error = 1;
-		return ;
+		return ((void)(shell->last_error = 1));
 	}
 	if (arg)
 		ft_change_env_value(shell);
 	update_env(shell);
+	return ((void)(shell->last_error = 0));
 }

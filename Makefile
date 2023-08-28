@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/24 16:31:30 by bastien          ###   ########.fr        #
+#    Updated: 2023/08/28 16:44:03 by bastien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,32 +20,9 @@ INC = /usr/local/include
 
 HEADER = include/minishell.h 
 
-SRC =	src/check_path.c				\
-	src/check_pipe.c				\
-	src/clear_and_quit.c				\
-	src/clear_struct.c				\
-	src/cut_quote.c					\
-	src/ft_copy_redir.c				\
-	src/ft_create_var_env.c				\
-	src/ft_create_var_export.c			\
-	src/ft_end_set_heredoc.c			\
-	src/ft_end_set_redir.c				\
-	src/ft_env_export.c				\
-	src/ft_free_env.c				\
-	src/ft_heredoc.c				\
-	src/ft_join_with_last_error.c			\
-	src/ft_split_2_separator.c			\
-	src/get_quote.c					\
-	src/heredoc_redir.c				\
-	src/init_struct.c				\
-	src/main.c					\
+SRC =	src/main.c					\
 	src/main_loop.c					\
-	src/parsing.c					\
-	src/paste_quote.c				\
-	src/replace_env_var.c				\
-	src/replace_var_env_in_lst.c			\
 	src/sig_handling.c				\
-	src/update_env.c				\
 	src/built_in/cd.c				\
 	src/built_in/check_export.c			\
 	src/built_in/echo.c				\
@@ -55,13 +32,34 @@ SRC =	src/check_path.c				\
 	src/built_in/ft_built_in.c			\
 	src/built_in/pwd.c				\
 	src/built_in/unset.c				\
+	src/environnement/ft_create_var_env.c		\
+	src/environnement/ft_create_var_export.c	\
+	src/environnement/ft_env_export.c		\
+	src/environnement/ft_join_with_last_error.c	\
+	src/environnement/replace_env_var.c		\
+	src/environnement/replace_var_env_in_lst.c	\
+	src/environnement/update_env.c			\
+	src/exec/clear_pipe.c				\
 	src/exec/exec_cmd.c				\
+	src/exec/ft_heredoc.c				\
 	src/exec/pipe_cmd.c				\
-	src/fill_struct/ft_fill_cmd.c			\
-	src/fill_struct/ft_fill_env.c			\
-	src/fill_struct/ft_fill_exec.c			\
-	src/fill_struct/ft_fill_parsing.c		\
-	src/fill_struct/ft_fill_shell.c			\
+	src/parsing/check_pipe.c			\
+	src/parsing/cut_quote.c				\
+	src/parsing/ft_copy_redir.c			\
+	src/parsing/ft_end_set_heredoc.c		\
+	src/parsing/ft_end_set_redir.c			\
+	src/parsing/get_quote.c				\
+	src/parsing/heredoc_redir.c			\
+	src/parsing/parsing.c				\
+	src/parsing/paste_quote.c			\
+	src/parsing/path_cmd.c				\
+	src/structure/clear_struct.c			\
+	src/structure/ft_fill_cmd.c			\
+	src/structure/ft_fill_env.c			\
+	src/structure/ft_fill_exec.c			\
+	src/structure/ft_fill_parsing.c			\
+	src/structure/ft_fill_shell.c			\
+	src/structure/init_struct.c			\
 	src/utils/lst_utils/ft_init_lst.c		\
 	src/utils/lst_utils/ft_lst_add_end.c		\
 	src/utils/lst_utils/ft_lst_last.c		\
@@ -75,6 +73,7 @@ SRC =	src/check_path.c				\
 	src/utils/ft_join_three.c			\
 	src/utils/ft_memcpy.c				\
 	src/utils/ft_memset.c				\
+	src/utils/ft_split_2_separator.c		\
 	src/utils/ft_split.c				\
 	src/utils/ft_strchr.c				\
 	src/utils/ft_strcut.c				\

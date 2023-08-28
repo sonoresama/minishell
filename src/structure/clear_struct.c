@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/18 16:52:31 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 14:48:50 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ void	ft_clear_quote(t_quote **quote)
 	(*quote) = NULL;
 }
 
-void	ft_clear_env(t_env *env)
+void	ft_clear_env(t_env **env)
 {
 	t_env	*tmp;
 
-	while (env)
+	while ((*env))
 	{
-		free(env->name);
-		free(env->str);
-		free(env->value);
-		tmp = env;
-		env = env->next;
+		free((*env)->name);
+		free((*env)->str);
+		free((*env)->value);
+		tmp = (*env);
+		(*env) = (*env)->next;
 		free(tmp);
 	}
-	env = NULL;
+	(*env) = NULL;
 }
 
 void	ft_clear_shell(t_shell *shell)
@@ -49,9 +49,9 @@ void	ft_clear_shell(t_shell *shell)
 		if (shell->maxi_env)
 			ft_free_tab(shell->maxi_env);
 		if (shell->export)
-			ft_clear_env(shell->export);
+			ft_clear_env(&shell->export);
 		if (shell->env)
-			ft_clear_env(shell->env);
+			ft_clear_env(&shell->env);
 		if (shell->cmd)
 			ft_clear_cmd(shell->cmd);
 		ft_close(shell->fd_stdin);

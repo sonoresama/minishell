@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/21 13:17:20 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:37:13 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	reset_shell(t_shell *shell, int num)
 static void	print_fail_exit(t_shell *shell, struct stat *buf, t_cmd *cmd)
 {
 	char	*tmp;
+	int		ex;
 
 	if (!stat(cmd->exec.cmd_path, buf) && (S_ISDIR(buf->st_mode)
 			|| S_ISREG(buf->st_mode)))
@@ -47,19 +48,27 @@ static void	print_fail_exit(t_shell *shell, struct stat *buf, t_cmd *cmd)
 			tmp = ft_strjoin(cmd->exec.args[0], ": Is a directory\n");
 		else
 			tmp = ft_strjoin(cmd->exec.args[0], ": Permission non accordée\n");
-		write(2, tmp, ft_strlen(tmp));
-		free(tmp);
-		ft_clear_shell(shell);
-		exit(126);
+		ex = 126;
 	}
 	else
 	{
 		tmp = ft_strjoin(cmd->exec.args[0], ": commande introuvable\n");
-		write(2, tmp, ft_strlen(cmd->exec.args[0]) + 23);
-		free(tmp);
-		ft_clear_shell(shell);
-		exit(127);
+		ex = 127;
 	}
+	if (!tmp)
+		write(2, "Espace mémoire insuffisant.\n", 30);
+	if (!tmp)
+		ex = 1;
+	write(2, tmp, ft_strlen(tmp));
+	free(tmp);
+	ft_clear_shell(shell);
+	exit(ex);
+}
+
+static void	clear_and_quit(t_shell *shell)
+{
+	ft_clear_shell(shell);
+	exit(0);
 }
 
 void	exec_cmd(t_shell *shell)
@@ -89,18 +98,6 @@ void	exec_cmd(t_shell *shell)
 		else
 			clear_and_quit(shell);
 	}
-}
-
-void	clear_pipe(t_shell *shell)
-{
-	if (shell->cmd->heredoc)
-		ft_free_tab(shell->cmd->heredoc);
-	if (shell->cmd->exec.cmd_path)
-		free(shell->cmd->exec.cmd_path);
-	if (shell->cmd->exec.args)
-		ft_free_tab(shell->cmd->exec.args);
-	ft_close(shell->cmd->outfile);
-	ft_close(shell->cmd->infile);
 }
 
 void	ft_cmd(t_shell *shell)

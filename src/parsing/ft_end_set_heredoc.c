@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 11:52:38 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/24 18:29:04 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:04:27 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ static void	replace_var_env_in_heredoc(char **heredoc, t_shell *shell)
 	}
 }
 
-static char	*ft_paste_quote(char **heredoc, t_quote **tmpq, int *i, t_shell *shell)
+static char	*ft_paste_quote(char **here, t_quote **tmpq, int *i, t_shell *sh)
 {
 	char	*tmp;
 
-	(*heredoc)[(*i)++] = '\0';
-	while ((*heredoc)[(*i)] != '"' && (*heredoc)[(*i)] != '\'')
+	(*here)[(*i)++] = '\0';
+	while ((*here)[(*i)] != '"' && (*here)[(*i)] != '\'')
 		(*i)++;
-	tmp = join_three((*heredoc), (*tmpq)->str, &(*heredoc)[1 + (*i)--]);
+	tmp = join_three((*here), (*tmpq)->str, &(*here)[1 + (*i)--]);
 	if (!tmp)
-		shell->error = MALLOC_ERROR;
-	free((*heredoc));
+		sh->error = MALLOC_ERROR;
+	free((*here));
 	(*tmpq) = (*tmpq)->next;
 	return (tmp);
 }
@@ -62,12 +62,12 @@ void	ft_end_set_hdoc(t_quote *tmpd, t_quote *tmpq, char **hdoc, t_shell *sh)
 	while ((*hdoc) && (*hdoc)[i])
 	{
 		if ((*hdoc)[i] == '"')
-			(*hdoc) = ft_paste_quote(hdoc, &tmpd, &i, shell);
+			(*hdoc) = ft_paste_quote(hdoc, &tmpd, &i, sh);
 		else if ((*hdoc)[i] == '\'')
-			(*hdoc) = ft_paste_quote(hdoc, &tmpq, &i, shell);
+			(*hdoc) = ft_paste_quote(hdoc, &tmpq, &i, sh);
 		else
 			i++;
-		if (shell->error == MALLOC_ERROR)
+		if (sh->error == MALLOC_ERROR)
 			return ;
 	}
 }

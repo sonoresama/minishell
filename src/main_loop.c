@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:05:59 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 15:56:11 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:10:05 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,22 @@ static void	update_last_error(t_shell *shell)
 	}
 }
 
-static void	main_loop_part2(t_shell *shell, t_parsing *parsing, char *str)
+static void	quit_memory_error(t_shell *shell)
 {
-	ft_clear_parsing(parsing);
-	free(str);
 	if (shell->error == MALLOC_ERROR)
 	{
 		write(2, "Espace mémoire insuffisant.\n", 30);
 		ft_clear_shell(shell);
-		exit(0);
+		exit(1);
 	}
+}
+
+static void	quit_syntax_error(t_shell *shell, t_parsing *parsing, char *str)
+{
+	ft_clear_parsing(parsing);
+	free(str);
+	write(2, "Erreur de syntaxe.\n", 19);
+	shell->last_error = 2;
 }
 
 void	main_loop(t_shell *shell, char *str, t_parsing *parsing)
@@ -49,22 +55,16 @@ void	main_loop(t_shell *shell, char *str, t_parsing *parsing)
 			continue ;
 		if (ft_parsing(shell, &str, &parsing) == -1)
 		{
-			ft_clear_parsing(parsing);
-			free(str);
-			write(2, "Erreur de syntaxe.\n", 19);
-			shell->last_error = 2;
+			quit_syntax_error(shell, parsing, str);
 			continue ;
 		}
-		main_loop_part2(shell, parsing, str);
+		ft_clear_parsing(parsing);
+		free(str);
+		quit_memory_error(shell);
 		if (!shell->cmd)
 			continue ;
 		ft_cmd(shell);
-		if (shell->error == MALLOC_ERROR)
-		{
-			write(2, "Espace mémoire insuffisant.\n", 30);
-			ft_clear_shell(shell);
-			exit(0);
-		}
+		quit_memory_error(shell);
 		if (shell->last_error >= 256)
 			shell->last_error = WEXITSTATUS(shell->last_error);
 		update_last_error(shell);

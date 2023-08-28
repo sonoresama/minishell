@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/21 14:36:53 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:41:25 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void		ft_unset(t_shell *shell);
 /* HANDLING_ENV */
 
 void		ft_env_export(t_shell *shell, int i, char *old_tmp);
-void		replace_var_env_in_str(char **str, t_shell *shell);
-void		replace_var_env_in_lst(t_parsing *parsing, t_shell *shell);
+int			replace_var_env_in_str(char **str, t_shell *shell);
+int			replace_var_env_in_lst(t_parsing *parsing, t_shell *shell);
 void		ft_join_with_last_error(char **str, int i, t_shell *shell);
 t_env		*ft_create_env(char **env);
 t_env		*ft_create_var_env(char *str);
@@ -128,6 +128,7 @@ t_env		*ft_create_var_export(char *str);
 
 void		init_sig_handler(void);
 void		main_loop(t_shell *shell, char *str, t_parsing *parsing);
+void		clear_pipe(t_shell *shell);
 void		ft_cmd(t_shell *shell);
 void		pipe_cmd(t_shell *shell);
 void		exec_cmd(t_shell *shell);
@@ -192,7 +193,7 @@ int			ft_fill_exec(char *str, t_shell *shell, t_exec *exec,
 /* CLEAR_STRUCT */
 
 void		ft_clear_cmd(t_cmd *cmd);
-void		ft_clear_env(t_env *env);
+void		ft_clear_env(t_env **env);
 void		ft_clear_shell(t_shell *shell);
 void		ft_clear_quote(t_quote **quote);
 void		ft_clear_parsing(t_parsing *parsing);
@@ -212,7 +213,6 @@ int			ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell);
 t_quote		*get_quote(char *str, int n, t_parsing *parsing);
 t_quote		*get_dquote(char *str, int n, t_parsing *parsing);
 t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
-void		clear_and_quit(t_shell *shell);
 void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
 				t_shell *shell);
 int			ft_parsing(t_shell *shell, char **str, t_parsing **parsing);

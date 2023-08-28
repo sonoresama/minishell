@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:58:50 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/24 16:56:58 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:03:23 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_fill_exec(char *str, t_shell *shell, t_exec *exec, t_parsing *pars)
 	int	i;
 
 	i = 0;
-	(*exec).cmd_path = NULL;
 	(*exec).args = ft_split_2_separator(str, ' ', '	');
 	if (!(*exec).args)
 		return (1);
