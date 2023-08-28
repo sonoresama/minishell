@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/28 16:41:25 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/28 17:02:09 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@
 
 /* EXIT MACROS */
 
-/*# define FT_EXIT 10
-# define FT_CD 11
-# define FT_ENV 12
-# define FT_PWD 13
-# define FT_EXPORT 14
-# define FT_UNSET 15*/
 # define SYNTAX_ERROR 16
 # define MALLOC_ERROR 17
 # define REDIR_ERROR 18
@@ -102,6 +96,47 @@ typedef struct s_parsing
 	char	**redir;
 }		t_parsing;
 
+/* MAIN_FUNCTIONS */
+
+void		init_sig_handler(void);
+void		main_loop(t_shell *shell, char *str, t_parsing *parsing);
+
+/* PARSING */
+
+t_quote		*get_quote(char *str, int n, t_parsing *parsing);
+t_quote		*get_dquote(char *str, int n, t_parsing *parsing);
+t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
+void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
+				t_shell *shell);
+char		*path_cmd(char *cmd_name, t_shell *shell, int i);
+int			ft_parsing(t_shell *shell, char **str, t_parsing **parsing);
+int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
+int			check_pipe(char *str, char **tab);
+
+/* HANDLING_ENV */
+
+void		ft_env_export(t_shell *shell, int i, char *old_tmp);
+void		ft_join_with_last_error(char **str, int i, t_shell *shell);
+int			replace_var_env_in_str(char **str, t_shell *shell);
+int			replace_var_env_in_lst(t_parsing *parsing, t_shell *shell);
+int			check_export(char *str, t_shell *shell);
+int			search_equal(char *str);
+int			update_env(t_shell *shell);
+t_env		*ft_create_env(char **env);
+t_env		*ft_create_var_env(char *str);
+t_env		*ft_create_export(char **env);
+t_env		*ft_create_var_export(char *str);
+
+/* HANDLING_HEREDOC_REDIR */
+
+void		ft_end_set_hdoc(t_quote *tmpd, t_quote *tmpq,
+				char **hdoc, t_shell *sh);
+void		ft_end_set_red(t_quote *tmpd, t_quote *tmpq,
+				char **redir, t_shell *sh);
+int			ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell);
+int			ft_fill_red_he(char *str, t_cmd *cmd, t_shell *shell,
+				t_parsing *parsing);
+
 /* BUILT_IN */
 
 t_My_func	is_built_in(char *str);
@@ -113,32 +148,44 @@ void		ft_echo(t_shell *shell);
 void		ft_export(t_shell *shell);
 void		ft_unset(t_shell *shell);
 
-/* HANDLING_ENV */
+/* EXECUTION */
 
-void		ft_env_export(t_shell *shell, int i, char *old_tmp);
-int			replace_var_env_in_str(char **str, t_shell *shell);
-int			replace_var_env_in_lst(t_parsing *parsing, t_shell *shell);
-void		ft_join_with_last_error(char **str, int i, t_shell *shell);
-t_env		*ft_create_env(char **env);
-t_env		*ft_create_var_env(char *str);
-t_env		*ft_create_export(char **env);
-t_env		*ft_create_var_export(char *str);
-
-/* FUNCTIONS */
-
-void		init_sig_handler(void);
-void		main_loop(t_shell *shell, char *str, t_parsing *parsing);
 void		clear_pipe(t_shell *shell);
+void		exec_cmd(t_shell *shell);
 void		ft_cmd(t_shell *shell);
 void		pipe_cmd(t_shell *shell);
-void		exec_cmd(t_shell *shell);
-char		*path_cmd(char *cmd_name, t_shell *shell, int i);
-int			search_equal(char *str);
-int			check_export(char *str, t_shell *shell);
-int			update_env(t_shell *shell);
 int			ft_heredoc(char **heredoc);
 int			get_input(t_cmd *cmd, int pipe_in);
 int			get_output(t_cmd *cmd, int pipe_out);
+
+/* INIT_STRUCT */
+
+t_cmd		*ft_init_cmd(void);
+t_env		*ft_init_env(void);
+t_shell		*ft_init_shell(void);
+
+/* FILL_STRUCT */
+
+t_cmd		*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing);
+t_env		*ft_fill_env(char **env, int i);
+t_shell		*ft_fill_shell(char **env);
+int			ft_fill_exec(char *str, t_shell *shell, t_exec *exec,
+				t_parsing *pars);
+
+/* HANDLING_LST_ENV */
+
+void		lst_add_end(t_env **lst, t_env *new);
+t_env		*lst_last(t_env *lst);
+t_env		*ft_init_lst(void);
+int			ft_lstlen(t_env *env);
+
+/* CLEAR_STRUCT */
+
+void		ft_clear_cmd(t_cmd *cmd);
+void		ft_clear_env(t_env **env);
+void		ft_clear_shell(t_shell *shell);
+void		ft_clear_quote(t_quote **quote);
+void		ft_clear_parsing(t_parsing *parsing);
 
 /* UTILITIES */
 
@@ -155,68 +202,12 @@ void		ft_bzero(void *s, size_t n);
 void		ft_close(int fd);
 void		ft_free_tab(char **tab);
 void		*ft_memset(void *s, int c, size_t n);
+void		free_tab(char **tableau);
 t_long		ft_atoi(const char *nptr);
 int			ft_thereisprint(char *str);
 int			ft_strlen(char *str);
 int			ft_strncmp(char *s1, char *s2, unsigned int n);
 int			search_equal(char *str);
 int			double_chrcmp(char *str, char c, char d);
-
-/* free */
-
-void		free_all(t_shell *shell);
-void		free_cmd(t_cmd *cmd);
-void		free_tab(char **tableau);
-void		free_env(t_env *env);
-
-/* HANDLING_LST */
-
-void		lst_add_end(t_env **lst, t_env *new);
-t_env		*lst_last(t_env *lst);
-t_env		*ft_init_lst(void);
-int			ft_lstlen(t_env *env);
-
-/* INIT_STRUCT */
-
-t_env		*ft_init_env(void);
-t_shell		*ft_init_shell(void);
-t_cmd		*ft_init_cmd(void);
-
-/* FILL_STRUCT */
-
-t_env		*ft_fill_env(char **env, int i);
-t_shell		*ft_fill_shell(char **env);
-t_cmd		*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing);
-int			ft_fill_exec(char *str, t_shell *shell, t_exec *exec,
-				t_parsing *pars);
-
-/* CLEAR_STRUCT */
-
-void		ft_clear_cmd(t_cmd *cmd);
-void		ft_clear_env(t_env **env);
-void		ft_clear_shell(t_shell *shell);
-void		ft_clear_quote(t_quote **quote);
-void		ft_clear_parsing(t_parsing *parsing);
-
-/* HANDLING_HEREDOC_REDIR */
-
-int			ft_fill_red_he(char *str, t_cmd *cmd, t_shell *shell,
-				t_parsing *parsing);
-void		ft_end_set_hdoc(t_quote *tmpd, t_quote *tmpq,
-				char **hdoc, t_shell *sh);
-void		ft_end_set_red(t_quote *tmpd, t_quote *tmpq,
-				char **redir, t_shell *sh);
-int			ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell);
-
-/* PARSING */
-
-t_quote		*get_quote(char *str, int n, t_parsing *parsing);
-t_quote		*get_dquote(char *str, int n, t_parsing *parsing);
-t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
-void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
-				t_shell *shell);
-int			ft_parsing(t_shell *shell, char **str, t_parsing **parsing);
-int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
-int			check_pipe(char *str, char **tab);
 
 #endif
