@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:05:12 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 17:45:46 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:56:01 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ static int	next_word_exist(char *str)
 	if (!str[i] || str[i] == '<' || str[i] == '>')
 		return (0);
 	return (1);
+}
+
+static void	ft_set_redirection(t_parsing *parsing, int heredoc, int redir)
+{
+	int	i;
+
+	i = 0;
+	while (i <= heredoc || i <= redir)
+	{
+		if (i <= heredoc)
+			parsing->heredoc[i] = NULL;
+		if (i <= redir)
+			parsing->redir[i] = NULL;
+		i++;
+	}
 }
 
 static void	ft_init_redirection(char *str, t_parsing *parsing)
@@ -51,8 +66,7 @@ static void	ft_init_redirection(char *str, t_parsing *parsing)
 	}
 	parsing->heredoc = malloc(sizeof(char *) * (heredoc + 1));
 	parsing->redir = malloc(sizeof(char *) * (redir + 1));
-	parsing->redir[redir] = NULL;
-	parsing->heredoc[heredoc] = NULL;
+	ft_set_redirection(parsing, heredoc, redir);
 }
 
 t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell)

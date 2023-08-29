@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 16:28:30 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/28 16:28:34 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/29 16:20:02 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*path_cmd(char *cmd_name, t_shell *shell, int i)
 	path = parsing_path(shell);
 	if (!path && shell->error == MALLOC_ERROR)
 		return (NULL);
+	if (!path || !cmd_name || !cmd_name[0])
+		ft_free_tab(path);
 	if (!path || !cmd_name || !cmd_name[0])
 		return (ft_strdup(cmd_name));
 	while (path[++i])

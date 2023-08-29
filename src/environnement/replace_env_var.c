@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/28 15:57:54 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/29 17:10:51 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 		return ;
 	}
 	tmp = get_env_value(tmp3, shell);
+	printf("%c", (*str)[(*i)]);
+	tmp2 = join_three((*str), tmp, &(*str)[(*i) + ft_strlen(tmp3) + 1]);
 	if (tmp)
 		(*i) += ft_strlen(tmp);
-	tmp2 = join_three((*str), tmp, &(*str)[(*i) + ft_strlen(tmp3) + 1]);
 	if (!tmp2)
 		shell->error = MALLOC_ERROR;
 	free((*str));
@@ -99,12 +100,12 @@ int	replace_var_env_in_str(char **str, t_shell *shell)
 	{
 		while ((*str)[i] && (*str)[i] != '$')
 			i++;
-		if ((*str)[i] && (*str)[i + 1]
+		if (((*str)[i] && !(*str)[i + 1]) || ((*str)[i]
 			&& !((((*str)[i + 1] >= 'a' && (*str)[i + 1] <= 'z')
 			|| ((*str)[i + 1] >= 'A' && (*str)[i + 1] <= 'Z')
 			|| ((*str)[i + 1] >= '0' && (*str)[i + 1] <= '9')
 			|| (*str)[i + 1] == '_') || (*str)[i + 1] == '\''
-			|| (*str)[i + 1] == '\"' || (*str)[i + 1] == '?'))
+			|| (*str)[i + 1] == '\"' || (*str)[i + 1] == '?')))
 		{
 			i++;
 			continue ;
