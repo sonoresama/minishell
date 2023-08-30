@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 14:40:39 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 14:53:22 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 13:59:49 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,8 @@ int	check_pipe(char *str, char **tab)
 	if (count == line_count - 1 || count == 0)
 		return (0);
 	else
+	{
+		ft_free_tab(tab);
 		return (1);
+	}
 }

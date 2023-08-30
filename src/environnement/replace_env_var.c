@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/29 17:10:51 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 13:49:14 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 		return ;
 	}
 	tmp = get_env_value(tmp3, shell);
-	printf("%c", (*str)[(*i)]);
 	tmp2 = join_three((*str), tmp, &(*str)[(*i) + ft_strlen(tmp3) + 1]);
 	if (tmp)
 		(*i) += ft_strlen(tmp);
