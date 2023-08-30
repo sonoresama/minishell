@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/28 16:37:13 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 16:14:39 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	exec_cmd(t_shell *shell)
 			perror("FORK");
 		else if (pid != 0)
 		{
-			g_sig_handle = pid;
+			g_sig_handle = 9;
 			waitpid(pid, &shell->last_error, 0);
 		}
 		else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path,

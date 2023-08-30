@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:05:59 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/28 16:10:05 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 16:10:57 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	update_last_error(t_shell *shell)
 			shell->last_error = 130;
 		if (g_sig_handle == 2)
 			shell->last_error = 131;
-		g_sig_handle = 0;
+		g_sig_handle = 10;
 	}
 }
 

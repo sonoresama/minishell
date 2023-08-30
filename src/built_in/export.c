@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:30:12 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/28 16:16:58 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 16:42:12 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	check_doublon_env(t_env *new, t_env *lst, t_shell *shell)
 			|| (!ft_strncmp(new->name, tmp->name, ft_strlen(new->name) - 1)
 				&& new->name[ft_strlen(new->name) - 1] == '+'))
 		{
-			stuck_new_var(new, lst);
+			stuck_new_var(new, tmp);
 			if (!tmp->value || !tmp->str)
 				shell->error = MALLOC_ERROR;
 			return (1);

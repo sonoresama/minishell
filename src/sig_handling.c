@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:50:22 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/21 14:23:42 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 16:20:10 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,51 +23,65 @@ void	sig_handler_sigint(int signum)
 		{
 			tmp = g_sig_handle;
 			g_sig_handle = 1;
-			kill(tmp, SIGQUIT);
 		}
 		else
 		{
-			g_sig_handle = 1;
 			rl_on_new_line();
 			rl_replace_line("", 0);
-			rl_redisplay();
+			if (g_sig_handle == 10)
+				rl_redisplay();
+			g_sig_handle = 1;
 		}
 	}
 }
 
-void	sig_handler_sigquit_sigstp(int signum)
+void	sig_handler_sigstp(int signum)
+{
+	if (signum == SIGTSTP)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+void	sig_handler_sigquit(int signum)
 {
 	int	tmp;
 
-	if ((signum == SIGQUIT || signum == SIGTSTP))
+	if (signum == SIGQUIT)
 	{
-		if (g_sig_handle > 10 && signum == SIGQUIT)
+		if (g_sig_handle > 10)
 		{
 			write(2, "Quitter (core dumped)\n", 22);
 			tmp = g_sig_handle;
 			g_sig_handle = 2;
-			kill(tmp, SIGQUIT);
 		}
-		else
+		else if (g_sig_handle == 10)
 		{
 			rl_on_new_line();
 			rl_redisplay();
 		}
+		else
+			rl_on_new_line();
 	}
 }
 
 void	init_sig_handler(void)
 {
 	struct sigaction	sa_int;
-	struct sigaction	sa_other;
+	struct sigaction	sa_stp;
+	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = sig_handler_sigint;
-	sa_other.sa_handler = sig_handler_sigquit_sigstp;
+	sa_stp.sa_handler = sig_handler_sigstp;
+	sa_quit.sa_handler = sig_handler_sigquit;
 	sigemptyset(&sa_int.sa_mask);
-	sigemptyset(&sa_other.sa_mask);
+	sigemptyset(&sa_stp.sa_mask);
+	sigemptyset(&sa_quit.sa_mask);
 	sa_int.sa_flags = 0;
-	sa_other.sa_flags = 0;
+	sa_stp.sa_flags = 0;
+	sa_quit.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);
-	sigaction(SIGQUIT, &sa_other, NULL);
-	sigaction(SIGTSTP, &sa_other, NULL);
+	sigaction(SIGTSTP, &sa_stp, NULL);
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }

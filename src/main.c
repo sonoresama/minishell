@@ -6,13 +6,13 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:59:01 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/28 14:55:01 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/30 16:11:11 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_sig_handle = 0;
+int	g_sig_handle = 10;
 
 int	main(int argc, char **argv, char **env)
 {
