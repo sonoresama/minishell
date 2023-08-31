@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:49:59 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/24 15:33:37 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/31 11:48:12 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_env(t_shell *shell)
 		i++;
 	}
 	lst = shell->env;
-	while (lst)
+	while (lst && lst->str)
 	{
 		printf("%s\n", lst->str);
 		lst = lst->next;

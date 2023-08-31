@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/30 16:15:21 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:48:20 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int	ft_check_sortie(char *str, t_long n)
 			return (1);
 		i--;
 	}
-	if (str && (((str[0] == '+' || ft_isdigit(str[0])) && n >= 0)
-			|| (str[0] == '-' && n <= 0)))
+	if ((i == -1 || i == 0) &&  str && (((str[0] == '+' || ft_isdigit(str[0]))
+		&& n >= 0) || (str[0] == '-' && n <= 0)))
 		return (0);
 	return (1);
 }
@@ -68,14 +68,15 @@ void	ft_exit(t_shell *shell)
 		sortie = ft_atoi(shell->cmd->exec.args[1]);
 	if (g_sig_handle == 10)
 		printf("exit\n");
-	if (sortie != shell->last_error
+	if (shell->cmd && shell->cmd->exec.args && shell->cmd->exec.args[1]
 		&& ft_check_sortie(shell->cmd->exec.args[1], sortie))
 	{
 		if (print_error(shell))
 			return ;
 		sortie = 2;
 	}
-	else if (sortie != shell->last_error && shell->cmd->exec.args[2])
+	else if (shell->cmd && shell->cmd->exec.args && shell->cmd->exec.args[1]
+		&& shell->cmd->exec.args[2])
 	{
 		write(2, "exit: trop d'arguments\n", 23);
 		shell->last_error = 1;

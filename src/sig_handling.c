@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:50:22 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/30 16:20:10 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/08/31 10:28:42 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 
 void	sig_handler_sigint(int signum)
 {
-	int	tmp;
-
 	if (signum == SIGINT)
 	{
 		printf("\n");
 		if (g_sig_handle > 10)
-		{
-			tmp = g_sig_handle;
 			g_sig_handle = 1;
-		}
 		else
 		{
 			rl_on_new_line();
@@ -46,14 +41,11 @@ void	sig_handler_sigstp(int signum)
 
 void	sig_handler_sigquit(int signum)
 {
-	int	tmp;
-
 	if (signum == SIGQUIT)
 	{
 		if (g_sig_handle > 10)
 		{
 			write(2, "Quitter (core dumped)\n", 22);
-			tmp = g_sig_handle;
 			g_sig_handle = 2;
 		}
 		else if (g_sig_handle == 10)

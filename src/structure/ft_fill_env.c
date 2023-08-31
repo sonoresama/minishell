@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:56:27 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/28 15:03:17 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/31 12:29:18 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env	*ft_fill_env(char **env, int i)
 	{
 		j = 0;
 		lst->str = ft_strdup(env[i]);
-		while (env[i][j] != '=')
+		while (env[i][j] && env[i][j] != '=')
 			j++;
 		lst->name = ft_strndup(env[i], j);
 		lst->value = ft_strdup(&env[i][j + 1]);
