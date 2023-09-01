@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/28 15:54:33 by bastien          ###   ########.fr       */
+/*   Updated: 2023/08/31 10:46:22 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ static int	ft_fill_arg_cd(t_shell *shell, char **arg, struct stat st)
 	char	*pwd;
 	t_env	*lst;
 
+	pwd = NULL;
 	lst = shell->env;
+	(*arg) = shell->cmd->exec.args[1];
 	if (!shell->cmd->exec.args[1])
 		(*arg) = get_home(shell);
-	else
-		(*arg) = shell->cmd->exec.args[1];
 	if ((*arg) && !(*arg)[0])
 		return (1);
 	while (lst)

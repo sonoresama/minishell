@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/01 16:02:25 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/01 17:18:08 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	exec_cmd(t_shell *shell)
 		if (pid == (pid_t) - 1)
 			perror("FORK");
 		else if (pid != 0)
+		{
+			g_sig_handle = 9;
 			waitpid(pid, &shell->last_error, 0);
+		}
 		else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path,
 				cmd->exec.args, shell->maxi_env) == -1)
 			print_fail_exit(shell, &buf, cmd);

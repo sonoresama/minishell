@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/01 17:01:07 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/01 17:20:17 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ t_env		*ft_fill_env(char **env, int i);
 t_shell		*ft_fill_shell(char **env);
 int			ft_fill_exec(char *str, t_shell *shell, t_exec *exec,
 				t_parsing *pars);
-void	ft_get_shlvl(t_shell *shell);
+//void	ft_get_shlvl(t_shell *shell);
 
 /* HANDLING_LST_ENV */
 
