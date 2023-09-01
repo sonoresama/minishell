@@ -6,11 +6,56 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:24:53 by eorer             #+#    #+#             */
-/*   Updated: 2023/08/18 16:36:21 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/01 16:13:12 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
+
+//int	recursive(int i, char *heredoc)
+//{
+//	if (i = 10)
+//		return (2);
+//	if (!heredoc[i])
+//		heredoc[i] = 'a';
+//	else
+//		heredoc[i] += 1;
+//	if (heredoc[i] == 'z' + 1)
+//	{
+//		if (recursive(i + 1, heredoc) == 2)
+//			return (2);
+//		heredoc[i] = 'a';
+//	}
+//	return (1);
+//} 
+//
+//char	*generate_heredoc(void)
+//{
+//	char	*heredoc;
+//	int	i;
+//
+//	i = 0;
+//	heredoc = (char *)malloc(sizeof(char) * 10);
+//	if (!heredoc)
+//		return (NULL);
+//	ft_bzero(heredoc, 10);
+//	heredoc[i] = 'a';
+//	while (access(heredoc) == 0)
+//	{
+//		i++;
+//		heredoc[0] = 'a' + i;
+//		if (heredoc[i] == 'z' + 1)
+//		{
+//			if (recursive(1, heredoc) == 2)
+//			{
+//				free(heredoc);
+//				return (NULL);
+//			}
+//			heredoc[0] = 'a';
+//		}
+//	}
+//	return (heredoc);
+//}
 
 int	write_heredoc(char *eof)
 {

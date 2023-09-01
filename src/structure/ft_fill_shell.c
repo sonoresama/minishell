@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:57:06 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/24 16:53:07 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/01 17:02:41 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_shell	*ft_fill_shell(char **env)
 	if (!shell)
 		return (NULL);
 	shell->env = ft_fill_env(env, -1);
+	ft_get_shlvl(shell);
 	shell->export = ft_fill_env(env, -1);
 	if (!shell->env || !shell->export)
 	{
