@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:27:31 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/01 17:35:18 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/02 10:11:45 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int	ft_check_sortie(char *str, t_long n)
 			return (1);
 		i--;
 	}
-	if ((i == -1 || i == 0) &&  str && (((str[0] == '+' || ft_isdigit(str[0]))
-		&& n >= 0) || (str[0] == '-' && n <= 0)))
+	if ((i == -1 || i == 0) && str && (((str[0] == '+' || ft_isdigit(str[0]))
+				&& n >= 0) || (str[0] == '-' && n <= 0)))
 		return (0);
 	return (1);
 }
