@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:50:22 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/31 10:28:42 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:16:32 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	sig_handler_sigint(int signum)
 		printf("\n");
 		if (g_sig_handle > 10)
 			g_sig_handle = 1;
+		else if (g_sig_handle == 9)
+			return ;
 		else
 		{
 			rl_on_new_line();
 			rl_replace_line("", 0);
-			if (g_sig_handle == 10)
-				rl_redisplay();
+			rl_redisplay();
 			g_sig_handle = 1;
 		}
 	}

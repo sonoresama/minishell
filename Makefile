@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/08/28 16:44:03 by bastien          ###   ########.fr        #
+#    Updated: 2023/09/04 17:07:19 by blerouss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC =	src/main.c					\
 	src/environnement/update_env.c			\
 	src/exec/clear_pipe.c				\
 	src/exec/exec_cmd.c				\
+	src/exec/exec_cmd_for_child.c			\
 	src/exec/ft_heredoc.c				\
 	src/exec/pipe_cmd.c				\
 	src/parsing/check_pipe.c			\
