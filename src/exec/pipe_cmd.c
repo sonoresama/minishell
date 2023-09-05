@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:22:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/01 17:18:20 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/05 18:09:47 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,18 @@ int	get_output(t_cmd *cmd, int pipe_out)
 		return (cmd->outfile);
 }
 
-int	get_input(t_cmd *cmd, int pipe_in)
+int	get_input(t_cmd *cmd, int pipe_in, t_shell *shell)
 {
-	int	fd;
-
+	(void)shell;
 	if (cmd->infile == -2)
 		return (pipe_in);
-	else if (cmd->infile == -3)
-	{
-		ft_heredoc(cmd->heredoc);
-		fd = open("heredoc", O_RDWR);
-		if (fd == -1)
-			perror("OPEN");
-		return (fd);
-	}
-	else if (cmd->heredoc)
-		ft_heredoc(cmd->heredoc);
 	return (cmd->infile);
 }
 
 void	pipe_child(t_shell *shell, int fd_in, int fd_out)
 {
 	ft_close(fd_in);
-	shell->pipein = get_input(shell->cmd, shell->pipein);
+	shell->pipein = get_input(shell->cmd, shell->pipein, shell);
 	shell->pipeout = get_output(shell->cmd, fd_out);
 	exec_cmd(shell);
 	fd_in = shell->last_error;
@@ -55,7 +44,7 @@ void	pipe_parent(t_shell *shell, int fd_in, int fd_out)
 	close(fd_out);
 	ft_close(shell->pipein);
 	ft_close(shell->pipeout);
-	shell->pipein = get_input(shell->cmd->next, fd_in);
+	shell->pipein = get_input(shell->cmd->next, fd_in, shell);
 	shell->pipeout = get_output(shell->cmd->next, shell->pipeout);
 }
 

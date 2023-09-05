@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:45 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/18 18:10:32 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:13:32 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		return (NULL);
 	if (cmd->infile == -1 || cmd->outfile == -1)
 		shell->last_error = 1;
+	else if (cmd->infile == -3)
+		cmd->infile = ft_heredoc(cmd->heredoc, shell);
 	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
 	{
 		shell->error = MALLOC_ERROR;

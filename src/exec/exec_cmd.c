@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/01 17:18:08 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/05 18:12:13 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	reset_shell(t_shell *shell, int num)
 		wait(NULL);
 	if (shell && shell->cmd && shell->cmd->heredoc && shell->cmd->heredoc[0])
 	{
-		if (unlink("heredoc") == -1)
+		if (unlink_heredoc_files())
 			perror("UNLINK");
 	}
 	ft_clear_cmd(shell->cmd);
@@ -89,7 +89,7 @@ void	exec_cmd(t_shell *shell)
 			perror("FORK");
 		else if (pid != 0)
 		{
-			g_sig_handle = 9;
+			g_sig_handle = pid;
 			waitpid(pid, &shell->last_error, 0);
 		}
 		else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path,
@@ -108,7 +108,7 @@ void	ft_cmd(t_shell *shell)
 	i = 0;
 	if (!shell->cmd->next)
 	{
-		shell->pipein = get_input(shell->cmd, shell->pipein);
+		shell->pipein = get_input(shell->cmd, shell->pipein, shell);
 		shell->pipeout = get_output(shell->cmd, shell->pipeout);
 		exec_cmd(shell);
 		reset_shell(shell, i);
@@ -124,6 +124,6 @@ void	ft_cmd(t_shell *shell)
 		i++;
 	}
 	waitpid(g_sig_handle, &shell->last_error, 0);
-	unlink("heredoc");
+	unlink_heredoc_files();
 	reset_shell(shell, i);
 }

@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 09:48:02 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/30 13:49:14 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:09:35 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	replace_var_env_in_str_bis(char **str, int *i, t_shell *shell)
 	tmp2 = join_three((*str), tmp, &(*str)[(*i) + ft_strlen(tmp3) + 1]);
 	if (tmp)
 		(*i) += ft_strlen(tmp);
-	if (!tmp2)
+	if (!tmp2 && shell)
 		shell->error = MALLOC_ERROR;
 	free((*str));
 	(*str) = tmp2;
@@ -113,7 +113,7 @@ int	replace_var_env_in_str(char **str, t_shell *shell)
 			ft_join_with_last_error(str, i++, shell);
 		else if ((*str)[i] && (*str)[i + 1])
 			replace_var_env_in_str_bis(str, &i, shell);
-		if (shell->error == MALLOC_ERROR)
+		if (shell && shell->error == MALLOC_ERROR)
 			return (1);
 	}
 	return (0);
