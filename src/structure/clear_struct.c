@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/08/28 14:48:50 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/05 13:10:52 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	ft_clear_parsing(t_parsing *parsing)
 		ft_clear_quote(&parsing->quote);
 	if (parsing && parsing->dquote)
 		ft_clear_quote(&parsing->dquote);
+	if (parsing && parsing->export)
+		ft_free_tab(parsing->export);
 	if (parsing)
 		free(parsing);
 	parsing = NULL;

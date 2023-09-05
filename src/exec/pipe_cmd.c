@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:22:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/05 18:09:47 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/05 18:28:56 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	pipe_child(t_shell *shell, int fd_in, int fd_out)
 	ft_close(fd_in);
 	shell->pipein = get_input(shell->cmd, shell->pipein, shell);
 	shell->pipeout = get_output(shell->cmd, fd_out);
-	exec_cmd(shell);
+	exec_cmd_for_child(shell);
 	fd_in = shell->last_error;
 	ft_clear_shell(shell);
 	exit(fd_in);

@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:05:12 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/29 15:56:01 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:02:36 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,35 @@ static void	ft_init_redirection(char *str, t_parsing *parsing)
 	ft_set_redirection(parsing, heredoc, redir);
 }
 
+int	ft_fill_parsing_export(char *str, t_parsing *parsing)
+{
+	int		i;
+	char	**tab;
+
+	i = -1;
+	tab = ft_split_2_separator(str, ' ', '	');
+	if (!tab)
+		return (1);
+	if (!ft_strncmp(tab[0], "export", 7))
+	{
+		free(tab[0]);
+		while (tab[++i + 1])
+			tab[i] = tab[i + 1];
+		tab[i] = NULL;
+		parsing->export = tab;
+	}
+	else
+	{
+		ft_free_tab(tab);
+		parsing->export = malloc(sizeof(char *) * 1);
+		if (parsing->export)
+			parsing->export[0] = NULL;
+		else
+			return (1);
+	}
+	return (0);
+}
+
 t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell)
 {
 	parsing = malloc (sizeof(t_parsing));
@@ -81,6 +110,7 @@ t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell)
 	parsing->dquote = NULL;
 	parsing->heredoc = NULL;
 	parsing->redir = NULL;
+	parsing->export = NULL;
 	ft_init_redirection(str, parsing);
 	if (!parsing->heredoc || !parsing->redir)
 	{
