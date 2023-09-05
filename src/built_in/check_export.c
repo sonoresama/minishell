@@ -6,7 +6,7 @@
 /*   By: emileorer <marvin@42.fr>                   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 15:50:34 by emileorer         #+#    #+#             */
-/*   Updated: 2023/07/28 11:44:01 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:06:07 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	is_all_alpha_num(char *str)
 	if (!str || (!is_alpha(str[i]) && str[i] != '_'))
 		return (0);
 	while (str[i] && (is_alpha(str[i]) || is_digit(str[i]) || str[i] == '_'
-			|| (str[i] == '+' && str[i + 1] == '=')) && str[i] != '=')
+			|| str[i] == ' ' || (str[i] == '+' && str[i + 1] == '='))
+		&& str[i] != '=')
 		i++;
 	if (!is_alpha(str[i]) && !is_digit(str[i]) && str[i] != '=' && str[i])
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/04 17:05:49 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:02:48 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_parsing
 	t_quote	*dquote;
 	char	**heredoc;
 	char	**redir;
+	char	**export;
 }		t_parsing;
 
 /* MAIN_FUNCTIONS */
@@ -109,6 +110,7 @@ t_parsing	*ft_fill_parsing(char *str, t_parsing *parsing, t_shell *shell);
 void		ft_paste_quote_space(char **str_piped, t_parsing *parsing,
 				t_shell *shell);
 char		*path_cmd(char *cmd_name, t_shell *shell, int i);
+int			ft_fill_parsing_export(char *str, t_parsing *parsing);
 int			ft_parsing(t_shell *shell, char **str, t_parsing **parsing);
 int			ft_cut_quote_space(char *str, t_parsing *parsing, t_shell *shell);
 int			check_pipe(char *str, char **tab);
@@ -155,8 +157,8 @@ void		exec_cmd(t_shell *shell);
 void		exec_cmd_for_child(t_shell *shell);
 void		ft_cmd(t_shell *shell);
 void		pipe_cmd(t_shell *shell);
-int			ft_heredoc(char **heredoc, t_shell *shell);
-int			get_input(t_cmd *cmd, int pipe_in, t_shell *shell);
+int			ft_heredoc(char **heredoc);
+int			get_input(t_cmd *cmd, int pipe_in);
 int			get_output(t_cmd *cmd, int pipe_out);
 
 /* INIT_STRUCT */

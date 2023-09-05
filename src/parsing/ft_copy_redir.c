@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:41:55 by bastien           #+#    #+#             */
-/*   Updated: 2023/08/29 16:43:39 by bastien          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:02:03 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	ft_copy_redir(char *str, t_parsing *parsing, t_shell *shell)
 
 	i = 0;
 	k = 0;
+	ft_fill_parsing_export(str, parsing);
 	while (str && str[i])
 	{
 		k = double_chrcmp(&str[i], '<', '>');
