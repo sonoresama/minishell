@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:50:22 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/04 17:16:32 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:40:19 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	sig_handler_sigint(int signum)
 			g_sig_handle = 1;
 		else if (g_sig_handle == 9)
 			return ;
+		else if (g_sig_handle == 7)
+		{
+			g_sig_handle = 6;
+			close(STDIN_FILENO);
+		}
 		else
 		{
 			rl_on_new_line();
@@ -28,15 +33,6 @@ void	sig_handler_sigint(int signum)
 			rl_redisplay();
 			g_sig_handle = 1;
 		}
-	}
-}
-
-void	sig_handler_sigstp(int signum)
-{
-	if (signum == SIGTSTP)
-	{
-		rl_on_new_line();
-		rl_redisplay();
 	}
 }
 
@@ -49,7 +45,7 @@ void	sig_handler_sigquit(int signum)
 			write(2, "Quitter (core dumped)\n", 22);
 			g_sig_handle = 2;
 		}
-		else if (g_sig_handle == 10)
+		else if (g_sig_handle == 10 || g_sig_handle == 7)
 		{
 			rl_on_new_line();
 			rl_redisplay();
@@ -62,19 +58,14 @@ void	sig_handler_sigquit(int signum)
 void	init_sig_handler(void)
 {
 	struct sigaction	sa_int;
-	struct sigaction	sa_stp;
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = sig_handler_sigint;
-	sa_stp.sa_handler = sig_handler_sigstp;
 	sa_quit.sa_handler = sig_handler_sigquit;
 	sigemptyset(&sa_int.sa_mask);
-	sigemptyset(&sa_stp.sa_mask);
 	sigemptyset(&sa_quit.sa_mask);
 	sa_int.sa_flags = 0;
-	sa_stp.sa_flags = 0;
 	sa_quit.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);
-	sigaction(SIGTSTP, &sa_stp, NULL);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }

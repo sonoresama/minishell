@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:24:53 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/05 18:18:15 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/06 18:42:03 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,17 @@ int	write_heredoc(char *eof, char *file, t_shell *shell)
 	fd = open(file, O_CREAT | O_RDWR, 0666);
 	if (fd == -1)
 	{
+		g_sig_handle = 5;
 		perror("OPEN HEREDOC");
 		return (-1);
 	}
 	str = NULL;
 	while (ft_strncmp(eof, str, ft_strlen(eof) + 1))
 	{
+		g_sig_handle = 7;
 		str = readline("heredoc>> ");
+		if (!str)
+			return (-1);
 		if (!ft_strncmp(eof, str, ft_strlen(eof) + 1))
 			return (fd);
 		replace_var_env_in_str(&str, shell);
@@ -110,22 +114,46 @@ int	ft_heredoc(char **heredoc, t_shell *shell)
 {
 	int		i;
 	int		fd;
+	int		stdin;
 	char	*file;
 
 	i = 0;
 	fd = 0;
 	file = generate_file_name();
+	stdin = dup(STDIN_FILENO);
 	while (heredoc[i])
 	{
-		if (fd)
+		if (fd && fd != -1)
 		{
 			if (unlink(file) == -1)
 				return (-1);
 			close(fd);
 		}
 		fd = write_heredoc(heredoc[i], file, shell);
-		if (fd == -1)
+		if (fd == -1 && g_sig_handle == 6)
+		{
+			free(file);
+			dup2(stdin, STDIN_FILENO);
+			shell->error = 5;
+			g_sig_handle = 1;
 			return (-1);
+		}
+		else if (fd == -1 && g_sig_handle == 5)
+		{
+			free(file);
+			return (-1);
+		}
+		else if (fd == -1)
+		{
+			printf("warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", heredoc[i]);
+			if (!heredoc[i + 1])
+			{
+				shell->last_error = 0;
+				shell->error = 5;
+				free(file);
+				return (-1);
+			}
+		}
 		i++;
 	}
 	close(fd);
