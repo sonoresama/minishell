@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/05 18:28:05 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/07 18:03:25 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_parsing
 /* MAIN_FUNCTIONS */
 
 void		init_sig_handler(void);
+void		unset_sig_handler(void);
 void		main_loop(t_shell *shell, char *str, t_parsing *parsing);
 
 /* PARSING */

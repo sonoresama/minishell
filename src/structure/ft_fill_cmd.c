@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:45 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/06 18:06:44 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:25:47 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		cmd->infile = ft_heredoc(cmd->heredoc, shell);
 		if (cmd->infile == -1)
 		{
+			shell->error = 10;
 			ft_clear_cmd(cmd);
 			return (NULL);
 		}

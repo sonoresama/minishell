@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:50:22 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/07 12:23:43 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/07 18:38:01 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ void	sig_handler_sigquit(int signum)
 		else
 			rl_on_new_line();
 	}
+}
+
+void	unset_sig_handler(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sa_int.sa_handler = SIG_IGN;
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_int.sa_mask);
+	sigemptyset(&sa_quit.sa_mask);
+	sa_int.sa_flags = 0;
+	sa_quit.sa_flags = 0;
+	sigaction(SIGINT, &sa_int, NULL);
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
 void	init_sig_handler(void)

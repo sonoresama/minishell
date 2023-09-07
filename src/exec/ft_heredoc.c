@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:24:53 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/06 18:42:03 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:08:13 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,10 @@ char	*generate_file_name(void)
 	return (str);
 }
 
-int	write_heredoc(char *eof, char *file, t_shell *shell)
+int	write_heredoc(char *eof, int fd, t_shell *shell)
 {
-	int		fd;
 	char	*str;
 
-	fd = open(file, O_CREAT | O_RDWR, 0666);
-	if (fd == -1)
-	{
-		g_sig_handle = 5;
-		perror("OPEN HEREDOC");
-		return (-1);
-	}
 	str = NULL;
 	while (ft_strncmp(eof, str, ft_strlen(eof) + 1))
 	{
@@ -102,12 +94,12 @@ int	write_heredoc(char *eof, char *file, t_shell *shell)
 		if (!str)
 			return (-1);
 		if (!ft_strncmp(eof, str, ft_strlen(eof) + 1))
-			return (fd);
+			return (0);
 		replace_var_env_in_str(&str, shell);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 	}
-	return (fd);
+	return (0);
 }
 
 int	ft_heredoc(char **heredoc, t_shell *shell)
@@ -125,37 +117,47 @@ int	ft_heredoc(char **heredoc, t_shell *shell)
 	{
 		if (fd && fd != -1)
 		{
+			close(fd);
 			if (unlink(file) == -1)
 				return (-1);
-			close(fd);
 		}
-		fd = write_heredoc(heredoc[i], file, shell);
-		if (fd == -1 && g_sig_handle == 6)
+		fd = open(file, O_CREAT | O_RDWR, 0666);
+		if (fd == -1)
 		{
 			free(file);
-			dup2(stdin, STDIN_FILENO);
-			shell->error = 5;
-			g_sig_handle = 1;
+			close(stdin);
+			unlink_heredoc_files();
+			perror("OPEN HEREDOC");
 			return (-1);
 		}
-		else if (fd == -1 && g_sig_handle == 5)
+		if (write_heredoc(heredoc[i], fd, shell) == -1)
 		{
-			free(file);
-			return (-1);
-		}
-		else if (fd == -1)
-		{
-			printf("warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", heredoc[i]);
-			if (!heredoc[i + 1])
+			if (g_sig_handle == 6)
 			{
-				shell->last_error = 0;
-				shell->error = 5;
+				dup2(stdin, STDIN_FILENO);
+				close(stdin);
+				close(fd);
 				free(file);
+				shell->error = 5;
+				g_sig_handle = 1;
 				return (-1);
+			}
+			else
+			{
+				printf("warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", heredoc[i]);
+				if (!heredoc[i + 1])
+				{
+					close(stdin);
+					shell->last_error = 0;
+					shell->error = 5;
+					free(file);
+					return (fd);
+				}
 			}
 		}
 		i++;
 	}
+	close(stdin);
 	close(fd);
 	fd = open(file, O_RDWR);
 	free(file);
