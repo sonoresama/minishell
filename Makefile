@@ -6,7 +6,7 @@
 #    By: eorer <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 15:06:08 by eorer             #+#    #+#              #
-#    Updated: 2023/09/04 17:07:19 by blerouss         ###   ########.fr        #
+#    Updated: 2023/09/07 14:40:08 by eorer            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC =	src/main.c					\
 	src/main_loop.c					\
 	src/sig_handling.c				\
 	src/built_in/cd.c				\
+	src/built_in/cd_bis.c				\
 	src/built_in/check_export.c			\
 	src/built_in/echo.c				\
 	src/built_in/env.c				\

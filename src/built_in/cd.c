@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:00:30 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/07 13:47:50 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/07 14:44:53 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,13 @@ static char	*get_home(t_shell *shell)
 	return (NULL);
 }
 
-static void	ft_change_bis(t_shell *shell, char *tmp)
-{
-	t_env	*lst;
-
-	lst = shell->env;
-	if (!lst)
-	{
-		free(tmp);
-		return ;
-	}
-	while (lst)
-	{
-		if (!ft_strncmp(lst->name, "OLDPWD", 7))
-		{
-			free(lst->value);
-			free(lst->str);
-			lst->value = ft_strdup(tmp);
-			lst->str = join_three("OLDPWD", "=", tmp);
-			break ;
-		}
-		lst = lst->next;
-	}
-	if (!lst)
-		free(tmp);
-}
-
 static void	ft_change_env_value(t_shell *shell)
 {
 	t_env	*lst;
-	char	*tmp;
+	char	*old_pwd;
 	char	*pwd;
 
-	tmp = NULL;
+	old_pwd = NULL;
 	lst = shell->env;
 	pwd = malloc(PATH_MAX);
 	if (!pwd)
@@ -73,16 +47,13 @@ static void	ft_change_env_value(t_shell *shell)
 	{
 		if (!ft_strncmp(lst->name, "PWD", 4))
 		{
-			tmp = lst->value;
-			ft_change_bis(shell, tmp);
-			free(lst->str);
-			free(lst->value);
-			lst->value = pwd;
-			lst->str = join_three("PWD", "=", pwd); 
+			old_pwd = lst->value;
+			replace_var_cd(&lst, old_pwd, pwd, shell);
 			break ;
 		}
 		lst = lst->next;
 	}
+	free(pwd);
 }
 
 static int	ft_fill_arg_cd(t_shell *shell, char **arg, struct stat st)

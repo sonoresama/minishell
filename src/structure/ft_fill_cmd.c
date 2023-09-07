@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:45 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/06 18:06:44 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:15:34 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ static int	ft_eof(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing)
 	return (0);
 }
 
+int	check_infile_hd(t_cmd *cmd, t_shell *shell)
+{
+	cmd->infile = ft_heredoc(cmd->heredoc, shell);
+	if (cmd->infile == -1)
+	{
+		ft_clear_cmd(cmd);
+		return (1);
+	}
+	return (0);
+}
+
 t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 {
 	t_cmd	*cmd;
@@ -73,15 +84,8 @@ t_cmd	*ft_fill_cmd(char *str, t_shell *shell, t_parsing *parsing)
 		return (NULL);
 	if (cmd->infile == -1 || cmd->outfile == -1)
 		shell->last_error = 1;
-	else if (cmd->infile == -3)
-	{
-		cmd->infile = ft_heredoc(cmd->heredoc, shell);
-		if (cmd->infile == -1)
-		{
-			ft_clear_cmd(cmd);
-			return (NULL);
-		}
-	}
+	else if (cmd->infile == -3 && check_infile_hd(cmd, shell))
+		return (NULL);
 	if (ft_fill_exec(str, shell, &cmd->exec, parsing))
 	{
 		shell->error = MALLOC_ERROR;
