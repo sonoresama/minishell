@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 12:50:22 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/06 18:40:19 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:23:43 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	sig_handler_sigint(int signum)
 		{
 			g_sig_handle = 6;
 			close(STDIN_FILENO);
+			unlink_heredoc_files();
 		}
 		else
 		{
