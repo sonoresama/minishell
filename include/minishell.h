@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/07 18:03:25 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:51:49 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void		ft_pwd(t_shell *shell);
 void		ft_exit(t_shell *shell);
 void		ft_env(t_shell *shell);
 void		ft_cd(t_shell *shell);
+int			replace_var_cd(t_env **lst, char *old_pwd,
+				char *pwd, t_shell *shell);
 void		ft_echo(t_shell *shell);
 void		ft_export(t_shell *shell);
 void		ft_unset(t_shell *shell);
