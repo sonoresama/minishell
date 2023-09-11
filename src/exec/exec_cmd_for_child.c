@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:05:09 by blerouss          #+#    #+#             */
-/*   Updated: 2023/09/04 17:07:40 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:16:23 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ static void	clear_and_quit(t_shell *shell)
 	exit(0);
 }
 
+static void	ft_wait_child(pid_t pid, t_shell *shell, t_cmd *cmd)
+{
+	g_sig_handle = 9;
+	if (!strncmp(cmd->exec.cmd_path, "./minishell", 12))
+		unset_sig_handler();
+	waitpid(pid, &shell->last_error, 0);
+	if (!strncmp(cmd->exec.cmd_path, "./minishell", 12))
+		init_sig_handler();
+}
+
 void	exec_cmd_for_child(t_shell *shell)
 {
 	t_cmd		*cmd;
@@ -64,10 +74,7 @@ void	exec_cmd_for_child(t_shell *shell)
 		if (pid == (pid_t) - 1)
 			perror("FORK");
 		else if (pid != 0)
-		{
-			g_sig_handle = 9;
-			waitpid(pid, &shell->last_error, 0);
-		}
+			ft_wait_child(pid, shell, cmd);
 		else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path,
 				cmd->exec.args, shell->maxi_env) == -1)
 			print_fail_exit(shell, &buf, cmd);

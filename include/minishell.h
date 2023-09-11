@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/07 18:51:49 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:23:56 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,16 @@ void		ft_unset(t_shell *shell);
 /* EXECUTION */
 
 void		clear_pipe(t_shell *shell);
+void		ft_wait_parent(pid_t pid, t_shell *shell, t_cmd *cmd);
 void		exec_cmd(t_shell *shell);
 void		exec_cmd_for_child(t_shell *shell);
 void		ft_cmd(t_shell *shell);
 void		pipe_cmd(t_shell *shell);
-int			ft_heredoc(char **heredoc, t_shell *shell);
+int			ft_heredoc(char **heredoc, t_shell *shell, int i, int fd);
+int			setup_end_function(int std_in, int fd, char *file);
+int			handle_fd_value(int *fd, char *file, int std_in);
+int			ctrl_c_heredoc(int std_in, int fd, char *file, t_shell *shell);
+int			ctrl_bs_heredoc(int std_in, int fd, char *file, t_shell *shell);
 int			unlink_heredoc_files(void);
 int			get_input(t_cmd *cmd, int pipe_in, t_shell *shell);
 int			get_output(t_cmd *cmd, int pipe_out);

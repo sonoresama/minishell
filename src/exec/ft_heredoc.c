@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:24:53 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/07 15:08:13 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:24:39 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,64 +102,30 @@ int	write_heredoc(char *eof, int fd, t_shell *shell)
 	return (0);
 }
 
-int	ft_heredoc(char **heredoc, t_shell *shell)
+int	ft_heredoc(char **heredoc, t_shell *shell, int i, int fd)
 {
-	int		i;
-	int		fd;
-	int		stdin;
+	int		std_in;
 	char	*file;
 
-	i = 0;
-	fd = 0;
 	file = generate_file_name();
-	stdin = dup(STDIN_FILENO);
+	std_in = dup(STDIN_FILENO);
 	while (heredoc[i])
 	{
-		if (fd && fd != -1)
-		{
-			close(fd);
-			if (unlink(file) == -1)
-				return (-1);
-		}
-		fd = open(file, O_CREAT | O_RDWR, 0666);
-		if (fd == -1)
-		{
-			free(file);
-			close(stdin);
-			unlink_heredoc_files();
-			perror("OPEN HEREDOC");
+		if (handle_fd_value(&fd, file, std_in) == -1)
 			return (-1);
-		}
 		if (write_heredoc(heredoc[i], fd, shell) == -1)
 		{
 			if (g_sig_handle == 6)
-			{
-				dup2(stdin, STDIN_FILENO);
-				close(stdin);
-				close(fd);
-				free(file);
-				shell->error = 5;
-				g_sig_handle = 1;
-				return (-1);
-			}
+				return (ctrl_c_heredoc(std_in, fd, file, shell));
 			else
 			{
-				printf("warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", heredoc[i]);
+				printf("warning: here-document delimited by end-of-file (want");
+				printf("ed `%s')\n", heredoc[i]);
 				if (!heredoc[i + 1])
-				{
-					close(stdin);
-					shell->last_error = 0;
-					shell->error = 5;
-					free(file);
-					return (fd);
-				}
+					return (ctrl_bs_heredoc(std_in, fd, file, shell));
 			}
 		}
 		i++;
 	}
-	close(stdin);
-	close(fd);
-	fd = open(file, O_RDWR);
-	free(file);
-	return (fd);
+	return (setup_end_function(std_in, fd, file));
 }

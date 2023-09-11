@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 11:53:45 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/07 18:55:33 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:03:06 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	ft_eof(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing)
 
 int	check_infile_hd(t_cmd *cmd, t_shell *shell)
 {
-	cmd->infile = ft_heredoc(cmd->heredoc, shell);
+	cmd->infile = ft_heredoc(cmd->heredoc, shell, 0, 0);
 	if (cmd->infile == -1)
 	{
 		shell->error = 10;

@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:16:34 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/07 18:24:07 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:20:56 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,7 @@ void	exec_cmd(t_shell *shell)
 		if (pid == (pid_t) - 1)
 			perror("FORK");
 		else if (pid != 0)
-		{
-			if (!strncmp(cmd->exec.cmd_path, "./minishell", 12))
-				unset_sig_handler();	
-			waitpid(pid, &shell->last_error, 0);
-			if (!strncmp(cmd->exec.cmd_path, "./minishell", 12))
-				init_sig_handler();	
-		}
+			ft_wait_parent(pid, shell, cmd);
 		else if (cmd->exec.args[0] && execve(cmd->exec.cmd_path,
 				cmd->exec.args, shell->maxi_env) == -1)
 			print_fail_exit(shell, &buf, cmd);
