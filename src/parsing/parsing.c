@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/11 18:40:15 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:07:14 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ static void	split_cmd_bis(t_cmd **tmp, char *str, t_shell *sh, t_parsing *par)
 	}
 }
 
-static int	split_in_cmd_bis(t_cmd *tmp, char *str, t_shell *sh, t_parsing *par)
+static int	split_in_cmd_bis(t_cmd **tmp, char *str, t_shell *sh, t_parsing *par)
 {
-	split_cmd_bis(&tmp, str, sh, par);
-	if ((!tmp || !tmp->next) && (sh->error == MALLOC_ERROR || sh->error == 10))
+	split_cmd_bis(tmp, str, sh, par);
+	if ((!(*tmp) || !(*tmp)->next) && (sh->error == MALLOC_ERROR || sh->error == 10))
 	{
 		ft_clear_cmd(sh->cmd);
 		return (1);
 	}
 	if (!sh->cmd)
 	{
-		sh->cmd = tmp;
-		if (tmp && tmp->infile == -2)
-			tmp->infile = 0;
+		sh->cmd = (*tmp);
+		if ((*tmp) && (*tmp)->infile == -2)
+			(*tmp)->infile = 0;
 	}
 	return (0);
 }
@@ -77,7 +77,7 @@ static void	split_in_cmd(char **str_piped, t_shell *shell, t_parsing *parsing)
 	while (str_piped && str_piped[i])
 	{
 		if (word_exist(str_piped[i]))
-			if (split_in_cmd_bis(tmp, str_piped[i], shell, parsing))
+			if (split_in_cmd_bis(&tmp, str_piped[i], shell, parsing))
 				break ;
 		i++;
 	}
