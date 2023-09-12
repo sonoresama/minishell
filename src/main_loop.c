@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:05:59 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/11 15:09:33 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:30:37 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ static void	quit_syntax_error(t_shell *shell, t_parsing *parsing, char *str)
 	shell->last_error = 2;
 }
 
+static int	free_str(char *str)
+{
+	free(str);
+	return (0);
+}
+
 void	main_loop(t_shell *shell, char *str, t_parsing *parsing)
 {
 	while (1)
@@ -51,7 +57,7 @@ void	main_loop(t_shell *shell, char *str, t_parsing *parsing)
 		update_last_error(shell);
 		if (str == NULL)
 			ft_exit(shell);
-		if (!str[0] || !ft_thereisprint(str))
+		if ((!str[0] && !free_str(str)) || (!ft_thereisprint(str) && !free_str(str)))
 			continue ;
 		if (ft_parsing(shell, &str, &parsing) == -1)
 		{

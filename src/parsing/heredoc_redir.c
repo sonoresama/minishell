@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/09/05 15:10:40 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/12 16:44:16 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	ft_redir(t_cmd *cmd, char *str, t_parsing *parsing, t_shell *shell)
 			close(cmd->outfile);
 		dup = ft_dup_next_word(&str[0], parsing->redir);
 		cmd->outfile = open(dup, O_RDWR | O_TRUNC | O_CREAT, 0644);
-		if (cmd->outfile == -1)
+		if (cmd->outfile == -1 && ft_clear_cmd(cmd))
 			perror(dup);
 		if (dup)
 			free(dup);
@@ -90,7 +90,7 @@ static void	ft_heredoc_append(t_cmd *cmd, char *str, t_parsing *parsing, int *j)
 		dup = ft_dup_next_word(&str[1], parsing->redir);
 		str[0] = ' ';
 		cmd->outfile = open(dup, O_RDWR | O_APPEND | O_CREAT, 0644);
-		if (cmd->outfile == -1)
+		if (cmd->outfile == -1 && ft_clear_cmd(cmd))
 			perror(dup);
 		if (dup)
 			free(dup);

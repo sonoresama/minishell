@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/11 18:23:56 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:38:49 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int			ft_lstlen(t_env *env);
 
 /* CLEAR_STRUCT */
 
-void		ft_clear_cmd(t_cmd *cmd);
+int		ft_clear_cmd(t_cmd *cmd);
 void		ft_clear_env(t_env **env);
 void		ft_clear_shell(t_shell *shell);
 void		ft_clear_quote(t_quote **quote);
