@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:09:26 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/13 10:36:39 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/13 11:20:59 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define SYNTAX_ERROR 16
 # define MALLOC_ERROR 17
 # define REDIR_ERROR 18
+# define ACCESS_ERROR 19
 
 /* STRUCTURES */
 

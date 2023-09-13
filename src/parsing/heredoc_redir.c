@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 11:55:56 by blerouss          #+#    #+#             */
-/*   Updated: 2023/09/12 16:44:16 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:41:29 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*ft_dup_next_word(char *str, char **tab)
 	return (tmp);
 }
 
-static void	ft_redir(t_cmd *cmd, char *str, t_parsing *parsing, t_shell *shell)
+static int	ft_redir(t_cmd *cmd, char *str, t_parsing *parsing, t_shell *shell)
 {
 	char	*dup;
 
@@ -55,23 +55,24 @@ static void	ft_redir(t_cmd *cmd, char *str, t_parsing *parsing, t_shell *shell)
 		cmd->infile = open(dup, O_RDONLY);
 		if (cmd->infile == -1)
 			ft_set_redir_error(shell, dup);
-		if (dup)
-			free(dup);
 	}
-	else if (str[0] == '>')
+	else
 	{
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
 		dup = ft_dup_next_word(&str[0], parsing->redir);
 		cmd->outfile = open(dup, O_RDWR | O_TRUNC | O_CREAT, 0644);
-		if (cmd->outfile == -1 && ft_clear_cmd(cmd))
+		if (cmd->outfile == -1)
 			perror(dup);
-		if (dup)
-			free(dup);
 	}
+	if (dup)
+		free(dup);
+	if (cmd->outfile == -1)
+		return (1);
+	return (0);
 }
 
-static void	ft_heredoc_append(t_cmd *cmd, char *str, t_parsing *parsing, int *j)
+static int	ftheredoc_append(t_cmd *cmd, char *str, t_parsing *parsing, int *j)
 {
 	char	*dup;
 
@@ -83,18 +84,21 @@ static void	ft_heredoc_append(t_cmd *cmd, char *str, t_parsing *parsing, int *j)
 		cmd->infile = -3;
 		str[0] = ' ';
 	}
-	else if (str[0] == '>')
+	else
 	{
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
 		dup = ft_dup_next_word(&str[1], parsing->redir);
 		str[0] = ' ';
 		cmd->outfile = open(dup, O_RDWR | O_APPEND | O_CREAT, 0644);
-		if (cmd->outfile == -1 && ft_clear_cmd(cmd))
+		if (cmd->outfile == -1)
 			perror(dup);
 		if (dup)
 			free(dup);
+		if (cmd->outfile == -1)
+			return (1);
 	}
+	return (0);
 }
 
 int	ft_fill_red_he(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing)
@@ -114,11 +118,11 @@ int	ft_fill_red_he(char *str, t_cmd *cmd, t_shell *shell, t_parsing *parsing)
 		if (k == -2)
 			return (1);
 		i += k;
-		if (str[i + 1] == str[i])
-			ft_heredoc_append(cmd, &str[i], parsing, &j);
-		else
-			ft_redir(cmd, &str[i], parsing, shell);
-		if (shell->error == REDIR_ERROR)
+		if (str[i + 1] == str[i] && ftheredoc_append(cmd, &str[i], parsing, &j))
+				shell->error = ACCESS_ERROR;
+		else if (str[i + 1] != str[i] && ft_redir(cmd, &str[i], parsing, shell))
+				shell->error = ACCESS_ERROR;
+		if (shell->error == REDIR_ERROR || shell->error == ACCESS_ERROR)
 			return (1);
 		i++;
 	}

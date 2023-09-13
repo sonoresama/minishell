@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/12 12:24:55 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:50:26 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_parsing(t_shell *shell, char **str, t_parsing **parsing)
 	if (shell->error == MALLOC_ERROR)
 		return (0);
 	add_history((*str));
-	if (ft_cut_quote_space((*str), (*parsing), shell))
+	if (ft_cut_quote_space((*str), (*parsing), shell) == MALLOC_ERROR)
 		return (0);
 	if (shell->error == SYNTAX_ERROR)
 		return (-1);
