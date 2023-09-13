@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:24:53 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/11 18:24:39 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:22:18 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,17 @@ int	write_heredoc(char *eof, int fd, t_shell *shell)
 	str = NULL;
 	while (ft_strncmp(eof, str, ft_strlen(eof) + 1))
 	{
+		if (str)
+			free(str);
 		g_sig_handle = 7;
 		str = readline("heredoc>> ");
 		if (!str)
 			return (-1);
 		if (!ft_strncmp(eof, str, ft_strlen(eof) + 1))
+		{
+			free(str);
 			return (0);
+		}
 		replace_var_env_in_str(&str, shell);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
