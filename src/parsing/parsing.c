@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:31:31 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/13 11:50:26 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:48:28 by blerouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	split_cmd_bis(t_cmd **tmp, char *str, t_shell *sh, t_parsing *par)
 		if (sh->error == REDIR_ERROR)
 		{
 			sh->error = 1;
-			(*tmp)->infile = open("/tmp/tmp_minishell", O_CREAT, 0644);
+			if ((*tmp))
+				(*tmp)->infile = open("/tmp/tmp_minishell", O_CREAT, 0644);
 		}
 		if ((*tmp))
 			sh->cmd = (*tmp);
