@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/09/12 16:44:19 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/13 10:35:57 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,13 @@ int	ft_clear_cmd(t_cmd *cmd)
 	return (0);
 }
 
-void	ft_clear_parsing(t_parsing *parsing)
+void	ft_clear_parsing(t_parsing *parsing, char *str)
 {
 	int	i;
 
 	i = 0;
+	if (str)
+		free(str);
 	while (parsing && parsing->heredoc && parsing->heredoc[i])
 		free(parsing->heredoc[i++]);
 	if (parsing && parsing->heredoc)

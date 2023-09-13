@@ -6,7 +6,7 @@
 /*   By: bastien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 13:05:59 by bastien           #+#    #+#             */
-/*   Updated: 2023/09/12 16:30:37 by blerouss         ###   ########.fr       */
+/*   Updated: 2023/09/13 10:44:16 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static void	quit_memory_error(t_shell *shell)
 
 static void	quit_syntax_error(t_shell *shell, t_parsing *parsing, char *str)
 {
-	ft_clear_parsing(parsing);
-	free(str);
+	ft_clear_parsing(parsing, str);
 	write(2, "Erreur de syntaxe.\n", 19);
 	shell->last_error = 2;
 }
@@ -57,15 +56,15 @@ void	main_loop(t_shell *shell, char *str, t_parsing *parsing)
 		update_last_error(shell);
 		if (str == NULL)
 			ft_exit(shell);
-		if ((!str[0] && !free_str(str)) || (!ft_thereisprint(str) && !free_str(str)))
+		if ((!str[0] && !free_str(str))
+			|| (!ft_thereisprint(str) && !free_str(str)))
 			continue ;
 		if (ft_parsing(shell, &str, &parsing) == -1)
 		{
 			quit_syntax_error(shell, parsing, str);
 			continue ;
 		}
-		ft_clear_parsing(parsing);
-		free(str);
+		ft_clear_parsing(parsing, str);
 		quit_memory_error(shell);
 		if (!shell->cmd)
 			continue ;
