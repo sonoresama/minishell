@@ -6,7 +6,7 @@
 /*   By: blerouss <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:46:46 by blerouss          #+#    #+#             */
-/*   Updated: 2023/09/13 10:35:57 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/13 17:07:48 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ void	ft_clear_env(t_env **env)
 
 	while ((*env))
 	{
-		free((*env)->name);
-		free((*env)->str);
-		free((*env)->value);
+		if ((*env)->name)
+			free((*env)->name);
+		if ((*env)->str)
+			free((*env)->str);
+		if ((*env)->value)
+			free((*env)->value);
 		tmp = (*env);
 		(*env) = (*env)->next;
 		free(tmp);

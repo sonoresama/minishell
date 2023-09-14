@@ -6,7 +6,7 @@
 /*   By: eorer <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:26:08 by eorer             #+#    #+#             */
-/*   Updated: 2023/09/07 14:45:31 by eorer            ###   ########.fr       */
+/*   Updated: 2023/09/13 17:12:02 by eorer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_change_bis(t_shell *shell, char *old_pwd)
 			free(lst->str);
 			lst->value = ft_strdup(old_pwd);
 			lst->str = join_three("OLDPWD", "=", old_pwd);
-			if (!lst->str)
+			if (!lst->str || !lst->value)
 				shell->error = MALLOC_ERROR;
 			break ;
 		}
@@ -42,7 +42,7 @@ int	replace_var_cd(t_env **lst, char *old_pwd, char *pwd, t_shell *shell)
 	free((*lst)->value);
 	(*lst)->value = ft_strdup(pwd);
 	(*lst)->str = join_three("PWD", "=", pwd);
-	if (!(*lst)->str)
+	if (!(*lst)->str || !(*lst)->value)
 		shell->error = MALLOC_ERROR;
 	return (0);
 }
